@@ -25,7 +25,7 @@ Once the installer downloads, Right-click on it and select "Run as administrator
 
 Type in your credentials and click yes (or if you don't have administrator access have your IT rep install with Admin privileges).
 
-You can click next through the standard dialogs and accept most defaults. But at the destination screen, please verify that it is installing it to C:\\Program Files\\R
+You can click next through the standard dialogs and accept most defaults. But at the destination screen, please verify that it is installing it to `C:\Program Files\R`
 
 At the "Select Components" screen, make sure all items are checked.
 
