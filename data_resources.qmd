@@ -1,0 +1,80 @@
+---
+lightbox: true
+---
+
+# Data and resources {#sec-data_resources}
+
+This page contains links to the data we're using in our training, and a sample of a few useful resources online and in print. This is by no means a comprehensive list, but it provides resources for continued learning. All of these examples provide code in some shape or form.
+
+## Datasets
+
+This is a list of the data sources used in this training.
+
+ - Full Dataset as a [zipped folder](data/data.zip). Inside you'll find these files:
+    - Training data: [dat.csv](data/dat.csv)
+    - Station locations: [statloc.csv](data/statloc.csv)
+    - Spatial boundary shapefile:
+         - [bounds.dbf](data/bounds.dbf)
+         - [bounds.prj](data/bounds.prj)
+         - [bounds.shp](data/bounds.shp)
+         - [bounds.shx](data/bounds.shx)
+         
+ - All R scripts used in the lessons as a [zipped folder](scripts.zip).  Inside you'll find these files: 
+    - [R_basics.R](R_basics.R)
+    - [data_wrangling_1.R](data_wrangling_1.R)
+    - [data_wrangling_2.R](data_wrangling_2.R)
+    - [data_viz.R](data_viz.R)
+    - [spatial_data_analysis.R](spatial_data_analysis.R)
+
+## Resources
+
+### TBEP Trainings
+
+-   [Florida AFS open science workshop](https://tbep-tech.github.io/flafs-os-workshop)
+-   [TBEP open science workshop](https://tbep-tech.github.io/tbep-os-workshop)
+-   [CERF open science workshop](https://tbep-tech.github.io/cerf-os-workshop)
+-   [CERF Shiny workshop](https://tbep-tech.github.io/shiny-workshop)
+-   [PEP R training](https://tbep-tech.github.io/pep-r-training), [recording](https://drive.google.com/file/d/1ZjVHFrVpw2uTKZw-BmD29umdbl6viutM/view?usp=sharing)
+-   [NERRS ecosystem metabolism](https://tbep-tech.github.io/ecometab-r-training)
+-   [TBEP R training](https://tbep-tech.github.io/tbep-r-training/), [recordings](https://www.youtube.com/watch?v=_RI4XMRWeV0&list=PLfJ6-D-exF9RM5TPtT4T0nxieqpr_R4pJ)
+-   [Writing functions in R](https://tbep-tech.github.io/tbep-r-training/functions.html)
+-   [R package development workflow](https://tbep-tech.github.io/tbep-r-training/packages.html)
+-   [A soft introduction to Shiny](https://tbep-tech.github.io/tbep-r-training/shiny.html)
+-   [CERF R workshop](https://tbep-tech.github.io/cerf-r-workshop)
+
+### R Lessons & Tutorials
+
+-   [DSOS/AEMON-J **Hacking Limnology 2022, supporting open science workshops**](https://aquaticdatasciopensci.github.io/material/){target="_blank"}
+-   [Software Carpentry: **R for Reproducible Scientific Analysis**](http://data-lessons.github.io/gapminder-R/){target="_blank"}
+-   [Data Carpentry: **Geospatial Workshop**](https://datacarpentry.org/geospatial-workshop/){target="_blank"}
+-   [Data Carpentry: **R for Data Analysis and Visualization of Ecological Data**](http://www.datacarpentry.org/R-ecology-lesson/){target="_blank"}
+-   [Data Carpentry: **Data Organization in Spreadsheets**](http://www.datacarpentry.org/spreadsheet-ecology-lesson/){target="_blank"}
+-   [**Reproducible Reporting with R (R**$^3$) for Marine Ecological Indicators](https://noaa-iea.github.io/r3-train/){target="_blank"}
+-   [**R for Water Resources Data Science**](https://www.r4wrds.com/){target="_blank"}
+-   [**RStudio Webinars**, many topics](https://www.rstudio.com/resources/webinars/){target="_blank"}
+-   [R For Cats: **Basic introduction site, with cats!**](http://rforcats.net/){target="_blank"}
+-   [Topical cheatsheets from **Posit**, also viewed from the help menu](https://posit.co/resources/cheatsheets/){target="_blank"}
+-   [Cheatsheet from CRAN of **base R functions**](http://cran.r-project.org/doc/contrib/Short-refcard.pdf){target="_blank"}
+-   [Totally awesome **R-related artwork** by Allison Horst](https://github.com/allisonhorst/stats-illustrations){target="_blank"}
+-   [**Color reference** PDF with text names](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf){target="_blank"}, [**Color cheatsheet** PDF from NCEAS](https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf){target="_blank"}
+
+### R eBooks/Courses
+
+-   [Jenny Bryan's **Stat545.com**](http://stat545.com/){target="_blank"}
+-   [Garrett Grolemund and Hadley Wickham's **R For Data Science**](http://r4ds.had.co.nz/){target="_blank"}
+-   [Chester Ismay and Albert Y. Kim's **Modern DiveR**](https://ismayc.github.io/moderndiver-book/){target="_blank"}
+-   [Julia Silge and David Robinson **Text Mining with R**](http://tidytextmining.com/){target="_blank"}
+-   [Hadley Wickham's **Advanced R**](http://adv-r.had.co.nz/){target="_blank"}
+-   [Hadley Wickham's **R for Data Science**](https://r4ds.had.co.nz){target="_blank"}
+-   [Hadley Wickham's **R for Data Science**, 2nd edition](https://r4ds.hadley.nz/){target="_blank"}
+-   [Hadley Wickham's **Mastering Shiny**](https://mastering-shiny.org/){target="_blank"}
+-   [Yihui Xie **R Markdown: The Definitive Guide**](https://bookdown.org/yihui/rmarkdown/){target="_blank"}
+-   [Winston Chang **R Graphics Cookbook**](http://www.cookbook-r.com/){target="_blank"}
+-   [Wegman et al. **Remote Sensing and GIS for Ecologists: Using Open Source Software**](http://book.ecosens.org/RSEbook/){target="_blank"}
+-   [Lovelace et al. **Geocomputation with R**](https://geocompr.robinlovelace.net/){target="_blank"}
+-   [Edszer Pebesma and Roger Bivand **Spatial Data Science**](https://keen-swartz-3146c4.netlify.app/index.html){target="_blank"}
+
+### Git/GitHub
+
+-   [Jenny Bryan's **Happy Git and GitHub for the useR**](http://happygitwithr.com/){target="_blank"}
+-   [Coding Club **Intro to GitHub**](https://ourcodingclub.github.io/2017/02/27/git.html){target="_blank"}
