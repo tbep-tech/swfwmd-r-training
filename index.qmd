@@ -1,0 +1,64 @@
+---
+lightbox: true
+execute:
+  echo: false
+---
+
+```{css}
+/*| echo: false */
+figcaption {
+  margin: auto;
+  text-align: center;
+}
+```
+
+# About this Training {.unnumbered}
+
+This training will provide attendees with a gentle introduction to the R Statistical Programming Language for basic data exploration and analysis. No prior experience is needed. The training content will include a mix of instructor led demonstrations and hands-on exercises designed to reinforce core principles of the programming language. Additional emphasis will be placed on using RStudio as the preferred platform for working with data in a project-based environment. By the end of the training, attendees will have the necessary foundation for continued learning to further build R skills.
+
+## Agenda {.unnumbered} 
+
+```{r}
+load(file = 'data/agenda.RData')
+knitr::kable(agenda)
+```
+
+## Housekeeping  {.unnumbered}
+
+There are a few housekeeping items we need to go over before we start the training.  
+
+1. Feel free to ask questions during the training. We will also use the stickies to indicate progress on exercises (green means okay, red means I need help).
+
+1. Please use your own installation of RStudio during this training.  The setup instructions are [here](setup.html).
+
+1. We have a live coding link that we'll be using as we go through the lessons. If you get lost, you can copy/paste code from this link into RStudio. 
+
+1. All training content is on this website.  We will be covering the content directly on the website, so if you get lost you can view the agenda to see which lesson we're covering and find where we're at by scrolling through the content. 
+
+1. Each lesson has its own R script that is linked at the top. If you are not using the live coding link, you can download the lesson R script and use that directly. 
+
+1. Finally, please make sure to download the required datasets [here](data/data.zip) and make sure you have the `tidyverse`, `sf`, and `mapview` packages installed. See the [setup instructions](setup.html) for details.
+
+All exercises and breaks will be timed to make sure that we stay on schedule. A timer will be displayed on the screen to track progress.
+
+## Software requirements
+
+This training will use RStudio and R. Please make sure that you are ready to use the required software prior to the training by following the setup instructions [here](setup.html).  __Installation issues will not be addressed the day of the training__.
+
+Install RStudio and R on your personal computer (recommended). 
+
+## Data and resources
+
+Please view the [Data and Resources](data_resources.html) page for data used in this training and additional links for R learning material.
+
+## Instructor
+
+[Dr. Marcus Beck](mailto:mbeck@tbep.org) is the Senior Scientist for the Tampa Bay Estuary Program in St. Petersburg, Florida and is developing data analysis and visualization methods for Bay health indicators. Marcus has experience researching environmental indicators and developing open science products to support environmental decision-making. He has been using the R statistical programming language for over 15 years and has taught several workshops on its application to environmental sciences. Marcus has also developed several R packages and currently maintains 7 on CRAN. He received a PhD in Conservation Biology with a minor in Statistics from the University of Minnesota in 2013, his Masters in Conservation Biology from the University of Minnesota in 2009, and his Bachelors in Zoology from the University of Florida in 2007. [GitHub](https://github.com/fawda123){target="_blank"}, [Scholar](https://scholar.google.com/citations?user=9ZDDQ_8AAAAJ&hl=en&authuser=2){target="_blank"}, [CV](https://github.com/fawda123/CV/blob/master/Beck_CV.pdf){target="_blank"}
+
+## Source content
+
+All source materials for this website can be accessed at [https://github.com/tbep-tech/swfwmd-r-training](https://github.com/tbep-tech/swfwmd-r-training){target="_blank"}
+
+[![build](https://github.com/tbep-tech/swfwmd-r-training/workflows/build/badge.svg)](https://github.com/tbep-tech/swfwmd-r-training/actions) This site is built automatically with GitHub Actions. Last site build `r Sys.time()`.
+ 
+ <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/4.0/88x31.png' /></a>&nbsp;&nbsp;This website is licensed under a <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International License</a>.

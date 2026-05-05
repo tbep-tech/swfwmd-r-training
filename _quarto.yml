@@ -1,0 +1,50 @@
+project:
+  type: book
+  output-dir: _site
+  resources:
+    - "/.nojekyll"
+    
+book:
+  title: "Introduction to R"
+  subtitle: "SWFWMD R Training"
+  author: "Dr. Marcus Beck"
+  repo-url: https://github.com/tbep-tech/swfwmd-r-training
+  reader-mode: true
+  repo-actions: [edit]
+  search: true
+  date: today
+  date-format: "YYYY-MM-DD"
+  page-navigation: true
+  page-footer:
+    left: |
+      Website created by the instructor, with attribution to external content
+    right: |
+      This book was built with <a href="https://quarto.org/" target="_blank">Quarto</a>
+  chapters:
+    - index.qmd
+    - part: "Lessons"
+      chapters:
+        - R_basics.qmd
+        - data_wrangling_1.qmd
+        - data_wrangling_2.qmd
+        - data_viz.qmd
+        - spatial_data_analysis.qmd  
+  appendices:
+    - setup.qmd
+    - data_resources.qmd
+
+format:
+  html:
+    theme:
+      - yeti
+    code-tools:
+      source: repo
+    code-link: true
+    toc-depth: 4
+  # pdf:
+  #   documentclass: scrreprt
+  #   prefer-html: true
+
+execute: 
+  echo: false
+  warning: false
