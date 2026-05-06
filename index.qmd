@@ -14,7 +14,9 @@ figcaption {
 
 # About this Training {.unnumbered}
 
-This training will provide attendees with a gentle introduction to the R Statistical Programming Language for basic data exploration and analysis. No prior experience is needed. The training content will include a mix of instructor led demonstrations and hands-on exercises designed to reinforce core principles of the programming language. Additional emphasis will be placed on using RStudio as the preferred platform for working with data in a project-based environment. By the end of the training, attendees will have the necessary foundation for continued learning to further build R skills.
+This training is designed for SWFWMD staff who already have some experience working in R and want to become more effective using it for real analysis tasks. Attendees are expected to be comfortable running code in RStudio, but may want more confidence writing their own scripts for data wrangling, adapting scripts from colleagues, troubleshooting errors, and building reproducible workflows.
+
+The training content will combine instructor-led demonstrations with hands-on exercises focused on data manipulation, visualization, and practical problem solving. Examples will be framed around SWFWMD data and workflows so participants can connect the material to the kinds of data analysis problems they encounter in their work. By the end of the training, attendees should be better prepared to understand existing scripts, troubleshoot common issues, and use R more confidently for applied analyses.
 
 ## Agenda {.unnumbered} 
 
