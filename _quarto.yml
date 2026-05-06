@@ -24,7 +24,7 @@ book:
     - index.qmd
     - part: "Lessons"
       chapters:
-        - R_basics.qmd
+        - R_overview.qmd
         - data_wrangling_1.qmd
         - data_wrangling_2.qmd
         - data_viz.qmd

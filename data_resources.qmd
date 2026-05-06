@@ -20,7 +20,7 @@ This is a list of the data sources used in this training.
          - [bounds.shx](data/bounds.shx)
          
  - All R scripts used in the lessons as a [zipped folder](scripts.zip).  Inside you'll find these files: 
-    - [R_basics.R](R_basics.R)
+    - [R_overview.R](R_overview.R)
     - [data_wrangling_1.R](data_wrangling_1.R)
     - [data_wrangling_2.R](data_wrangling_2.R)
     - [data_viz.R](data_viz.R)
