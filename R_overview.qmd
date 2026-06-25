@@ -42,17 +42,6 @@ You should be able to answer these questions at the end of this session:
 * Where can I go for help?
 * How can AI help me troubleshoot without replacing the learning process?
 
-## Why this training is different
-
-The original CERF workshop that this repository was modeled on was designed for beginners. This workshop has a different audience. Participants already have some experience with R and will likely be using scripts they received from colleagues, shared examples, or past projects. The key challenge is often not writing code from scratch, but figuring out:
-
-* what a script is trying to do,
-* why it fails,
-* how to adapt it safely, and
-* how to organize work so those problems are easier to solve next time.
-
-For that reason, this opening lesson focuses on workflow and troubleshooting rather than basic syntax.
-
 ## Project-oriented workflow in RStudio
 
 [RStudio](https://posit.co/download/rstudio-desktop/){target="_blank"} remains the primary teaching environment for this workshop. It gives you one place to write scripts, run code, inspect objects, review files, and view plots. For professional work, the most important habit is not simply knowing where the panes are, but using RStudio in a way that makes your projects portable and understandable.
@@ -127,36 +116,6 @@ This exercise sets up the project structure for the rest of the workshop.
 
 1. Download the training zip file [here](data/data.zip), extract it, and copy the provided data into your project `data` folder.
 
-## Working with scripts from colleagues
-
-Many participants in this workshop already use R by modifying scripts they received from others. That is a realistic and productive way to work, but it also creates a common failure mode: a script appears opaque until you know how to read it.
-
-A good first pass through an inherited script is to answer four questions:
-
-1. What packages are loaded?
-1. What files are imported?
-1. What objects are created or modified?
-1. What outputs are produced?
-
-The point is not to understand every detail at once. The point is to locate the major stages of the workflow and identify where the code depends on your local setup.
-
-### A simple review workflow
-
-```{r}
-library(tidyverse)
-
-data_file <- file.path("data", "dat.csv")
-station_file <- file.path("data", "statloc.csv")
-
-dat <- read_csv(data_file)
-statloc <- read_csv(station_file)
-
-glimpse(dat)
-glimpse(statloc)
-```
-
-The combination of `file.path()`, `read_csv()`, and `glimpse()` gets you surprisingly far when you are trying to understand what a script expects and what kind of data it is using.
-
 ## Accessing SWFWMD data
 
 One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD data portal and then use those data in later wrangling, plotting, and spatial examples.
@@ -168,21 +127,118 @@ For now, think of portal access as another data import step. The main ideas are:
 * inspect the structure immediately,
 * and save or reuse the result in later steps of the workflow.
 
-An example URL pattern for requesting station metadata looks like this:
+For this workshop, we'll be working with three different types of data, all of which are obtained from the SWFWMD data portal.
+
+* Station metadata
+* Station water quality data
+* Station water levels
+
+These can be obtained by using a constructed web address (URL) with the information you like.  
+
+An example URL pattern for requesting station metadata looks like this.  I've separated it into parts for the example to better explain the request.  The API has a URL generator [here](https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681) that can create these requests.
 
 ```{r}
-station_url <- paste0(
+metaurl <- paste0(
   "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?",
   "service=kisters&type=queryServices&request=getStationList",
   "&station_no=*&datasource=0",
-  "&returnfields=station_no,station_name,station_latitude,station_longitude",
+  "&returnfields=station_no,station_name,station_latitude,station_longitude,ca_sta",
+  "&format=csv&csvdiv=,",
+  "&downloadfilename=Requested_Info_",
+  "&custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"
+)
+
+metaurl
+```
+
+Entering this address in a web browser will download a csv file with the info you need.  We can skip this step by importing it directly into R. 
+
+```{r}
+# import the data
+metadat <- read.csv(metaurl)
+dim(metadat)
+```
+
+Our request returned information for `r nrow(stationmeta)` active stations (as rows) in Lake Panasoffkee.  There's also a bunch of columns (`r ncol(stationmeta)` to be exact) that we probably don't need, but we'll deal with those later.  For now, we'll use the station numbers (`station_no`) to retrieve water quality data and lake levels using another request.
+
+```{r}
+stations <- stationmeta$station_no
+
+wqurl <- paste0(
+  "https://edp.swfwmd.state.fl.us/",
+  "KiWIS/KiWIS?datasource=0",
+  "&format=csv&csvdiv=,",
+  "&service=kisters&type=queryServices",
+  "&request=getWqmSampleValues",
+  "&station_no=", paste(stations, collapse = ','),
+  "&period=complete",
+  "&dateformat=yyyy-MM-dd%20HH:mm:ss"
+)
+wqdat <- read.csv(wqurl)
+head(wqdat)
+dim(wqdat)
+```
+
+The data we retrieved did not include all stations.  Only those with water quality data were returned.  Just keep that in mind when retrieving data.  It may not be immediately obviuous that your request did not return data until you actually look at the results. 
+
+```{r}
+setdiff(stations, unique(wqdat$station_no))
+```
+
+The last data request is for water level data.  These differ from the water quality data because they're "continuous" in time, i.e., time series data, as opposed to "discrete" water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved.  The requests also use a `ts_path`: something/station number/something else.  I don't know what this... I hope you do.
+
+This requests data for station 1035944. 
+
+```{r}
+wlurl1 <- paste0(
+  "https://edp.swfwmd.state.fl.us/",
+  "KiWIS/KiWIS?datasource=0&service=kisters", 
+  "&type=queryServices",
+  "&request=getTimeseriesValues", 
+  "&ts_path=362/1035944/236/Day.Mean.NAVD88.Published",
+  "&returnfields=Timestamp,Value&metadata=TRUE",
+  "&md_returnfields=station_no,station_name,ts_unitsymbol",
+  "&period=complete",
+  "&dateformat=yyyy-MM-dd%20HH:mm:ss", 
+  "&timezone=individual",
   "&format=csv&csvdiv=,"
 )
 
-station_url
+wldat1 <- read.csv(wlurl1)
+dim(wldat1)
+head(wldat1)
 ```
 
-Later lessons can use a finalized portal example and a selected SWFWMD dataset as an anchor workflow for the rest of the training.
+This requests data for station 23142. 
+
+```{r}
+wlurl2 <- paste0(
+  "https://edp.swfwmd.state.fl.us/",
+  "KiWIS/KiWIS?datasource=0&service=kisters", 
+  "&type=queryServices",
+  "&request=getTimeseriesValues", 
+  "&ts_path=1334/23142/236/Day.Mean.NAVD88.Published",
+  "&returnfields=Timestamp,Value&metadata=TRUE",
+  "&md_returnfields=station_no,station_name,ts_unitsymbol",
+  "&period=complete",
+  "&dateformat=yyyy-MM-dd%20HH:mm:ss", 
+  "&timezone=individual",
+  "&format=csv&csvdiv=,"
+)
+
+wldat2 <- read.csv(wlurl2)
+dim(wldat2)
+head(wldat2)
+```
+
+None of the data we requested is ready for analysis.  Not only do we need to define what we want to do, but we also need to clean it up (wrangle) based on the needs of the analysis.  We'll deal with that later.  For now, we can save the results to retrieve them later. 
+
+```{r}
+write.csv(metadat, "data/metadat.csv", row.names = F)
+write.csv(wqdat, "data/wqdat.csv", row.names = F)
+write.csv(wldat1, "data/wldat1.csv", row.names = F)
+write.csv(wldat2, "data/wldat2.csv", row.names = F)
+```
 
 ## Exercise 2
 
@@ -190,7 +246,7 @@ Use the project you created in Exercise 1 and inspect the example data.
 
 1. Load `tidyverse`.
 
-1. Import `dat.csv` and `statloc.csv` using relative file paths.
+1. Import `metadat.csv` and `wqdat.csv` using relative file paths.
 
 1. Use `names()`, `dim()`, `head()`, or `glimpse()` to inspect each dataset.
 
@@ -223,7 +279,7 @@ You should also get comfortable with package websites, vignettes, and worked exa
 
 ## Generative AI as a support tool
 
-Generative AI can be genuinely useful for this audience, especially when you need help understanding an inherited script or unpacking an error message. In many cases it is faster than a web search for:
+Generative AI can be genuinely useful for data science, especially when you need help understanding an inherited script or unpacking an error message. In many cases it is faster than a web search for:
 
 * explaining what a script is doing step by step,
 * suggesting why an error occurred,
@@ -253,4 +309,4 @@ Use a short script from this lesson or one of your own and practice a structured
 
 ## Summary
 
-In this lesson we reframed the workshop around reproducible workflow rather than basic syntax. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully before changing code. Next, we can build on that foundation with data wrangling tasks that move from clear toy examples into SWFWMD-style workflows.
+In this lesson we framed the workshop around a reproducible workflow and imported data we'll use later. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.
