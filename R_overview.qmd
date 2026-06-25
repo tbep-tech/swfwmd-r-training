@@ -159,10 +159,10 @@ metadat <- read.csv(metaurl)
 dim(metadat)
 ```
 
-Our request returned information for `r nrow(stationmeta)` active stations (as rows) in Lake Panasoffkee.  There's also a bunch of columns (`r ncol(stationmeta)` to be exact) that we probably don't need, but we'll deal with those later.  For now, we'll use the station numbers (`station_no`) to retrieve water quality data and lake levels using another request.
+Our request returned information for `r nrow(metadat)` active stations (as rows) in Lake Panasoffkee.  There's also a bunch of columns (`r ncol(metadat)` to be exact) that we probably don't need, but we'll deal with those later.  For now, we'll use the station numbers (`station_no`) to retrieve water quality data and lake levels using another request.
 
 ```{r}
-stations <- stationmeta$station_no
+stations <- metadat$station_no
 
 wqurl <- paste0(
   "https://edp.swfwmd.state.fl.us/",

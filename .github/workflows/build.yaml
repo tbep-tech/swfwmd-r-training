@@ -38,6 +38,13 @@ jobs:
         with:
           tinytex: true
 
+      - name: Extract R scripts from Quarto files
+        run: |
+          Rscript -e "
+          files <- c('R_overview.qmd', 'data_wrangling_1.qmd', 'data_wrangling_2.qmd', 'data_viz.qmd', 'spatial_data_analysis.qmd')
+          for (f in files) knitr::purl(f, documentation = 0)
+          "
+
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
