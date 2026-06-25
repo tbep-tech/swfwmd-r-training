@@ -68,7 +68,7 @@ An RStudio Project gives a single home for data, scripts, figures, and outputs a
 
 When you work inside a project, your scripts can use relative paths such as `data/dat.csv` instead of hard-coded absolute paths tied to one machine.
 
-![](figs/R_basics/rstudio.png)
+![](figs/R_overview/rstudio.png)
 
 There are four panes in RStudio:
 
@@ -83,7 +83,7 @@ It is good practice to start each new task in a fresh project. The project direc
 
 To create a new project, click on the File menu at the top left and select 'New project...'
 
-![](figs/R_basics/rstudio_proj.jpg)
+![](figs/R_overview/rstudio_proj.jpg)
 
 Now we can use this project for our data and any scripts we create.
 
@@ -105,11 +105,11 @@ In most cases, you should write code in scripts and send it to the console as ne
 
 Open a new script from the File menu:
 
-![](figs/R_basics/rstudio_script.jpg)
+![](figs/R_overview/rstudio_script.jpg)
 
 After you write code in your script, use the `Run` button or `ctrl+enter` (`cmd+enter` on a Mac) to send lines to the console.
 
-![](figs/R_basics/rstudio_run.jpg)
+![](figs/R_overview/rstudio_run.jpg)
 
 ## Exercise 1
 

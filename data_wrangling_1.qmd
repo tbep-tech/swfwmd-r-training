@@ -146,7 +146,7 @@ dplyr_sel1 <- select(dat, Date, Station, Value)
 head(dplyr_sel1)
 
 # select everything but a column
-dplyr_sel2 <- select(dat, -Notes)
+dplyr_sel2 <- select(dat, -Value)
 head(dplyr_sel2)
 ```
 
