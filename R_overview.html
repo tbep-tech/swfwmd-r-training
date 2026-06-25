@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>1&nbsp; R overview – Introduction to R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./data_wrangling_1.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-75f02de4d0792729241189e21b3d3496.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+</head>
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./R_overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Introduction to R</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/tbep-tech/swfwmd-r-training" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About this Training</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Lessons</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./R_overview.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_wrangling_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data wrangling part 1</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_wrangling_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data wrangling part 2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_viz.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Data viz</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./spatial_data_analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Spatial data analysis</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup for the training</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./data_resources.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Data and resources</span></span></a>
+  </div>
+</li>
+      </ul>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+<li><a href="#lesson-outline" id="toc-lesson-outline" class="nav-link active" data-scroll-target="#lesson-outline"><span class="header-section-number">1.1</span> Lesson Outline</a></li>
+  <li><a href="#lesson-exercises" id="toc-lesson-exercises" class="nav-link" data-scroll-target="#lesson-exercises"><span class="header-section-number">1.2</span> Lesson Exercises</a></li>
+  <li><a href="#goals-and-framing" id="toc-goals-and-framing" class="nav-link" data-scroll-target="#goals-and-framing"><span class="header-section-number">1.3</span> Goals and framing</a></li>
+  <li><a href="#why-this-training-is-different" id="toc-why-this-training-is-different" class="nav-link" data-scroll-target="#why-this-training-is-different"><span class="header-section-number">1.4</span> Why this training is different</a></li>
+  <li>
+<a href="#project-oriented-workflow-in-rstudio" id="toc-project-oriented-workflow-in-rstudio" class="nav-link" data-scroll-target="#project-oriented-workflow-in-rstudio"><span class="header-section-number">1.5</span> Project-oriented workflow in RStudio</a>
+  <ul>
+<li><a href="#why-projects-matter" id="toc-why-projects-matter" class="nav-link" data-scroll-target="#why-projects-matter"><span class="header-section-number">1.5.1</span> Why projects matter</a></li>
+  <li><a href="#rstudio-projects" id="toc-rstudio-projects" class="nav-link" data-scroll-target="#rstudio-projects"><span class="header-section-number">1.5.2</span> RStudio projects</a></li>
+  <li><a href="#relative-paths-and-folder-structure" id="toc-relative-paths-and-folder-structure" class="nav-link" data-scroll-target="#relative-paths-and-folder-structure"><span class="header-section-number">1.5.3</span> Relative paths and folder structure</a></li>
+  <li><a href="#scripting" id="toc-scripting" class="nav-link" data-scroll-target="#scripting"><span class="header-section-number">1.5.4</span> Scripting</a></li>
+  </ul>
+</li>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1"><span class="header-section-number">1.6</span> Exercise 1</a></li>
+  <li>
+<a href="#working-with-scripts-from-colleagues" id="toc-working-with-scripts-from-colleagues" class="nav-link" data-scroll-target="#working-with-scripts-from-colleagues"><span class="header-section-number">1.7</span> Working with scripts from colleagues</a>
+  <ul>
+<li><a href="#a-simple-review-workflow" id="toc-a-simple-review-workflow" class="nav-link" data-scroll-target="#a-simple-review-workflow"><span class="header-section-number">1.7.1</span> A simple review workflow</a></li>
+  </ul>
+</li>
+  <li><a href="#accessing-swfwmd-data" id="toc-accessing-swfwmd-data" class="nav-link" data-scroll-target="#accessing-swfwmd-data"><span class="header-section-number">1.8</span> Accessing SWFWMD data</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2"><span class="header-section-number">1.9</span> Exercise 2</a></li>
+  <li>
+<a href="#troubleshooting-and-getting-help" id="toc-troubleshooting-and-getting-help" class="nav-link" data-scroll-target="#troubleshooting-and-getting-help"><span class="header-section-number">1.10</span> Troubleshooting and getting help</a>
+  <ul>
+<li><a href="#help-from-the-console-and-documentation" id="toc-help-from-the-console-and-documentation" class="nav-link" data-scroll-target="#help-from-the-console-and-documentation"><span class="header-section-number">1.10.1</span> Help from the console and documentation</a></li>
+  </ul>
+</li>
+  <li><a href="#generative-ai-as-a-support-tool" id="toc-generative-ai-as-a-support-tool" class="nav-link" data-scroll-target="#generative-ai-as-a-support-tool"><span class="header-section-number">1.11</span> Generative AI as a support tool</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3"><span class="header-section-number">1.12</span> Exercise 3</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.13</span> Summary</a></li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/R_overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./R_overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></a></li></ol></nav><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title"><span id="sec-R_overview" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source" data-quarto-source-url="https://github.com/tbep-tech/swfwmd-r-training/blob/main/R_overview.qmd"><i class="bi"></i> Code</button></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header><p>Get the lesson R script: <a href="R_overview.R">R_overview.R</a></p>
+<p>Get the lesson data: <a href="data/data.zip">download zip</a></p>
+<section id="lesson-outline" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="lesson-outline">
+<span class="header-section-number">1.1</span> Lesson Outline</h2>
+<ul>
+<li><a href="#goals-and-framing">Goals and framing</a></li>
+<li><a href="#why-this-training-is-different">Why this training is different</a></li>
+<li><a href="#project-oriented-workflow-in-rstudio">Project-oriented workflow in RStudio</a></li>
+<li><a href="#working-with-scripts-from-colleagues">Working with scripts from colleagues</a></li>
+<li><a href="#accessing-swfwmd-data">Accessing SWFWMD data</a></li>
+<li><a href="#troubleshooting-and-getting-help">Troubleshooting and getting help</a></li>
+<li><a href="#generative-ai-as-a-support-tool">Generative AI as a support tool</a></li>
+</ul></section><section id="lesson-exercises" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="lesson-exercises">
+<span class="header-section-number">1.2</span> Lesson Exercises</h2>
+<ul>
+<li><a href="#exercise-1">Exercise 1</a></li>
+<li><a href="#exercise-2">Exercise 2</a></li>
+<li><a href="#exercise-3">Exercise 3</a></li>
+</ul></section><section id="goals-and-framing" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="goals-and-framing">
+<span class="header-section-number">1.3</span> Goals and framing</h2>
+<p><a href="https://www.r-project.org/" target="_blank">R</a> is a language for statistical computing and general purpose programming. It is one of the best languages for data science and analysis.</p>
+<p>This training is not intended to teach R from the ground up. Instead, it is meant for participants who can already run code in RStudio and want to become more effective using R for day-to-day work. The emphasis is on reproducible workflows, understanding inherited scripts, troubleshooting errors, and building confidence with realistic analysis tasks.</p>
+<p>You should be able to answer these questions at the end of this session:</p>
+<ul>
+<li>How should I organize an R project so my work is reproducible?</li>
+<li>How can I read and understand an R script that somebody else wrote?</li>
+<li>How do relative file paths and project structure prevent common errors?</li>
+<li>How can I bring external data into a project and inspect it quickly?</li>
+<li>Where can I go for help?</li>
+<li>How can AI help me troubleshoot without replacing the learning process?</li>
+</ul></section><section id="why-this-training-is-different" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="why-this-training-is-different">
+<span class="header-section-number">1.4</span> Why this training is different</h2>
+<p>The original CERF workshop that this repository was modeled on was designed for beginners. This workshop has a different audience. Participants already have some experience with R and will likely be using scripts they received from colleagues, shared examples, or past projects. The key challenge is often not writing code from scratch, but figuring out:</p>
+<ul>
+<li>what a script is trying to do,</li>
+<li>why it fails,</li>
+<li>how to adapt it safely, and</li>
+<li>how to organize work so those problems are easier to solve next time.</li>
+</ul>
+<p>For that reason, this opening lesson focuses on workflow and troubleshooting rather than basic syntax.</p>
+</section><section id="project-oriented-workflow-in-rstudio" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="project-oriented-workflow-in-rstudio">
+<span class="header-section-number">1.5</span> Project-oriented workflow in RStudio</h2>
+<p><a href="https://posit.co/download/rstudio-desktop/" target="_blank">RStudio</a> remains the primary teaching environment for this workshop. It gives you one place to write scripts, run code, inspect objects, review files, and view plots. For professional work, the most important habit is not simply knowing where the panes are, but using RStudio in a way that makes your projects portable and understandable.</p>
+<section id="why-projects-matter" class="level3" data-number="1.5.1"><h3 data-number="1.5.1" class="anchored" data-anchor-id="why-projects-matter">
+<span class="header-section-number">1.5.1</span> Why projects matter</h3>
+<p>An RStudio Project gives a single home for data, scripts, figures, and outputs associated with one analysis. This matters because many frustrating R problems are really project management problems:</p>
+<ul>
+<li>file not found errors from incorrect paths,</li>
+<li>code that only works on one person’s computer,</li>
+<li>overwritten outputs,</li>
+<li>and difficulty understanding where a script expects its inputs to live.</li>
+</ul>
+<p>When you work inside a project, your scripts can use relative paths such as <code>data/dat.csv</code> instead of hard-coded absolute paths tied to one machine.</p>
+<p><a href="figs/R_overview/rstudio.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figs/R_overview/rstudio.png" class="img-fluid"></a></p>
+<p>There are four panes in RStudio:</p>
+<ul>
+<li>
+<strong>Source</strong>: Your primary window for writing code to send to the console, this is where you write and save R “scripts” for your code</li>
+<li>
+<strong>Console</strong>: This is where code from your scripts is executed in R - you will typically not write code here</li>
+<li>
+<strong>Environment, History, etc.</strong>: A tabbed window showing your working environment, code execution history, and other useful things</li>
+<li>
+<strong>Files, plots, etc.</strong>: A tabbed window showing a file explorer, a plot window, list of installed packages, help files, and viewer</li>
+</ul></section><section id="rstudio-projects" class="level3" data-number="1.5.2"><h3 data-number="1.5.2" class="anchored" data-anchor-id="rstudio-projects">
+<span class="header-section-number">1.5.2</span> RStudio projects</h3>
+<p>It is good practice to start each new task in a fresh project. The project directory becomes the working context for your analysis and should usually contain subfolders for raw data, scripts, derived outputs, and figures.</p>
+<p>To create a new project, click on the File menu at the top left and select ‘New project…’</p>
+<p><a href="figs/R_overview/rstudio_proj.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figs/R_overview/rstudio_proj.jpg" class="img-fluid"></a></p>
+<p>Now we can use this project for our data and any scripts we create.</p>
+</section><section id="relative-paths-and-folder-structure" class="level3" data-number="1.5.3"><h3 data-number="1.5.3" class="anchored" data-anchor-id="relative-paths-and-folder-structure">
+<span class="header-section-number">1.5.3</span> Relative paths and folder structure</h3>
+<p>Inside a project, your script should point to files relative to the project root:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># project-relative file paths</span></span>
+<span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"dat.csv"</span><span class="op">)</span></span>
+<span><span class="va">station_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"statloc.csv"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This is preferable to absolute paths such as <code>C:/Users/name/Desktop/...</code>, which usually fail as soon as the code moves to a different computer or folder.</p>
+</section><section id="scripting" class="level3" data-number="1.5.4"><h3 data-number="1.5.4" class="anchored" data-anchor-id="scripting">
+<span class="header-section-number">1.5.4</span> Scripting</h3>
+<p>In most cases, you should write code in scripts and send it to the console as needed. A saved script is easier to share, troubleshoot, review, and reuse than code typed interactively into the console and lost when the session closes.</p>
+<p>Open a new script from the File menu:</p>
+<p><a href="figs/R_overview/rstudio_script.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figs/R_overview/rstudio_script.jpg" class="img-fluid"></a></p>
+<p>After you write code in your script, use the <code>Run</code> button or <code>ctrl+enter</code> (<code>cmd+enter</code> on a Mac) to send lines to the console.</p>
+<p><a href="figs/R_overview/rstudio_run.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="figs/R_overview/rstudio_run.jpg" class="img-fluid"></a></p>
+</section></section><section id="exercise-1" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="exercise-1">
+<span class="header-section-number">1.6</span> Exercise 1</h2>
+<p>This exercise sets up the project structure for the rest of the workshop.</p>
+<ol type="1">
+<li><p>Start RStudio on your computer.</p></li>
+<li><p>Create a new project (File menu, New project, New directory, New project, Directory Name…). Name it <code>swfwmd_r_training</code>.</p></li>
+<li><p>Inside the project, create folders named <code>data</code>, <code>scripts</code>, and <code>figs</code>.</p></li>
+<li><p>Create a new script in the Source pane and save it as <code>scripts\workflow_notes.R</code>.</p></li>
+<li><p>Add a short header comment to the file that explains what the script is for.</p></li>
+<li><p>Download the training zip file <a href="data/data.zip">here</a>, extract it, and copy the provided data into your project <code>data</code> folder.</p></li>
+</ol></section><section id="working-with-scripts-from-colleagues" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="working-with-scripts-from-colleagues">
+<span class="header-section-number">1.7</span> Working with scripts from colleagues</h2>
+<p>Many participants in this workshop already use R by modifying scripts they received from others. That is a realistic and productive way to work, but it also creates a common failure mode: a script appears opaque until you know how to read it.</p>
+<p>A good first pass through an inherited script is to answer four questions:</p>
+<ol type="1">
+<li>What packages are loaded?</li>
+<li>What files are imported?</li>
+<li>What objects are created or modified?</li>
+<li>What outputs are produced?</li>
+</ol>
+<p>The point is not to understand every detail at once. The point is to locate the major stages of the workflow and identify where the code depends on your local setup.</p>
+<section id="a-simple-review-workflow" class="level3" data-number="1.7.1"><h3 data-number="1.7.1" class="anchored" data-anchor-id="a-simple-review-workflow">
+<span class="header-section-number">1.7.1</span> A simple review workflow</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"dat.csv"</span><span class="op">)</span></span>
+<span><span class="va">station_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"statloc.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span></span>
+<span><span class="va">statloc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">station_file</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 144
+Columns: 3
+$ Date    &lt;date&gt; 2020-01-01, 2020-02-01, 2020-03-01, 2020-04-01, 2020-05-01, 2…
+$ Station &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A…
+$ Value   &lt;dbl&gt; 9.57, 9.48, 9.67, 12.11, 9.62, 5.51, 11.00, 9.20, 9.35, 10.35,…</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">statloc</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 3
+Columns: 3
+$ Station   &lt;chr&gt; "A", "B", "C"
+$ Longitude &lt;dbl&gt; -82.45, -82.50, -82.40
+$ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
+</div>
+</div>
+<p>The combination of <code><a href="https://rdrr.io/r/base/file.path.html">file.path()</a></code>, <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code>, and <code><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse()</a></code> gets you surprisingly far when you are trying to understand what a script expects and what kind of data it is using.</p>
+</section></section><section id="accessing-swfwmd-data" class="level2" data-number="1.8"><h2 data-number="1.8" class="anchored" data-anchor-id="accessing-swfwmd-data">
+<span class="header-section-number">1.8</span> Accessing SWFWMD data</h2>
+<p>One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD data portal and then use those data in later wrangling, plotting, and spatial examples.</p>
+<p>For now, think of portal access as another data import step. The main ideas are:</p>
+<ul>
+<li>build a request URL carefully,</li>
+<li>import the result into R,</li>
+<li>inspect the structure immediately,</li>
+<li>and save or reuse the result in later steps of the workflow.</li>
+</ul>
+<p>An example URL pattern for requesting station metadata looks like this:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">station_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?"</span>,</span>
+<span>  <span class="st">"service=kisters&amp;type=queryServices&amp;request=getStationList"</span>,</span>
+<span>  <span class="st">"&amp;station_no=*&amp;datasource=0"</span>,</span>
+<span>  <span class="st">"&amp;returnfields=station_no,station_name,station_latitude,station_longitude"</span>,</span>
+<span>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">station_url</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?service=kisters&amp;type=queryServices&amp;request=getStationList&amp;station_no=*&amp;datasource=0&amp;returnfields=station_no,station_name,station_latitude,station_longitude&amp;format=csv&amp;csvdiv=,"</code></pre>
+</div>
+</div>
+<p>Later lessons can use a finalized portal example and a selected SWFWMD dataset as an anchor workflow for the rest of the training.</p>
+</section><section id="exercise-2" class="level2" data-number="1.9"><h2 data-number="1.9" class="anchored" data-anchor-id="exercise-2">
+<span class="header-section-number">1.9</span> Exercise 2</h2>
+<p>Use the project you created in Exercise 1 and inspect the example data.</p>
+<ol type="1">
+<li><p>Load <code>tidyverse</code>.</p></li>
+<li><p>Import <code>dat.csv</code> and <code>statloc.csv</code> using relative file paths.</p></li>
+<li><p>Use <code><a href="https://rdrr.io/r/base/names.html">names()</a></code>, <code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, or <code><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse()</a></code> to inspect each dataset.</p></li>
+<li><p>Write two or three short notes in your script about what each file appears to contain and how it might be used later in the workflow.</p></li>
+</ol></section><section id="troubleshooting-and-getting-help" class="level2" data-number="1.10"><h2 data-number="1.10" class="anchored" data-anchor-id="troubleshooting-and-getting-help">
+<span class="header-section-number">1.10</span> Troubleshooting and getting help</h2>
+<p>Troubleshooting is a core skill for this workshop. Before changing code, make the problem smaller and more specific. Useful first checks include:</p>
+<ul>
+<li>Does the file path exist?</li>
+<li>Did the package load successfully?</li>
+<li>What is the class or structure of the object?</li>
+<li>Which line produced the error?</li>
+<li>Is the code failing because the input data are different than expected?</li>
+</ul>
+<p>Many problems become much easier once you inspect the object directly instead of guessing what it contains.</p>
+<section id="help-from-the-console-and-documentation" class="level3" data-number="1.10.1"><h3 data-number="1.10.1" class="anchored" data-anchor-id="help-from-the-console-and-documentation">
+<span class="header-section-number">1.10.1</span> Help from the console and documentation</h3>
+<p>Getting help from the console is straightforward:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">?</span><span class="va">read_csv</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
+<span><span class="op">?</span><span class="op">?</span><span class="va">mutate</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>You should also get comfortable with package websites, vignettes, and worked examples. Searching the exact error message is often more effective than searching a vague description of the problem.</p>
+</section></section><section id="generative-ai-as-a-support-tool" class="level2" data-number="1.11"><h2 data-number="1.11" class="anchored" data-anchor-id="generative-ai-as-a-support-tool">
+<span class="header-section-number">1.11</span> Generative AI as a support tool</h2>
+<p>Generative AI can be genuinely useful for this audience, especially when you need help understanding an inherited script or unpacking an error message. In many cases it is faster than a web search for:</p>
+<ul>
+<li>explaining what a script is doing step by step,</li>
+<li>suggesting why an error occurred,</li>
+<li>translating unfamiliar code into plainer language,</li>
+<li>or outlining a debugging strategy.</li>
+</ul>
+<p>The tradeoff is that AI can sound confident while being wrong, can overcomplicate a fix, and can nudge users toward copying code they do not understand. Use it to support your reasoning, not replace it.</p>
+<p>Some practical guidelines:</p>
+<ul>
+<li>Give the model the code, the error message, and a short description of what you expected to happen.</li>
+<li>Ask it to explain before asking it to rewrite.</li>
+<li>Verify every suggested fix.</li>
+<li>Never paste sensitive or proprietary information into a public tool.</li>
+</ul></section><section id="exercise-3" class="level2" data-number="1.12"><h2 data-number="1.12" class="anchored" data-anchor-id="exercise-3">
+<span class="header-section-number">1.12</span> Exercise 3</h2>
+<p>Use a short script from this lesson or one of your own and practice a structured review.</p>
+<ol type="1">
+<li><p>Identify which packages it loads.</p></li>
+<li><p>Identify which files it expects.</p></li>
+<li><p>Identify the main objects it creates.</p></li>
+<li><p>If something fails, write down the exact error and list the first two things you would inspect before changing the code.</p></li>
+</ol></section><section id="summary" class="level2" data-number="1.13"><h2 data-number="1.13" class="anchored" data-anchor-id="summary">
+<span class="header-section-number">1.13</span> Summary</h2>
+<p>In this lesson we reframed the workshop around reproducible workflow rather than basic syntax. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully before changing code. Next, we can build on that foundation with data wrangling tasks that move from clear toy examples into SWFWMD-style workflows.</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="About this Training">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">About this Training</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./data_wrangling_1.html" class="pagination-link" aria-label="Data wrangling part 1">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data wrangling part 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Website created by the instructor, with attribution to external content</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/R_overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>This book was built with <a href="https://quarto.org/" target="_blank">Quarto</a></p>
+</div>
+  </div>
+</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+</body></html>
