@@ -1,53 +1,66 @@
-# Data wrangling part 2 lesson script
-# SWFWMD R Training
+# # install
+# install.packages('tidyverse')
 
 library(tidyverse)
 
-# ---- Combining data ----
+# load the training data
 dat <- read_csv('data/dat.csv')
+
+# load the station location data
 statloc <- read_csv('data/statloc.csv')
 
-# join the two datasets
+# join the two 
 joindat <- left_join(dat, statloc, by = 'Station')
 head(joindat)
 
-# ---- Exercise 6 ----
+# load the training data
+dat <- read_csv('data/dat.csv')
+
+# load the station location data
+statloc <- read_csv('data/statloc.csv')
+
+# wrangle before join
 joindat <- dat |> 
   select(Date, Station, Value) |> 
   filter(Station == 'A') 
 
 dim(joindat)
 
+# full join
 joindat <- joindat |> 
   full_join(statloc, by = 'Station')
 
 dim(joindat)
 
-# ---- Tidy data ----
 table1
 table2
 table3
-table4a
-table4b
 
-# pivot_longer
+# Spread across two tibbles
+table4a  # cases
+table4b  # population
+
+table4a
+
 table4a |>
   pivot_longer(c('1999', '2000'), names_to = "year", values_to = "cases")
 
-# pivot_wider
+table2
+
 pivot_wider(table2, names_from = 'type', values_from = 'count')
 
-# ---- Exercise 7 ----
+# check dimensions, structure
 dim(dat)
 str(dat)
 
+# convert dat to long format
 longdat <- dat |>
   pivot_longer(-c(Date, Station), names_to = 'Parameter', values_to = 'Value')
 
+# check dimensions, structure
 dim(longdat)
 str(longdat)
 
-# ---- Summarize ----
 by_sta <- summarize(dat, mean_val = mean(Value), .by = Station)
 by_sta
 
@@ -65,13 +78,12 @@ more_sums <- summarize(dat,
   )
 more_sums
 
-# handling NAs
 x <- c(1, 2, NA, 4)
 mean(x)
 mean(x, na.rm = T)
+
 anyNA(x)
 
-# ---- Exercise 8 ----
 sumdat <- longdat |>
   filter(Station == 'A' & Parameter == 'Value') |> 
   mutate(Year = lubridate::year(Date)) |> 

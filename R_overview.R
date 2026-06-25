@@ -1,72 +1,82 @@
-# R overview lesson script
-# SWFWMD R Training
-
-# ---- Project-oriented workflow ----
-
-# Start each analysis in an RStudio Project so paths stay relative
-getwd()
-list.files()
-
-# Build file paths inside the project instead of hard-coding an absolute path
+# project-relative file paths
 data_file <- file.path("data", "dat.csv")
 station_file <- file.path("data", "statloc.csv")
 
-file.exists(data_file)
-file.exists(station_file)
-
-# ---- Bringing data into the project ----
-
-library(tidyverse)
-
-dat <- read_csv(data_file)
-statloc <- read_csv(station_file)
-
-glimpse(dat)
-glimpse(statloc)
-
-# Quick checks before you do real work
-names(dat)
-summary(dat)
-count(statloc)
-
-# ---- Working with inherited scripts ----
-
-# Read scripts top to bottom:
-# 1. Which packages are loaded?
-# 2. Which files are imported?
-# 3. Which objects are created?
-# 4. What are the outputs?
-
-# Example: create a compact summary you could hand off to a colleague
-dat_summary <- dat %>%
-  summarize(
-    rows = n(),
-    cols = ncol(dat)
-  )
-
-dat_summary
-
-# ---- SWFWMD portal example ----
-
-# Example URL pattern for pulling data from the SWFWMD data portal
-station_url <- paste0(
+metaurl <- paste0(
   "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?",
   "service=kisters&type=queryServices&request=getStationList",
   "&station_no=*&datasource=0",
-  "&returnfields=station_no,station_name,station_latitude,station_longitude",
+  "&returnfields=station_no,station_name,station_latitude,station_longitude,ca_sta",
+  "&format=csv&csvdiv=,",
+  "&downloadfilename=Requested_Info_",
+  "&custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"
+)
+
+metaurl
+
+# import the data
+metadat <- read.csv(metaurl)
+dim(metadat)
+
+stations <- metadat$station_no
+
+wqurl <- paste0(
+  "https://edp.swfwmd.state.fl.us/",
+  "KiWIS/KiWIS?datasource=0",
+  "&format=csv&csvdiv=,",
+  "&service=kisters&type=queryServices",
+  "&request=getWqmSampleValues",
+  "&station_no=", paste(stations, collapse = ','),
+  "&period=complete",
+  "&dateformat=yyyy-MM-dd%20HH:mm:ss"
+)
+wqdat <- read.csv(wqurl)
+head(wqdat)
+dim(wqdat)
+
+setdiff(stations, unique(wqdat$station_no))
+
+wlurl1 <- paste0(
+  "https://edp.swfwmd.state.fl.us/",
+  "KiWIS/KiWIS?datasource=0&service=kisters", 
+  "&type=queryServices",
+  "&request=getTimeseriesValues", 
+  "&ts_path=362/1035944/236/Day.Mean.NAVD88.Published",
+  "&returnfields=Timestamp,Value&metadata=TRUE",
+  "&md_returnfields=station_no,station_name,ts_unitsymbol",
+  "&period=complete",
+  "&dateformat=yyyy-MM-dd%20HH:mm:ss", 
+  "&timezone=individual",
   "&format=csv&csvdiv=,"
 )
 
-station_url
+wldat1 <- read.csv(wlurl1)
+dim(wldat1)
+head(wldat1)
 
-# Later modules can use portal data directly after the course examples are finalized
+wlurl2 <- paste0(
+  "https://edp.swfwmd.state.fl.us/",
+  "KiWIS/KiWIS?datasource=0&service=kisters", 
+  "&type=queryServices",
+  "&request=getTimeseriesValues", 
+  "&ts_path=1334/23142/236/Day.Mean.NAVD88.Published",
+  "&returnfields=Timestamp,Value&metadata=TRUE",
+  "&md_returnfields=station_no,station_name,ts_unitsymbol",
+  "&period=complete",
+  "&dateformat=yyyy-MM-dd%20HH:mm:ss", 
+  "&timezone=individual",
+  "&format=csv&csvdiv=,"
+)
 
-# ---- Troubleshooting ----
+wldat2 <- read.csv(wlurl2)
+dim(wldat2)
+head(wldat2)
 
-# Common first checks
-head(dat)
-dim(dat)
-str(dat)
+write.csv(metadat, "data/metadat.csv", row.names = F)
+write.csv(wqdat, "data/wqdat.csv", row.names = F)
+write.csv(wldat1, "data/wldat1.csv", row.names = F)
+write.csv(wldat2, "data/wldat2.csv", row.names = F)
 
-# If something fails, inspect the object before changing the code
-unique(names(dat))
+# ?read_csv
+# help(package = "dplyr")
+# ??mutate

@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.9.38">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>1&nbsp; R overview – Introduction to R</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -54,6 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -65,18 +72,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-75f02de4d0792729241189e21b3d3496.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e1dc7c06b84616ffc65b98f43969cebb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -103,11 +110,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+
+
 </head>
+
 <body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -118,11 +130,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Introduction to R</a> 
         <div class="sidebar-tools-main">
@@ -142,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About this Training</span></a>
@@ -156,8 +170,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R_overview.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span></a>
@@ -188,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
@@ -197,8 +211,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup for the training</span></span></a>
@@ -211,50 +225,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#lesson-outline" id="toc-lesson-outline" class="nav-link active" data-scroll-target="#lesson-outline"><span class="header-section-number">1.1</span> Lesson Outline</a></li>
+  <li><a href="#lesson-outline" id="toc-lesson-outline" class="nav-link active" data-scroll-target="#lesson-outline"><span class="header-section-number">1.1</span> Lesson Outline</a></li>
   <li><a href="#lesson-exercises" id="toc-lesson-exercises" class="nav-link" data-scroll-target="#lesson-exercises"><span class="header-section-number">1.2</span> Lesson Exercises</a></li>
   <li><a href="#goals-and-framing" id="toc-goals-and-framing" class="nav-link" data-scroll-target="#goals-and-framing"><span class="header-section-number">1.3</span> Goals and framing</a></li>
-  <li><a href="#why-this-training-is-different" id="toc-why-this-training-is-different" class="nav-link" data-scroll-target="#why-this-training-is-different"><span class="header-section-number">1.4</span> Why this training is different</a></li>
-  <li>
-<a href="#project-oriented-workflow-in-rstudio" id="toc-project-oriented-workflow-in-rstudio" class="nav-link" data-scroll-target="#project-oriented-workflow-in-rstudio"><span class="header-section-number">1.5</span> Project-oriented workflow in RStudio</a>
+  <li><a href="#project-oriented-workflow-in-rstudio" id="toc-project-oriented-workflow-in-rstudio" class="nav-link" data-scroll-target="#project-oriented-workflow-in-rstudio"><span class="header-section-number">1.4</span> Project-oriented workflow in RStudio</a>
   <ul>
-<li><a href="#why-projects-matter" id="toc-why-projects-matter" class="nav-link" data-scroll-target="#why-projects-matter"><span class="header-section-number">1.5.1</span> Why projects matter</a></li>
-  <li><a href="#rstudio-projects" id="toc-rstudio-projects" class="nav-link" data-scroll-target="#rstudio-projects"><span class="header-section-number">1.5.2</span> RStudio projects</a></li>
-  <li><a href="#relative-paths-and-folder-structure" id="toc-relative-paths-and-folder-structure" class="nav-link" data-scroll-target="#relative-paths-and-folder-structure"><span class="header-section-number">1.5.3</span> Relative paths and folder structure</a></li>
-  <li><a href="#scripting" id="toc-scripting" class="nav-link" data-scroll-target="#scripting"><span class="header-section-number">1.5.4</span> Scripting</a></li>
-  </ul>
-</li>
-  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1"><span class="header-section-number">1.6</span> Exercise 1</a></li>
-  <li>
-<a href="#working-with-scripts-from-colleagues" id="toc-working-with-scripts-from-colleagues" class="nav-link" data-scroll-target="#working-with-scripts-from-colleagues"><span class="header-section-number">1.7</span> Working with scripts from colleagues</a>
+  <li><a href="#why-projects-matter" id="toc-why-projects-matter" class="nav-link" data-scroll-target="#why-projects-matter"><span class="header-section-number">1.4.1</span> Why projects matter</a></li>
+  <li><a href="#rstudio-projects" id="toc-rstudio-projects" class="nav-link" data-scroll-target="#rstudio-projects"><span class="header-section-number">1.4.2</span> RStudio projects</a></li>
+  <li><a href="#relative-paths-and-folder-structure" id="toc-relative-paths-and-folder-structure" class="nav-link" data-scroll-target="#relative-paths-and-folder-structure"><span class="header-section-number">1.4.3</span> Relative paths and folder structure</a></li>
+  <li><a href="#scripting" id="toc-scripting" class="nav-link" data-scroll-target="#scripting"><span class="header-section-number">1.4.4</span> Scripting</a></li>
+  </ul></li>
+  <li><a href="#exercise-1" id="toc-exercise-1" class="nav-link" data-scroll-target="#exercise-1"><span class="header-section-number">1.5</span> Exercise 1</a></li>
+  <li><a href="#accessing-swfwmd-data" id="toc-accessing-swfwmd-data" class="nav-link" data-scroll-target="#accessing-swfwmd-data"><span class="header-section-number">1.6</span> Accessing SWFWMD data</a></li>
+  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2"><span class="header-section-number">1.7</span> Exercise 2</a></li>
+  <li><a href="#troubleshooting-and-getting-help" id="toc-troubleshooting-and-getting-help" class="nav-link" data-scroll-target="#troubleshooting-and-getting-help"><span class="header-section-number">1.8</span> Troubleshooting and getting help</a>
   <ul>
-<li><a href="#a-simple-review-workflow" id="toc-a-simple-review-workflow" class="nav-link" data-scroll-target="#a-simple-review-workflow"><span class="header-section-number">1.7.1</span> A simple review workflow</a></li>
+  <li><a href="#help-from-the-console-and-documentation" id="toc-help-from-the-console-and-documentation" class="nav-link" data-scroll-target="#help-from-the-console-and-documentation"><span class="header-section-number">1.8.1</span> Help from the console and documentation</a></li>
+  </ul></li>
+  <li><a href="#generative-ai-as-a-support-tool" id="toc-generative-ai-as-a-support-tool" class="nav-link" data-scroll-target="#generative-ai-as-a-support-tool"><span class="header-section-number">1.9</span> Generative AI as a support tool</a></li>
+  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3"><span class="header-section-number">1.10</span> Exercise 3</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.11</span> Summary</a></li>
   </ul>
-</li>
-  <li><a href="#accessing-swfwmd-data" id="toc-accessing-swfwmd-data" class="nav-link" data-scroll-target="#accessing-swfwmd-data"><span class="header-section-number">1.8</span> Accessing SWFWMD data</a></li>
-  <li><a href="#exercise-2" id="toc-exercise-2" class="nav-link" data-scroll-target="#exercise-2"><span class="header-section-number">1.9</span> Exercise 2</a></li>
-  <li>
-<a href="#troubleshooting-and-getting-help" id="toc-troubleshooting-and-getting-help" class="nav-link" data-scroll-target="#troubleshooting-and-getting-help"><span class="header-section-number">1.10</span> Troubleshooting and getting help</a>
-  <ul>
-<li><a href="#help-from-the-console-and-documentation" id="toc-help-from-the-console-and-documentation" class="nav-link" data-scroll-target="#help-from-the-console-and-documentation"><span class="header-section-number">1.10.1</span> Help from the console and documentation</a></li>
-  </ul>
-</li>
-  <li><a href="#generative-ai-as-a-support-tool" id="toc-generative-ai-as-a-support-tool" class="nav-link" data-scroll-target="#generative-ai-as-a-support-tool"><span class="header-section-number">1.11</span> Generative AI as a support tool</a></li>
-  <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3"><span class="header-section-number">1.12</span> Exercise 3</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.13</span> Summary</a></li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/R_overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/R_overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./R_overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./R_overview.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></a></li></ol></nav>
+<div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span id="sec-R_overview" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source" data-quarto-source-url="https://github.com/tbep-tech/swfwmd-r-training/blob/main/R_overview.qmd"><i class="bi"></i> Code</button></div></div>
 </div>
 
@@ -269,26 +278,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Get the lesson R script: <a href="R_overview.R">R_overview.R</a></p>
+</header>
+
+
+<p>Get the lesson R script: <a href="R_overview.R">R_overview.R</a></p>
 <p>Get the lesson data: <a href="data/data.zip">download zip</a></p>
-<section id="lesson-outline" class="level2" data-number="1.1"><h2 data-number="1.1" class="anchored" data-anchor-id="lesson-outline">
-<span class="header-section-number">1.1</span> Lesson Outline</h2>
+<section id="lesson-outline" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="lesson-outline"><span class="header-section-number">1.1</span> Lesson Outline</h2>
 <ul>
 <li><a href="#goals-and-framing">Goals and framing</a></li>
-<li><a href="#why-this-training-is-different">Why this training is different</a></li>
+<li>[Why this training is different]</li>
 <li><a href="#project-oriented-workflow-in-rstudio">Project-oriented workflow in RStudio</a></li>
-<li><a href="#working-with-scripts-from-colleagues">Working with scripts from colleagues</a></li>
+<li>[Working with scripts from colleagues]</li>
 <li><a href="#accessing-swfwmd-data">Accessing SWFWMD data</a></li>
 <li><a href="#troubleshooting-and-getting-help">Troubleshooting and getting help</a></li>
 <li><a href="#generative-ai-as-a-support-tool">Generative AI as a support tool</a></li>
-</ul></section><section id="lesson-exercises" class="level2" data-number="1.2"><h2 data-number="1.2" class="anchored" data-anchor-id="lesson-exercises">
-<span class="header-section-number">1.2</span> Lesson Exercises</h2>
+</ul>
+</section>
+<section id="lesson-exercises" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="lesson-exercises"><span class="header-section-number">1.2</span> Lesson Exercises</h2>
 <ul>
 <li><a href="#exercise-1">Exercise 1</a></li>
 <li><a href="#exercise-2">Exercise 2</a></li>
 <li><a href="#exercise-3">Exercise 3</a></li>
-</ul></section><section id="goals-and-framing" class="level2" data-number="1.3"><h2 data-number="1.3" class="anchored" data-anchor-id="goals-and-framing">
-<span class="header-section-number">1.3</span> Goals and framing</h2>
+</ul>
+</section>
+<section id="goals-and-framing" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="goals-and-framing"><span class="header-section-number">1.3</span> Goals and framing</h2>
 <p><a href="https://www.r-project.org/" target="_blank">R</a> is a language for statistical computing and general purpose programming. It is one of the best languages for data science and analysis.</p>
 <p>This training is not intended to teach R from the ground up. Instead, it is meant for participants who can already run code in RStudio and want to become more effective using R for day-to-day work. The emphasis is on reproducible workflows, understanding inherited scripts, troubleshooting errors, and building confidence with realistic analysis tasks.</p>
 <p>You should be able to answer these questions at the end of this session:</p>
@@ -299,21 +315,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>How can I bring external data into a project and inspect it quickly?</li>
 <li>Where can I go for help?</li>
 <li>How can AI help me troubleshoot without replacing the learning process?</li>
-</ul></section><section id="why-this-training-is-different" class="level2" data-number="1.4"><h2 data-number="1.4" class="anchored" data-anchor-id="why-this-training-is-different">
-<span class="header-section-number">1.4</span> Why this training is different</h2>
-<p>The original CERF workshop that this repository was modeled on was designed for beginners. This workshop has a different audience. Participants already have some experience with R and will likely be using scripts they received from colleagues, shared examples, or past projects. The key challenge is often not writing code from scratch, but figuring out:</p>
-<ul>
-<li>what a script is trying to do,</li>
-<li>why it fails,</li>
-<li>how to adapt it safely, and</li>
-<li>how to organize work so those problems are easier to solve next time.</li>
 </ul>
-<p>For that reason, this opening lesson focuses on workflow and troubleshooting rather than basic syntax.</p>
-</section><section id="project-oriented-workflow-in-rstudio" class="level2" data-number="1.5"><h2 data-number="1.5" class="anchored" data-anchor-id="project-oriented-workflow-in-rstudio">
-<span class="header-section-number">1.5</span> Project-oriented workflow in RStudio</h2>
+</section>
+<section id="project-oriented-workflow-in-rstudio" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="project-oriented-workflow-in-rstudio"><span class="header-section-number">1.4</span> Project-oriented workflow in RStudio</h2>
 <p><a href="https://posit.co/download/rstudio-desktop/" target="_blank">RStudio</a> remains the primary teaching environment for this workshop. It gives you one place to write scripts, run code, inspect objects, review files, and view plots. For professional work, the most important habit is not simply knowing where the panes are, but using RStudio in a way that makes your projects portable and understandable.</p>
-<section id="why-projects-matter" class="level3" data-number="1.5.1"><h3 data-number="1.5.1" class="anchored" data-anchor-id="why-projects-matter">
-<span class="header-section-number">1.5.1</span> Why projects matter</h3>
+<section id="why-projects-matter" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="why-projects-matter"><span class="header-section-number">1.4.1</span> Why projects matter</h3>
 <p>An RStudio Project gives a single home for data, scripts, figures, and outputs associated with one analysis. This matters because many frustrating R problems are really project management problems:</p>
 <ul>
 <li>file not found errors from incorrect paths,</li>
@@ -325,38 +333,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="figs/R_overview/rstudio.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figs/R_overview/rstudio.png" class="img-fluid"></a></p>
 <p>There are four panes in RStudio:</p>
 <ul>
-<li>
-<strong>Source</strong>: Your primary window for writing code to send to the console, this is where you write and save R “scripts” for your code</li>
-<li>
-<strong>Console</strong>: This is where code from your scripts is executed in R - you will typically not write code here</li>
-<li>
-<strong>Environment, History, etc.</strong>: A tabbed window showing your working environment, code execution history, and other useful things</li>
-<li>
-<strong>Files, plots, etc.</strong>: A tabbed window showing a file explorer, a plot window, list of installed packages, help files, and viewer</li>
-</ul></section><section id="rstudio-projects" class="level3" data-number="1.5.2"><h3 data-number="1.5.2" class="anchored" data-anchor-id="rstudio-projects">
-<span class="header-section-number">1.5.2</span> RStudio projects</h3>
+<li><strong>Source</strong>: Your primary window for writing code to send to the console, this is where you write and save R “scripts” for your code</li>
+<li><strong>Console</strong>: This is where code from your scripts is executed in R - you will typically not write code here</li>
+<li><strong>Environment, History, etc.</strong>: A tabbed window showing your working environment, code execution history, and other useful things</li>
+<li><strong>Files, plots, etc.</strong>: A tabbed window showing a file explorer, a plot window, list of installed packages, help files, and viewer</li>
+</ul>
+</section>
+<section id="rstudio-projects" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="rstudio-projects"><span class="header-section-number">1.4.2</span> RStudio projects</h3>
 <p>It is good practice to start each new task in a fresh project. The project directory becomes the working context for your analysis and should usually contain subfolders for raw data, scripts, derived outputs, and figures.</p>
 <p>To create a new project, click on the File menu at the top left and select ‘New project…’</p>
 <p><a href="figs/R_overview/rstudio_proj.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figs/R_overview/rstudio_proj.jpg" class="img-fluid"></a></p>
 <p>Now we can use this project for our data and any scripts we create.</p>
-</section><section id="relative-paths-and-folder-structure" class="level3" data-number="1.5.3"><h3 data-number="1.5.3" class="anchored" data-anchor-id="relative-paths-and-folder-structure">
-<span class="header-section-number">1.5.3</span> Relative paths and folder structure</h3>
+</section>
+<section id="relative-paths-and-folder-structure" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="relative-paths-and-folder-structure"><span class="header-section-number">1.4.3</span> Relative paths and folder structure</h3>
 <p>Inside a project, your script should point to files relative to the project root:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># project-relative file paths</span></span>
-<span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"dat.csv"</span><span class="op">)</span></span>
-<span><span class="va">station_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"statloc.csv"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># project-relative file paths</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"dat.csv"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>station_file <span class="ot">&lt;-</span> <span class="fu">file.path</span>(<span class="st">"data"</span>, <span class="st">"statloc.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is preferable to absolute paths such as <code>C:/Users/name/Desktop/...</code>, which usually fail as soon as the code moves to a different computer or folder.</p>
-</section><section id="scripting" class="level3" data-number="1.5.4"><h3 data-number="1.5.4" class="anchored" data-anchor-id="scripting">
-<span class="header-section-number">1.5.4</span> Scripting</h3>
+</section>
+<section id="scripting" class="level3" data-number="1.4.4">
+<h3 data-number="1.4.4" class="anchored" data-anchor-id="scripting"><span class="header-section-number">1.4.4</span> Scripting</h3>
 <p>In most cases, you should write code in scripts and send it to the console as needed. A saved script is easier to share, troubleshoot, review, and reuse than code typed interactively into the console and lost when the session closes.</p>
 <p>Open a new script from the File menu:</p>
 <p><a href="figs/R_overview/rstudio_script.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figs/R_overview/rstudio_script.jpg" class="img-fluid"></a></p>
 <p>After you write code in your script, use the <code>Run</code> button or <code>ctrl+enter</code> (<code>cmd+enter</code> on a Mac) to send lines to the console.</p>
 <p><a href="figs/R_overview/rstudio_run.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="figs/R_overview/rstudio_run.jpg" class="img-fluid"></a></p>
-</section></section><section id="exercise-1" class="level2" data-number="1.6"><h2 data-number="1.6" class="anchored" data-anchor-id="exercise-1">
-<span class="header-section-number">1.6</span> Exercise 1</h2>
+</section>
+</section>
+<section id="exercise-1" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="exercise-1"><span class="header-section-number">1.5</span> Exercise 1</h2>
 <p>This exercise sets up the project structure for the rest of the workshop.</p>
 <ol type="1">
 <li><p>Start RStudio on your computer.</p></li>
@@ -365,49 +375,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Create a new script in the Source pane and save it as <code>scripts\workflow_notes.R</code>.</p></li>
 <li><p>Add a short header comment to the file that explains what the script is for.</p></li>
 <li><p>Download the training zip file <a href="data/data.zip">here</a>, extract it, and copy the provided data into your project <code>data</code> folder.</p></li>
-</ol></section><section id="working-with-scripts-from-colleagues" class="level2" data-number="1.7"><h2 data-number="1.7" class="anchored" data-anchor-id="working-with-scripts-from-colleagues">
-<span class="header-section-number">1.7</span> Working with scripts from colleagues</h2>
-<p>Many participants in this workshop already use R by modifying scripts they received from others. That is a realistic and productive way to work, but it also creates a common failure mode: a script appears opaque until you know how to read it.</p>
-<p>A good first pass through an inherited script is to answer four questions:</p>
-<ol type="1">
-<li>What packages are loaded?</li>
-<li>What files are imported?</li>
-<li>What objects are created or modified?</li>
-<li>What outputs are produced?</li>
 </ol>
-<p>The point is not to understand every detail at once. The point is to locate the major stages of the workflow and identify where the code depends on your local setup.</p>
-<section id="a-simple-review-workflow" class="level3" data-number="1.7.1"><h3 data-number="1.7.1" class="anchored" data-anchor-id="a-simple-review-workflow">
-<span class="header-section-number">1.7.1</span> A simple review workflow</h3>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">data_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"dat.csv"</span><span class="op">)</span></span>
-<span><span class="va">station_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="st">"data"</span>, <span class="st">"statloc.csv"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">data_file</span><span class="op">)</span></span>
-<span><span class="va">statloc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">station_file</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 144
-Columns: 3
-$ Date    &lt;date&gt; 2020-01-01, 2020-02-01, 2020-03-01, 2020-04-01, 2020-05-01, 2…
-$ Station &lt;chr&gt; "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A", "A…
-$ Value   &lt;dbl&gt; 9.57, 9.48, 9.67, 12.11, 9.62, 5.51, 11.00, 9.20, 9.35, 10.35,…</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">statloc</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rows: 3
-Columns: 3
-$ Station   &lt;chr&gt; "A", "B", "C"
-$ Longitude &lt;dbl&gt; -82.45, -82.50, -82.40
-$ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
-</div>
-</div>
-<p>The combination of <code><a href="https://rdrr.io/r/base/file.path.html">file.path()</a></code>, <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code>, and <code><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse()</a></code> gets you surprisingly far when you are trying to understand what a script expects and what kind of data it is using.</p>
-</section></section><section id="accessing-swfwmd-data" class="level2" data-number="1.8"><h2 data-number="1.8" class="anchored" data-anchor-id="accessing-swfwmd-data">
-<span class="header-section-number">1.8</span> Accessing SWFWMD data</h2>
-<p>One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD data portal and then use those data in later wrangling, plotting, and spatial examples.</p>
+</section>
+<section id="accessing-swfwmd-data" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="accessing-swfwmd-data"><span class="header-section-number">1.6</span> Accessing SWFWMD data</h2>
+<p>One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD <a href="https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal" target="_blank">Environmetnal Data Portal</a> and then use those data in later wrangling, plotting, and spatial examples.</p>
 <p>For now, think of portal access as another data import step. The main ideas are:</p>
 <ul>
 <li>build a request URL carefully,</li>
@@ -415,32 +387,168 @@ $ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
 <li>inspect the structure immediately,</li>
 <li>and save or reuse the result in later steps of the workflow.</li>
 </ul>
-<p>An example URL pattern for requesting station metadata looks like this:</p>
+<p>For this workshop, we’ll be working with three different types of data, all of which are obtained from the SWFWMD data portal.</p>
+<ul>
+<li>Station metadata</li>
+<li>Station water quality data</li>
+<li>Station water levels</li>
+</ul>
+<p>These can be obtained by using a constructed web address (URL) with the information you like.</p>
+<p>An example URL pattern for requesting station metadata looks like this. I’ve separated it into parts for the example to better explain the request. The API has a URL generator <a href="https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681">here</a> that can create these requests.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">station_url</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span></span>
-<span>  <span class="st">"https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?"</span>,</span>
-<span>  <span class="st">"service=kisters&amp;type=queryServices&amp;request=getStationList"</span>,</span>
-<span>  <span class="st">"&amp;station_no=*&amp;datasource=0"</span>,</span>
-<span>  <span class="st">"&amp;returnfields=station_no,station_name,station_latitude,station_longitude"</span>,</span>
-<span>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">station_url</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>metaurl <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"service=kisters&amp;type=queryServices&amp;request=getStationList"</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;station_no=*&amp;datasource=0"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;returnfields=station_no,station_name,station_latitude,station_longitude,ca_sta"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;downloadfilename=Requested_Info_"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>metaurl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?service=kisters&amp;type=queryServices&amp;request=getStationList&amp;station_no=*&amp;datasource=0&amp;returnfields=station_no,station_name,station_latitude,station_longitude&amp;format=csv&amp;csvdiv=,"</code></pre>
+<pre><code>[1] "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?service=kisters&amp;type=queryServices&amp;request=getStationList&amp;station_no=*&amp;datasource=0&amp;returnfields=station_no,station_name,station_latitude,station_longitude,ca_sta&amp;format=csv&amp;csvdiv=,&amp;downloadfilename=Requested_Info_&amp;custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"</code></pre>
 </div>
 </div>
-<p>Later lessons can use a finalized portal example and a selected SWFWMD dataset as an anchor workflow for the rest of the training.</p>
-</section><section id="exercise-2" class="level2" data-number="1.9"><h2 data-number="1.9" class="anchored" data-anchor-id="exercise-2">
-<span class="header-section-number">1.9</span> Exercise 2</h2>
+<p>Entering this address in a web browser will download a csv file with the info you need. We can skip this step by importing it directly into R.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>metadat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(metaurl)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(metadat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  8 73</code></pre>
+</div>
+</div>
+<p>Our request returned information for 8 active stations (as rows) in Lake Panasoffkee. There’s also a bunch of columns (73 to be exact) that we probably don’t need, but we’ll deal with those later. For now, we’ll use the station numbers (<code>station_no</code>) to retrieve water quality data and lake levels using another request.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> metadat<span class="sc">$</span>station_no</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>wqurl <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;service=kisters&amp;type=queryServices"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getWqmSampleValues"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;station_no="</span>, <span class="fu">paste</span>(stations, <span class="at">collapse =</span> <span class="st">','</span>),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wqurl)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wqdat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  station_no       station_name parametertype_shortname parametertype_name
+1      23113 Lake Panasoffkee 7                   WQ_79 Alkalinity (CaCO3)
+2      23113 Lake Panasoffkee 7                   WQ_79 Alkalinity (CaCO3)
+3      23113 Lake Panasoffkee 7                   WQ_79 Alkalinity (CaCO3)
+4      23113 Lake Panasoffkee 7                   WQ_79 Alkalinity (CaCO3)
+5      23113 Lake Panasoffkee 7                   WQ_79 Alkalinity (CaCO3)
+6      23113 Lake Panasoffkee 7                   WQ_79 Alkalinity (CaCO3)
+            timestamp value unit_symbol
+1 2000-11-08 11:30:00  73.0        mg/l
+2 2000-11-08 11:30:00  73.0        mg/l
+3 2000-12-07 11:20:00  88.7        mg/l
+4 2000-12-07 11:20:00  88.7        mg/l
+5 2001-01-10 11:00:00 118.0        mg/l
+6 2001-01-10 11:00:00 119.0        mg/l</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wqdat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 51931     7</code></pre>
+</div>
+</div>
+<p>The data we retrieved did not include all stations. Only those with water quality data were returned. Just keep that in mind when retrieving data. It may not be immediately obviuous that your request did not return data until you actually look at the results.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(stations, <span class="fu">unique</span>(wqdat<span class="sc">$</span>station_no))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1035944   23156   23142</code></pre>
+</div>
+</div>
+<p>The last data request is for water level data. These differ from the water quality data because they’re “continuous” in time, i.e., time series data, as opposed to “discrete” water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved. The requests also use a <code>ts_path</code>: something/station number/something else. I don’t know what this… I hope you do.</p>
+<p>This requests data for station 1035944.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>wlurl1 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0&amp;service=kisters"</span>, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;type=queryServices"</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getTimeseriesValues"</span>, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;ts_path=362/1035944/236/Day.Mean.NAVD88.Published"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;returnfields=Timestamp,Value&amp;metadata=TRUE"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;md_returnfields=station_no,station_name,ts_unitsymbol"</span>,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span>, </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;timezone=individual"</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>wldat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl1)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 445   2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         X.station_no                   X1035944
+1       #station_name Lake Panasoffkee at CR 455
+2      #ts_unitsymbol                         ft
+3               #rows                        441
+4          #Timestamp                      Value
+5 2025-04-11 00:00:00                      38.94
+6 2025-04-12 00:00:00                      38.95</code></pre>
+</div>
+</div>
+<p>This requests data for station 23142.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>wlurl2 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0&amp;service=kisters"</span>, </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;type=queryServices"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getTimeseriesValues"</span>, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;ts_path=1334/23142/236/Day.Mean.NAVD88.Published"</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;returnfields=Timestamp,Value&amp;metadata=TRUE"</span>,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;md_returnfields=station_no,station_name,ts_unitsymbol"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span>, </span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;timezone=individual"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>wldat2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl2)</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 7512    2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         X.station_no                  X23142
+1       #station_name Pana Vista Outlet River
+2      #ts_unitsymbol                      ft
+3               #rows                    7508
+4          #Timestamp                   Value
+5 2005-12-05 00:00:00                   39.16
+6 2005-12-06 00:00:00                   39.17</code></pre>
+</div>
+</div>
+<p>None of the data we requested is ready for analysis. Not only do we need to define what we want to do, but we also need to clean it up (wrangle) based on the needs of the analysis. We’ll deal with that later. For now, we can save the results to retrieve them later.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(metadat, <span class="st">"data/metadat.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wqdat, <span class="st">"data/wqdat.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat1, <span class="st">"data/wldat1.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat2, <span class="st">"data/wldat2.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="exercise-2" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="exercise-2"><span class="header-section-number">1.7</span> Exercise 2</h2>
 <p>Use the project you created in Exercise 1 and inspect the example data.</p>
 <ol type="1">
 <li><p>Load <code>tidyverse</code>.</p></li>
-<li><p>Import <code>dat.csv</code> and <code>statloc.csv</code> using relative file paths.</p></li>
-<li><p>Use <code><a href="https://rdrr.io/r/base/names.html">names()</a></code>, <code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, or <code><a href="https://pillar.r-lib.org/reference/glimpse.html">glimpse()</a></code> to inspect each dataset.</p></li>
+<li><p>Import <code>metadat.csv</code> and <code>wqdat.csv</code> using relative file paths.</p></li>
+<li><p>Use <code>names()</code>, <code>dim()</code>, <code>head()</code>, or <code>glimpse()</code> to inspect each dataset.</p></li>
 <li><p>Write two or three short notes in your script about what each file appears to contain and how it might be used later in the workflow.</p></li>
-</ol></section><section id="troubleshooting-and-getting-help" class="level2" data-number="1.10"><h2 data-number="1.10" class="anchored" data-anchor-id="troubleshooting-and-getting-help">
-<span class="header-section-number">1.10</span> Troubleshooting and getting help</h2>
+</ol>
+</section>
+<section id="troubleshooting-and-getting-help" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="troubleshooting-and-getting-help"><span class="header-section-number">1.8</span> Troubleshooting and getting help</h2>
 <p>Troubleshooting is a core skill for this workshop. Before changing code, make the problem smaller and more specific. Useful first checks include:</p>
 <ul>
 <li>Does the file path exist?</li>
@@ -450,18 +558,20 @@ $ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
 <li>Is the code failing because the input data are different than expected?</li>
 </ul>
 <p>Many problems become much easier once you inspect the object directly instead of guessing what it contains.</p>
-<section id="help-from-the-console-and-documentation" class="level3" data-number="1.10.1"><h3 data-number="1.10.1" class="anchored" data-anchor-id="help-from-the-console-and-documentation">
-<span class="header-section-number">1.10.1</span> Help from the console and documentation</h3>
+<section id="help-from-the-console-and-documentation" class="level3" data-number="1.8.1">
+<h3 data-number="1.8.1" class="anchored" data-anchor-id="help-from-the-console-and-documentation"><span class="header-section-number">1.8.1</span> Help from the console and documentation</h3>
 <p>Getting help from the console is straightforward:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">?</span><span class="va">read_csv</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
-<span><span class="op">?</span><span class="op">?</span><span class="va">mutate</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>?read_csv</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">"dplyr"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>??mutate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You should also get comfortable with package websites, vignettes, and worked examples. Searching the exact error message is often more effective than searching a vague description of the problem.</p>
-</section></section><section id="generative-ai-as-a-support-tool" class="level2" data-number="1.11"><h2 data-number="1.11" class="anchored" data-anchor-id="generative-ai-as-a-support-tool">
-<span class="header-section-number">1.11</span> Generative AI as a support tool</h2>
-<p>Generative AI can be genuinely useful for this audience, especially when you need help understanding an inherited script or unpacking an error message. In many cases it is faster than a web search for:</p>
+</section>
+</section>
+<section id="generative-ai-as-a-support-tool" class="level2" data-number="1.9">
+<h2 data-number="1.9" class="anchored" data-anchor-id="generative-ai-as-a-support-tool"><span class="header-section-number">1.9</span> Generative AI as a support tool</h2>
+<p>Generative AI can be genuinely useful for data science, especially when you need help understanding an inherited script or unpacking an error message. In many cases it is faster than a web search for:</p>
 <ul>
 <li>explaining what a script is doing step by step,</li>
 <li>suggesting why an error occurred,</li>
@@ -475,20 +585,27 @@ $ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
 <li>Ask it to explain before asking it to rewrite.</li>
 <li>Verify every suggested fix.</li>
 <li>Never paste sensitive or proprietary information into a public tool.</li>
-</ul></section><section id="exercise-3" class="level2" data-number="1.12"><h2 data-number="1.12" class="anchored" data-anchor-id="exercise-3">
-<span class="header-section-number">1.12</span> Exercise 3</h2>
-<p>Use a short script from this lesson or one of your own and practice a structured review.</p>
+</ul>
+</section>
+<section id="exercise-3" class="level2" data-number="1.10">
+<h2 data-number="1.10" class="anchored" data-anchor-id="exercise-3"><span class="header-section-number">1.10</span> Exercise 3</h2>
+<p>Use a short script from this lesson or one of your own and practice a structured review. If you can access a generative AI tool, you can use that to help dissect the script. Try looking at the <a href="R_overview.R">R_overview.R</a> file or one of your own if you prefer.</p>
 <ol type="1">
 <li><p>Identify which packages it loads.</p></li>
 <li><p>Identify which files it expects.</p></li>
 <li><p>Identify the main objects it creates.</p></li>
 <li><p>If something fails, write down the exact error and list the first two things you would inspect before changing the code.</p></li>
-</ol></section><section id="summary" class="level2" data-number="1.13"><h2 data-number="1.13" class="anchored" data-anchor-id="summary">
-<span class="header-section-number">1.13</span> Summary</h2>
-<p>In this lesson we reframed the workshop around reproducible workflow rather than basic syntax. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully before changing code. Next, we can build on that foundation with data wrangling tasks that move from clear toy examples into SWFWMD-style workflows.</p>
+</ol>
+</section>
+<section id="summary" class="level2" data-number="1.11">
+<h2 data-number="1.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.11</span> Summary</h2>
+<p>In this lesson we framed the workshop around a reproducible workflow and imported data we’ll use later. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.</p>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -938,7 +1055,9 @@ $ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="./index.html" class="pagination-link" aria-label="About this Training">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">About this Training</span>
       </a>          
@@ -950,7 +1069,8 @@ $ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <p>Website created by the instructor, with attribution to external content</p>
 </div>   
@@ -961,7 +1081,8 @@ $ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
 <p>This book was built with <a href="https://quarto.org/" target="_blank">Quarto</a></p>
 </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
@@ -993,6 +1114,8 @@ $ Latitude  &lt;dbl&gt; 27.95, 28.00, 27.90</code></pre>
   
 })();
           </script>
+
+
 
 
 </body></html>

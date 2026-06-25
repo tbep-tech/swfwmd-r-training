@@ -1,26 +1,31 @@
-# Data wrangling part 1 lesson script
-# SWFWMD R Training
+# # install
+# install.packages('tidyverse')
 
+# load
 library(tidyverse)
 
-# ---- Import data ----
+# import the data
 dat <- read_csv('data/dat.csv')
+
+# see first six rows
 head(dat)
+
+# dimensions
 dim(dat)
+
+# column names
 names(dat)
+
+# structure
 str(dat)
 
-# ---- Selecting ----
-
-# select some columns
+# first, select some columns
 dplyr_sel1 <- select(dat, Date, Station, Value)
 head(dplyr_sel1)
 
-# select everything but Notes
-dplyr_sel2 <- select(dat, -Notes)
+# select everything but a column
+dplyr_sel2 <- select(dat, -Value)
 head(dplyr_sel2)
-
-# ---- Filtering ----
 
 # filter observations with high values
 dplyr_high <- filter(dat, Value > 10)
@@ -30,13 +35,21 @@ head(dplyr_high)
 dplyr_sta <- filter(dat, Station == 'A')
 head(dplyr_sta)
 
-# combining filters
+# get rows with values between 5 and 20
 filt1 <- filter(dat, Value > 5 & Value < 20)
-filt2 <- filter(dat, Station == 'A' & Value > 10)
-filt3 <- filter(dat, Station == 'A' | Station == 'B')
-filt4 <- filter(dat, Station %in% c('A', 'B'))
+head(filt1)
 
-# ---- Mutating ----
+# get rows from station A with values > 10
+filt2 <- filter(dat, Station == 'A' & Value > 10)
+head(filt2)
+
+# get rows from station A or B
+filt3 <- filter(dat, Station == 'A' | Station == 'B')
+head(filt3)
+
+# get rows from station A or B using different syntax
+filt4 <- filter(dat, Station %in% c('A', 'B'))
+head(filt4)
 
 # add a new column
 dplyr_mut1 <- mutate(dat, dumb_column = 1)
@@ -58,26 +71,29 @@ head(dplyr_arr)
 dplyr_rnm <- rename(dat, date = Date)
 head(dplyr_rnm)
 
-# ---- Exercise 4 ----
-ex1 <- select(dat, Date, Station, Value)
-ex1 <- filter(ex1, Station == 'A')
-ex1 <- rename(ex1, date = Date)
-head(ex1)
+# ex1 <- select(dat, Date, Station, Value)
+# ex1 <- filter(ex1, Station == 'A')
+# ex1 <- rename(ex1, date = Date)
+# head(ex1)
 
-# ---- Piping ----
+# cropdat <- rawdat[1:28]
+# savecols <- data.frame(cropdat$Party, cropdat$`Last Inventory Year (2015)`)
+# names(savecols) <- c('Party','2015')
+# savecols$rank2015 <- rank(-savecols$`2015`)
+# top10df <- savecols[savecols$rank2015 <= 10,]
+# basedat <- cropdat[cropdat$Party %in% top10df$Party,]
 
-# not using pipes
+# not using pipes, select a column, filter rows
 bad_ex <- select(dat, Station, Value)
 bad_ex2 <- filter(bad_ex, Value > 10)
 
-# with pipes
+# with pipes, select a column, filter rows
 good_ex <- dat |> 
   select(Station, Value) |>
   filter(Value > 10)
 
-# ---- Exercise 5 ----
-ex2 <- dat |> 
-  select(Date, Station, Value) |> 
-  filter(Station == 'A') |> 
-  rename(date = Date)
-head(ex2)
+# ex2 <- dat |>
+#   select(Date, Station, Value) |>
+#   filter(Station == 'A') |>
+#   rename(date = Date)
+# head(ex2)

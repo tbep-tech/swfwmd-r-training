@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.9.38">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>2&nbsp; Data wrangling part 1 – Introduction to R</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -54,6 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -65,18 +72,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./R_overview.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-75f02de4d0792729241189e21b3d3496.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e1dc7c06b84616ffc65b98f43969cebb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -103,11 +110,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+
+
 </head>
+
 <body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -118,11 +130,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Introduction to R</a> 
         <div class="sidebar-tools-main">
@@ -142,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About this Training</span></a>
@@ -156,8 +170,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span></a>
@@ -188,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
@@ -197,8 +211,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup for the training</span></span></a>
@@ -211,36 +225,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#lesson-outline" id="toc-lesson-outline" class="nav-link active" data-scroll-target="#lesson-outline"><span class="header-section-number">2.1</span> Lesson Outline</a></li>
+  <li><a href="#lesson-outline" id="toc-lesson-outline" class="nav-link active" data-scroll-target="#lesson-outline"><span class="header-section-number">2.1</span> Lesson Outline</a></li>
   <li><a href="#lesson-exercises" id="toc-lesson-exercises" class="nav-link" data-scroll-target="#lesson-exercises"><span class="header-section-number">2.2</span> Lesson Exercises</a></li>
   <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals"><span class="header-section-number">2.3</span> Goals</a></li>
   <li><a href="#the-tidyverse" id="toc-the-tidyverse" class="nav-link" data-scroll-target="#the-tidyverse"><span class="header-section-number">2.4</span> The tidyverse</a></li>
-  <li>
-<a href="#data-wrangling-with-dplyr" id="toc-data-wrangling-with-dplyr" class="nav-link" data-scroll-target="#data-wrangling-with-dplyr"><span class="header-section-number">2.5</span> Data wrangling with <code>dplyr</code></a>
+  <li><a href="#data-wrangling-with-dplyr" id="toc-data-wrangling-with-dplyr" class="nav-link" data-scroll-target="#data-wrangling-with-dplyr"><span class="header-section-number">2.5</span> Data wrangling with <code>dplyr</code></a>
   <ul>
-<li><a href="#selecting" id="toc-selecting" class="nav-link" data-scroll-target="#selecting"><span class="header-section-number">2.5.1</span> Selecting</a></li>
+  <li><a href="#selecting" id="toc-selecting" class="nav-link" data-scroll-target="#selecting"><span class="header-section-number">2.5.1</span> Selecting</a></li>
   <li><a href="#filtering" id="toc-filtering" class="nav-link" data-scroll-target="#filtering"><span class="header-section-number">2.5.2</span> Filtering</a></li>
   <li><a href="#mutating" id="toc-mutating" class="nav-link" data-scroll-target="#mutating"><span class="header-section-number">2.5.3</span> Mutating</a></li>
-  </ul>
-</li>
+  </ul></li>
   <li><a href="#exercise-4" id="toc-exercise-4" class="nav-link" data-scroll-target="#exercise-4"><span class="header-section-number">2.6</span> Exercise 4</a></li>
   <li><a href="#piping" id="toc-piping" class="nav-link" data-scroll-target="#piping"><span class="header-section-number">2.7</span> Piping</a></li>
   <li><a href="#exercise-5" id="toc-exercise-5" class="nav-link" data-scroll-target="#exercise-5"><span class="header-section-number">2.8</span> Exercise 5</a></li>
   <li><a href="#next-time" id="toc-next-time" class="nav-link" data-scroll-target="#next-time"><span class="header-section-number">2.9</span> Next time</a></li>
   <li><a href="#attribution" id="toc-attribution" class="nav-link" data-scroll-target="#attribution"><span class="header-section-number">2.10</span> Attribution</a></li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/data_wrangling_1.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/data_wrangling_1.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./data_wrangling_1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data wrangling part 1</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./data_wrangling_1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data wrangling part 1</span></a></li></ol></nav>
+<div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span id="sec-data_wrangling_1" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data wrangling part 1</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button" data-quarto-source-url="https://github.com/tbep-tech/swfwmd-r-training/blob/main/data_wrangling_1.qmd">View Source</a></li></ul></div></div>
 </div>
 
@@ -255,22 +273,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Get the lesson R script: <a href="data_wrangling_1.R">data_wrangling_1.R</a></p>
+</header>
+
+
+<p>Get the lesson R script: <a href="data_wrangling_1.R">data_wrangling_1.R</a></p>
 <p>Get the lesson data: <a href="data/data.zip">download zip</a></p>
-<section id="lesson-outline" class="level2" data-number="2.1"><h2 data-number="2.1" class="anchored" data-anchor-id="lesson-outline">
-<span class="header-section-number">2.1</span> Lesson Outline</h2>
+<section id="lesson-outline" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="lesson-outline"><span class="header-section-number">2.1</span> Lesson Outline</h2>
 <ul>
 <li><a href="#goals">Goals</a></li>
 <li><a href="#the-tidyverse">The tidyverse</a></li>
 <li><a href="#data-wrangling-with-dplyr">Data wrangling with <code>dplyr</code></a></li>
 <li><a href="#piping">Piping</a></li>
-</ul></section><section id="lesson-exercises" class="level2" data-number="2.2"><h2 data-number="2.2" class="anchored" data-anchor-id="lesson-exercises">
-<span class="header-section-number">2.2</span> Lesson Exercises</h2>
+</ul>
+</section>
+<section id="lesson-exercises" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="lesson-exercises"><span class="header-section-number">2.2</span> Lesson Exercises</h2>
 <ul>
 <li><a href="#exercise-4">Exercise 4</a></li>
 <li><a href="#exercise-5">Exercise 5</a></li>
-</ul></section><section id="goals" class="level2" data-number="2.3"><h2 data-number="2.3" class="anchored" data-anchor-id="goals">
-<span class="header-section-number">2.3</span> Goals</h2>
+</ul>
+</section>
+<section id="goals" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="goals"><span class="header-section-number">2.3</span> Goals</h2>
 <p>Data wrangling (cleaning, manipulation, ninjery, etc.) is the part of any data analysis that will take the most time. While it may not be fun, it is necessary for the work that follows. I strongly believe that mastering these skills has more value than mastering a particular analysis. Check out <a href="https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html" target="_blank">this article</a> if you don’t believe me.</p>
 <p>We’ll have two hours to cover parts 1 and 2 of data wrangling. It’s unrealistic to expect that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what’s possible. I’ll also provide resources that you can use for follow-up learning on your own.</p>
 <p>After this lesson you should be able to answer (or be able to find answers to) the following:</p>
@@ -279,20 +304,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>What is the tidyverse?</li>
 <li>What can you do with dplyr?</li>
 <li>What is piping?</li>
-</ul></section><section id="the-tidyverse" class="level2" data-number="2.4"><h2 data-number="2.4" class="anchored" data-anchor-id="the-tidyverse">
-<span class="header-section-number">2.4</span> The tidyverse</h2>
+</ul>
+</section>
+<section id="the-tidyverse" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="the-tidyverse"><span class="header-section-number">2.4</span> The tidyverse</h2>
 <p>The <a href="https://www.tidyverse.org/" target="_blank">tidyverse</a> is a set of packages that work in harmony because they share common data representations and design. The tidyverse package is designed to make it easy to install and load core packages from the tidyverse in a single command. With tidyverse, you’ll be able to address all steps of data exploration.</p>
 <p><a href="figs/data_wrangling_1/data-science.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figs/data_wrangling_1/data-science.png" class="img-fluid"></a></p>
 <p>From the excellent book, <a href="https://r4ds.hadley.nz/" target="_blank">R for Data Science</a> (2nd Ed.), <strong>data exploration</strong> is the art of looking at your data, rapidly generating hypotheses, quickly testing them, then repeating again and again and again. Tools in the tidyverse also have direct application to more formal analyses with many of the other available R packages on <a href="https://cran.r-project.org/" target="_blank">CRAN</a>.</p>
 <p>You should already have the tidyverse installed, but let’s give it a go if you haven’t done this part yet:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># install</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'tidyverse'</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'tidyverse'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>After installation, we can load the package:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.2.1     ✔ readr     2.2.0
@@ -308,40 +335,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Notice that the messages you get after loading are a bit different from other packages. That’s because tidyverse is a package that manages other packages (this is the only package I know of that serves this function). Loading tidyverse will load all of the core packages:</p>
 <ul>
-<li>
-<a href="http://ggplot2.tidyverse.org" target="_blank">ggplot2</a>, for data visualisation.</li>
-<li>
-<a href="http://dplyr.tidyverse.org" target="_blank">dplyr</a>, for data manipulation.</li>
-<li>
-<a href="http://tidyr.tidyverse.org" target="_blank">tidyr</a>, for data tidying.</li>
-<li>
-<a href="http://readr.tidyverse.org" target="_blank">readr</a>, for data import.</li>
-<li>
-<a href="http://purrr.tidyverse.org" target="_blank">purrr</a>, for functional programming.</li>
-<li>
-<a href="http://tibble.tidyverse.org" target="_blank">tibble</a>, for tibbles, a modern re-imagining of data frames.</li>
-<li>
-<a href="http://stringr.tidyverse.org" target="_blank">stringr</a>, for working with text strings.</li>
-<li>
-<a href="http://forcats.tidyverse.org" target="_blank">forcats</a>, for working with factors.</li>
-<li>
-<a href="http://lubridate.tidyverse.org" target="_blank">lubridate</a>, for working with dates and times.</li>
+<li><a href="http://ggplot2.tidyverse.org" target="_blank">ggplot2</a>, for data visualisation.</li>
+<li><a href="http://dplyr.tidyverse.org" target="_blank">dplyr</a>, for data manipulation.</li>
+<li><a href="http://tidyr.tidyverse.org" target="_blank">tidyr</a>, for data tidying.</li>
+<li><a href="http://readr.tidyverse.org" target="_blank">readr</a>, for data import.</li>
+<li><a href="http://purrr.tidyverse.org" target="_blank">purrr</a>, for functional programming.</li>
+<li><a href="http://tibble.tidyverse.org" target="_blank">tibble</a>, for tibbles, a modern re-imagining of data frames.</li>
+<li><a href="http://stringr.tidyverse.org" target="_blank">stringr</a>, for working with text strings.</li>
+<li><a href="http://forcats.tidyverse.org" target="_blank">forcats</a>, for working with factors.</li>
+<li><a href="http://lubridate.tidyverse.org" target="_blank">lubridate</a>, for working with dates and times.</li>
 </ul>
 <p>Other packages (e.g., <code>readxl</code>) are also included but you will probably not use these as frequently.</p>
 <p>A nice feature of tidyverse is the ability to check for and install new versions of each package:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tidyverse.tidyverse.org/reference/tidyverse_update.html">tidyverse_update</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; The following packages are out of date:</span></span>
-<span><span class="co">#&gt;  * broom (0.4.0 -&gt; 0.4.1)</span></span>
-<span><span class="co">#&gt;  * DBI   (0.4.1 -&gt; 0.5)</span></span>
-<span><span class="co">#&gt;  * Rcpp  (0.12.6 -&gt; 0.12.7)</span></span>
-<span><span class="co">#&gt; Update now?</span></span>
-<span><span class="co">#&gt;</span></span>
-<span><span class="co">#&gt; 1: Yes</span></span>
-<span><span class="co">#&gt; 2: No</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidyverse_update</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; The following packages are out of date:</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  * broom (0.4.0 -&gt; 0.4.1)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  * DBI   (0.4.1 -&gt; 0.5)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  * Rcpp  (0.12.6 -&gt; 0.12.7)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Update now?</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1: Yes</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2: No</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>As you’ll soon learn using R, there are often several ways to achieve the same goal. The tidyverse provides tools to address problems that can be solved with other packages or even functions from the base installation. Tidyverse is admittedly an <em>opinionated</em> approach to data exploration, but it’s popularity and rapid growth within the R community is a testament to the power of the tools that are provided.</p>
-</section><section id="data-wrangling-with-dplyr" class="level2" data-number="2.5"><h2 data-number="2.5" class="anchored" data-anchor-id="data-wrangling-with-dplyr">
-<span class="header-section-number">2.5</span> Data wrangling with <code>dplyr</code>
-</h2>
+</section>
+<section id="data-wrangling-with-dplyr" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="data-wrangling-with-dplyr"><span class="header-section-number">2.5</span> Data wrangling with <code>dplyr</code></h2>
 <p><a href="figs/data_wrangling_1/data-science-wrangle.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figs/data_wrangling_1/data-science-wrangle.png" class="img-fluid"></a></p>
 <p>The data wrangling process includes data import, tidying, and transformation. The process directly feeds into, and is not mutually exclusive with, the <em>understanding</em> or modelling side of data exploration. More generally, I consider data wrangling as the manipulation or combination of datasets for the purpose of analysis.</p>
 <p>Wrangling begins with import and ends with an output of some kind, such as a plot or a model, but is more often a dataset that has been altered from a raw dataset to suit the needs of an analysis. In a perfect world, the wrangling process is linear with no need for back-tracking. In reality, we often uncover more information about a dataset, either through wrangling or modeling, that warrants re-evaluation or even gathering more data. Data also come in many forms and the form you need for analysis is rarely the required form of the input data. For these reasons, data wrangling will consume most of your time in data exploration.</p>
@@ -367,11 +385,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>I’ll demonstrate the examples with the training dataset from the last lesson.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># import the data</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'data/dat.csv'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># see first six rows</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import the data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/dat.csv'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># see first six rows</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -383,18 +401,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-05-01 A        9.62
 6 2020-06-01 A        5.51</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># dimensions</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dimensions</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 144   3</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># column names</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># column names</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Date"    "Station" "Value"  </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># structure</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># structure</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>spc_tbl_ [144 × 3] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
  $ Date   : Date[1:144], format: "2020-01-01" "2020-02-01" ...
@@ -406,16 +424,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ..   Station = col_character(),
   ..   Value = col_double()
   .. )
- - attr(*, "problems")=&lt;externalptr&gt; </code></pre>
+ - attr(*, "problems")=&lt;pointer: 0x563122b19ef0&gt; </code></pre>
 </div>
 </div>
-<section id="selecting" class="level3" data-number="2.5.1"><h3 data-number="2.5.1" class="anchored" data-anchor-id="selecting">
-<span class="header-section-number">2.5.1</span> Selecting</h3>
+<section id="selecting" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="selecting"><span class="header-section-number">2.5.1</span> Selecting</h3>
 <p>Let’s begin using dplyr. Don’t forget to load the tidyverse if you haven’t done so already. We can use the <code>select</code> function to, you guessed it, select columns.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># first, select some columns</span></span>
-<span><span class="va">dplyr_sel1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Date</span>, <span class="va">Station</span>, <span class="va">Value</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_sel1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first, select some columns</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>dplyr_sel1 <span class="ot">&lt;-</span> <span class="fu">select</span>(dat, Date, Station, Value)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_sel1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -427,9 +445,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-05-01 A        9.62
 6 2020-06-01 A        5.51</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># select everything but a column</span></span>
-<span><span class="va">dplyr_sel2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">dat</span>, <span class="op">-</span><span class="va">Value</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_sel2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select everything but a column</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>dplyr_sel2 <span class="ot">&lt;-</span> <span class="fu">select</span>(dat, <span class="sc">-</span>Value)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_sel2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 2
   Date       Station
@@ -442,13 +460,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6 2020-06-01 A      </code></pre>
 </div>
 </div>
-</section><section id="filtering" class="level3" data-number="2.5.2"><h3 data-number="2.5.2" class="anchored" data-anchor-id="filtering">
-<span class="header-section-number">2.5.2</span> Filtering</h3>
+</section>
+<section id="filtering" class="level3" data-number="2.5.2">
+<h3 data-number="2.5.2" class="anchored" data-anchor-id="filtering"><span class="header-section-number">2.5.2</span> Filtering</h3>
 <p>After selecting columns, you’ll probably want to remove observations that don’t fit some criteria. For example, maybe you want to remove all rows with low values or maybe you want to look only at data from a specific station.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter observations with high values</span></span>
-<span><span class="va">dplyr_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Value</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_high</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter observations with high values</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dplyr_high <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, Value <span class="sc">&gt;</span> <span class="dv">10</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_high)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -460,9 +479,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-12-01 A        13.5
 6 2021-01-01 A        12.0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># filter observations for a specific station</span></span>
-<span><span class="va">dplyr_sta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Station</span> <span class="op">==</span> <span class="st">'A'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_sta</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter observations for a specific station</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>dplyr_sta <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, Station <span class="sc">==</span> <span class="st">'A'</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_sta)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -477,13 +496,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Filtering can take a bit of time to master because there are several ways to tell R what you want. Within the filter function, the working part is a <em>logical selection</em> of <code>TRUE</code> and <code>FALSE</code> values that are used to select rows (<code>TRUE</code> means I want that row, <code>FALSE</code> means I don’t). Every selection within the filter function, no matter how complicated, will always be a T/F vector. This is similar to running queries on a database if you’re familiar with SQL.</p>
 <p>To use filtering effectively, you have to know how to select the observations you want using the comparison operators. R provides the standard suite: <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>!=</code> (not equal), and <code>==</code> (equal). When you’re starting out with R, the easiest mistake to make is to use <code>=</code> instead of <code>==</code> when testing for equality.</p>
-<p>Multiple logical selections to <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code> can be combined. Every expression must be true in order for a row to be included in the output. You’ll need to use Boolean operators: <code>&amp;</code> is “and”, <code>|</code> is “or”, and <code>!</code> is “not”. This is the complete set of Boolean operations.</p>
+<p>Multiple logical selections to <code>filter()</code> can be combined. Every expression must be true in order for a row to be included in the output. You’ll need to use Boolean operators: <code>&amp;</code> is “and”, <code>|</code> is “or”, and <code>!</code> is “not”. This is the complete set of Boolean operations.</p>
 <p><a href="figs/data_wrangling_1/transform-logical.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figs/data_wrangling_1/transform-logical.png" class="img-fluid"></a></p>
 <p>Let’s start combining filtering operations.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get rows with values between 5 and 20</span></span>
-<span><span class="va">filt1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Value</span> <span class="op">&gt;</span> <span class="fl">5</span> <span class="op">&amp;</span> <span class="va">Value</span> <span class="op">&lt;</span> <span class="fl">20</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">filt1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get rows with values between 5 and 20</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>filt1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, Value <span class="sc">&gt;</span> <span class="dv">5</span> <span class="sc">&amp;</span> Value <span class="sc">&lt;</span> <span class="dv">20</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filt1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -495,9 +514,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-05-01 A        9.62
 6 2020-06-01 A        5.51</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get rows from station A with values &gt; 10</span></span>
-<span><span class="va">filt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Station</span> <span class="op">==</span> <span class="st">'A'</span> <span class="op">&amp;</span> <span class="va">Value</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">filt2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get rows from station A with values &gt; 10</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>filt2 <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, Station <span class="sc">==</span> <span class="st">'A'</span> <span class="sc">&amp;</span> Value <span class="sc">&gt;</span> <span class="dv">10</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filt2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -509,9 +528,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-12-01 A        13.5
 6 2021-01-01 A        12.0</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get rows from station A or B</span></span>
-<span><span class="va">filt3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Station</span> <span class="op">==</span> <span class="st">'A'</span> <span class="op">|</span> <span class="va">Station</span> <span class="op">==</span> <span class="st">'B'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">filt3</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get rows from station A or B</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>filt3 <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, Station <span class="sc">==</span> <span class="st">'A'</span> <span class="sc">|</span> Station <span class="sc">==</span> <span class="st">'B'</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filt3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -523,9 +542,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-05-01 A        9.62
 6 2020-06-01 A        5.51</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># get rows from station A or B using different syntax</span></span>
-<span><span class="va">filt4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Station</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'A'</span>, <span class="st">'B'</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">filt4</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get rows from station A or B using different syntax</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>filt4 <span class="ot">&lt;-</span> <span class="fu">filter</span>(dat, Station <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">'A'</span>, <span class="st">'B'</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filt4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -538,13 +557,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6 2020-06-01 A        5.51</code></pre>
 </div>
 </div>
-</section><section id="mutating" class="level3" data-number="2.5.3"><h3 data-number="2.5.3" class="anchored" data-anchor-id="mutating">
-<span class="header-section-number">2.5.3</span> Mutating</h3>
+</section>
+<section id="mutating" class="level3" data-number="2.5.3">
+<h3 data-number="2.5.3" class="anchored" data-anchor-id="mutating"><span class="header-section-number">2.5.3</span> Mutating</h3>
 <p>Now that we’ve seen how to select columns and filter observations, maybe we want to add a new column or modify an existing one. In dplyr, <code>mutate</code> provides this functionality.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add a new column</span></span>
-<span><span class="va">dplyr_mut1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">dat</span>, dumb_column <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_mut1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a new column</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>dplyr_mut1 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(dat, <span class="at">dumb_column =</span> <span class="dv">1</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_mut1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   Date       Station Value dumb_column
@@ -556,9 +576,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-05-01 A        9.62           1
 6 2020-06-01 A        5.51           1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add a column as Value divided by 100</span></span>
-<span><span class="va">dplyr_mut2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">dat</span>, Value_p100 <span class="op">=</span> <span class="va">Value</span> <span class="op">/</span> <span class="fl">100</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_mut2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a column as Value divided by 100</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>dplyr_mut2 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(dat, <span class="at">Value_p100 =</span> Value <span class="sc">/</span> <span class="dv">100</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_mut2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   Date       Station Value Value_p100
@@ -570,9 +590,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2020-05-01 A        9.62     0.0962
 6 2020-06-01 A        5.51     0.0551</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># add a category column</span></span>
-<span><span class="va">dplyr_mut3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span><span class="va">dat</span>, category <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">Value</span> <span class="op">&lt;</span> <span class="fl">10</span>, <span class="st">'low'</span>, <span class="st">'high'</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_mut3</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># add a category column</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>dplyr_mut3 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(dat, <span class="at">category =</span> <span class="fu">ifelse</span>(Value <span class="sc">&lt;</span> <span class="dv">10</span>, <span class="st">'low'</span>, <span class="st">'high'</span>))</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_mut3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   Date       Station Value category
@@ -587,9 +607,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Some other useful dplyr functions include <code>arrange</code> to sort the observations (rows) by a column and <code>rename</code> to (you guessed it) rename a column.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># arrange by value</span></span>
-<span><span class="va">dplyr_arr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Value</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_arr</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># arrange by value</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>dplyr_arr <span class="ot">&lt;-</span> <span class="fu">arrange</span>(dat, Value)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_arr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   Date       Station Value
@@ -601,9 +621,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 2022-08-01 A        5.46
 6 2020-06-01 A        5.51</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># rename a column</span></span>
-<span><span class="va">dplyr_rnm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">dat</span>, date <span class="op">=</span> <span class="va">Date</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">dplyr_rnm</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rename a column</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>dplyr_rnm <span class="ot">&lt;-</span> <span class="fu">rename</span>(dat, <span class="at">date =</span> Date)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dplyr_rnm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   date       Station Value
@@ -617,8 +637,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>There are many more functions in <code>dplyr</code>, but you’ll use the ones above the most. As you can imagine, they are most effective when used together because there is never a single step in the data wrangling process. After the exercise, we’ll talk about how we can efficiently <em>pipe</em> functions to create a new data object.</p>
-</section></section><section id="exercise-4" class="level2" data-number="2.6"><h2 data-number="2.6" class="anchored" data-anchor-id="exercise-4">
-<span class="header-section-number">2.6</span> Exercise 4</h2>
+</section>
+</section>
+<section id="exercise-4" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="exercise-4"><span class="header-section-number">2.6</span> Exercise 4</h2>
 <p>Now that you know the basic functions in <code>dplyr</code> and how to use them, let’s put them to use. Using <code>dat</code>, let’s select some columns of interest, filter by station, and rename one of the columns.</p>
 <ol type="1">
 <li><p>Select the <code>Date</code>, <code>Station</code>, and <code>Value</code> columns. Assign this dataset to a new object in your workspace.</p></li>
@@ -626,38 +648,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Rename the <code>Date</code> column to <code>date</code>.</p></li>
 </ol>
 <div class="cell">
-<details class="code-fold"><summary>Click to show/hide solution</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Date</span>, <span class="va">Station</span>, <span class="va">Value</span><span class="op">)</span></span>
-<span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">ex1</span>, <span class="va">Station</span> <span class="op">==</span> <span class="st">'A'</span><span class="op">)</span></span>
-<span><span class="va">ex1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">ex1</span>, date <span class="op">=</span> <span class="va">Date</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ex1</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details class="code-fold">
+<summary>Click to show/hide solution</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">select</span>(dat, Date, Station, Value)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(ex1, Station <span class="sc">==</span> <span class="st">'A'</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">rename</span>(ex1, <span class="at">date =</span> Date)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ex1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section><section id="piping" class="level2" data-number="2.7"><h2 data-number="2.7" class="anchored" data-anchor-id="piping">
-<span class="header-section-number">2.7</span> Piping</h2>
+</section>
+<section id="piping" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="piping"><span class="header-section-number">2.7</span> Piping</h2>
 <p>A complete data wrangling exercise will always include multiple steps to go from the raw data to the output you need. Here’s a terrible wrangling example using functions from base R:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cropdat</span> <span class="op">&lt;-</span> <span class="va">rawdat</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">28</span><span class="op">]</span></span>
-<span><span class="va">savecols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">cropdat</span><span class="op">$</span><span class="va">Party</span>, <span class="va">cropdat</span><span class="op">$</span><span class="va">`Last Inventory Year (2015)`</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">savecols</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Party'</span>,<span class="st">'2015'</span><span class="op">)</span></span>
-<span><span class="va">savecols</span><span class="op">$</span><span class="va">rank2015</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rank.html">rank</a></span><span class="op">(</span><span class="op">-</span><span class="va">savecols</span><span class="op">$</span><span class="va">`2015`</span><span class="op">)</span></span>
-<span><span class="va">top10df</span> <span class="op">&lt;-</span> <span class="va">savecols</span><span class="op">[</span><span class="va">savecols</span><span class="op">$</span><span class="va">rank2015</span> <span class="op">&lt;=</span> <span class="fl">10</span>,<span class="op">]</span></span>
-<span><span class="va">basedat</span> <span class="op">&lt;-</span> <span class="va">cropdat</span><span class="op">[</span><span class="va">cropdat</span><span class="op">$</span><span class="va">Party</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="va">top10df</span><span class="op">$</span><span class="va">Party</span>,<span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>cropdat <span class="ot">&lt;-</span> rawdat[<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>]</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>savecols <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cropdat<span class="sc">$</span>Party, cropdat<span class="sc">$</span><span class="st">`</span><span class="at">Last Inventory Year (2015)</span><span class="st">`</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(savecols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Party'</span>,<span class="st">'2015'</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>savecols<span class="sc">$</span>rank2015 <span class="ot">&lt;-</span> <span class="fu">rank</span>(<span class="sc">-</span>savecols<span class="sc">$</span><span class="st">`</span><span class="at">2015</span><span class="st">`</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>top10df <span class="ot">&lt;-</span> savecols[savecols<span class="sc">$</span>rank2015 <span class="sc">&lt;=</span> <span class="dv">10</span>,]</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>basedat <span class="ot">&lt;-</span> cropdat[cropdat<span class="sc">$</span>Party <span class="sc">%in%</span> top10df<span class="sc">$</span>Party,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Technically, if this works it’s not “wrong”, but there are a couple of issues that can lead to problems down the line. First, the flow of functions to manipulate the data is not obvious and this makes your code very hard to read. Second, lots of unecessary intermediates have been created in your workspace. Anything that adds to clutter should be avoided because R is fundamentally based on object assignments. The less you assign as a variable in your environment the easier it will be to navigate complex scripts.</p>
 <p>The good news is that you now know how to use the dplyr functions to wrangle data. The function names in dplyr were chosen specifically to be descriptive. This will make your code much more readable than if you were using base R counterparts. However, I haven’t told you how to easily link the functions. Fortunately, there’s an easy fix to this problem.</p>
 <p>Recent versions of R provide a very useful method called <em>piping</em> that will make wrangling a whole lot easier. The idea is simple: a pipe (<code>|&gt;</code>) is used to chain functions together. The output from one function becomes the input to the next function in the pipe. This avoids the need to create intermediate objects and creates a logical progression of steps that demystify the wrangling process.</p>
 <p>Consider the simple example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># not using pipes, select a column, filter rows</span></span>
-<span><span class="va">bad_ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">Station</span>, <span class="va">Value</span><span class="op">)</span></span>
-<span><span class="va">bad_ex2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">bad_ex</span>, <span class="va">Value</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># not using pipes, select a column, filter rows</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>bad_ex <span class="ot">&lt;-</span> <span class="fu">select</span>(dat, Station, Value)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>bad_ex2 <span class="ot">&lt;-</span> <span class="fu">filter</span>(bad_ex, Value <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>With pipes, it looks like this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># with pipes, select a column, filter rows</span></span>
-<span><span class="va">good_ex</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Station</span>, <span class="va">Value</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Value</span> <span class="op">&gt;</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with pipes, select a column, filter rows</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>good_ex <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Station, Value) <span class="sc">|&gt;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Value <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we’ve created only one new object in our environment and we can clearly see that we select, then filter. The only real coding differences are the use of a pipe operator and now the select and filter functions only include the relevant information. You do not need to explicitly specify the data inputs in each function if you’re using piping. The pipe will always use the input that comes from above.</p>
 <p>A couple comments about piping:</p>
@@ -665,8 +690,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>It is very annoying to type the pipe operator. RStudio has a nice keyboard shortcut: <code>Crtl + Shift + M</code> for Windows (use <code>Cmd + Shift + M</code> on a mac). Using it a few times will commit it to muscle memory.</li>
 <li>It’s convention to start a new function on the next line after a pipe operator. This makes the code easier to read and you can also remove or comment out a single step in a long pipe.</li>
 <li>Don’t make your pipes too long, limit them to a particular data object or task.</li>
-</ul></section><section id="exercise-5" class="level2" data-number="2.8"><h2 data-number="2.8" class="anchored" data-anchor-id="exercise-5">
-<span class="header-section-number">2.8</span> Exercise 5</h2>
+</ul>
+</section>
+<section id="exercise-5" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="exercise-5"><span class="header-section-number">2.8</span> Exercise 5</h2>
 <p>Now that we know how to pipe functions, let’s repeat exercise 4. You should already have code to select and filter the data. Use the following to repeat the analysis but with pipes. You should only have to create one data object in this exercise.</p>
 <p>Using your code from exercise four, try to replicate the steps <strong>using pipes</strong>. The steps we used in exercise four were:</p>
 <ol type="1">
@@ -675,15 +702,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Rename <code>Date</code> to <code>date</code></p></li>
 </ol>
 <div class="cell">
-<details class="code-fold"><summary>Click to show/hide solution</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ex2</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Station</span>, <span class="va">Value</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Station</span> <span class="op">==</span> <span class="st">'A'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>date <span class="op">=</span> <span class="va">Date</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ex2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details class="code-fold">
+<summary>Click to show/hide solution</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ex2 <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Station, Value) <span class="sc">|&gt;</span> </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Station <span class="sc">==</span> <span class="st">'A'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">date =</span> Date)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ex2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section><section id="next-time" class="level2" data-number="2.9"><h2 data-number="2.9" class="anchored" data-anchor-id="next-time">
-<span class="header-section-number">2.9</span> Next time</h2>
+</section>
+<section id="next-time" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="next-time"><span class="header-section-number">2.9</span> Next time</h2>
 <p>Now you should be able to answer (or be able to find answers to) the following:</p>
 <ul>
 <li>Why do we need to manipulate data?</li>
@@ -692,12 +722,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>What is piping?</li>
 </ul>
 <p>Next we’ll continue with data wrangling.</p>
-</section><section id="attribution" class="level2" data-number="2.10"><h2 data-number="2.10" class="anchored" data-anchor-id="attribution">
-<span class="header-section-number">2.10</span> Attribution</h2>
+</section>
+<section id="attribution" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="attribution"><span class="header-section-number">2.10</span> Attribution</h2>
 <p>Content in this lesson was pillaged extensively from the USGS-R training curriculum <a href="https://github.com/USGS-R/training-curriculum" target="_blank">here</a> and <a href="https://github.com/hadley/r4ds" target="_blank">R for data Science</a>.</p>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -1147,7 +1181,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="./R_overview.html" class="pagination-link" aria-label="R overview">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span>
       </a>          
@@ -1159,7 +1195,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <p>Website created by the instructor, with attribution to external content</p>
 </div>   
@@ -1170,7 +1207,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This book was built with <a href="https://quarto.org/" target="_blank">Quarto</a></p>
 </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
@@ -1202,6 +1240,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 })();
           </script>
+
+
 
 
 </body></html>

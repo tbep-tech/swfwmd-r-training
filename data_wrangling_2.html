@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.9.38">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>3&nbsp; Data wrangling part 2 – Introduction to R</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -54,6 +60,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -65,18 +72,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./data_wrangling_1.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-75f02de4d0792729241189e21b3d3496.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-e1dc7c06b84616ffc65b98f43969cebb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -103,11 +110,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+
+
 </head>
+
 <body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -118,11 +130,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Introduction to R</a> 
         <div class="sidebar-tools-main">
@@ -142,7 +156,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">About this Training</span></a>
@@ -156,8 +170,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span></a>
@@ -188,7 +202,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
@@ -197,8 +211,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup for the training</span></span></a>
@@ -211,41 +225,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li><a href="#lesson-outline" id="toc-lesson-outline" class="nav-link active" data-scroll-target="#lesson-outline"><span class="header-section-number">3.1</span> Lesson Outline</a></li>
+  <li><a href="#lesson-outline" id="toc-lesson-outline" class="nav-link active" data-scroll-target="#lesson-outline"><span class="header-section-number">3.1</span> Lesson Outline</a></li>
   <li><a href="#lesson-exercises" id="toc-lesson-exercises" class="nav-link" data-scroll-target="#lesson-exercises"><span class="header-section-number">3.2</span> Lesson Exercises</a></li>
   <li><a href="#goals" id="toc-goals" class="nav-link" data-scroll-target="#goals"><span class="header-section-number">3.3</span> Goals</a></li>
-  <li>
-<a href="#combining-data" id="toc-combining-data" class="nav-link" data-scroll-target="#combining-data"><span class="header-section-number">3.4</span> Combining data</a>
+  <li><a href="#combining-data" id="toc-combining-data" class="nav-link" data-scroll-target="#combining-data"><span class="header-section-number">3.4</span> Combining data</a>
   <ul>
-<li><a href="#types-of-joins" id="toc-types-of-joins" class="nav-link" data-scroll-target="#types-of-joins"><span class="header-section-number">3.4.1</span> Types of joins</a></li>
-  </ul>
-</li>
+  <li><a href="#types-of-joins" id="toc-types-of-joins" class="nav-link" data-scroll-target="#types-of-joins"><span class="header-section-number">3.4.1</span> Types of joins</a></li>
+  </ul></li>
   <li><a href="#exercise-6" id="toc-exercise-6" class="nav-link" data-scroll-target="#exercise-6"><span class="header-section-number">3.5</span> Exercise 6</a></li>
-  <li>
-<a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">3.6</span> Tidy data</a>
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">3.6</span> Tidy data</a>
   <ul>
-<li><a href="#values-as-column-names" id="toc-values-as-column-names" class="nav-link" data-scroll-target="#values-as-column-names"><span class="header-section-number">3.6.1</span> Values as column names</a></li>
+  <li><a href="#values-as-column-names" id="toc-values-as-column-names" class="nav-link" data-scroll-target="#values-as-column-names"><span class="header-section-number">3.6.1</span> Values as column names</a></li>
   <li><a href="#observations-across-rows" id="toc-observations-across-rows" class="nav-link" data-scroll-target="#observations-across-rows"><span class="header-section-number">3.6.2</span> Observations across rows</a></li>
-  </ul>
-</li>
+  </ul></li>
   <li><a href="#exercise-7" id="toc-exercise-7" class="nav-link" data-scroll-target="#exercise-7"><span class="header-section-number">3.7</span> Exercise 7</a></li>
   <li><a href="#summarize" id="toc-summarize" class="nav-link" data-scroll-target="#summarize"><span class="header-section-number">3.8</span> Summarize</a></li>
   <li><a href="#exercise-8" id="toc-exercise-8" class="nav-link" data-scroll-target="#exercise-8"><span class="header-section-number">3.9</span> Exercise 8</a></li>
   <li><a href="#next-time" id="toc-next-time" class="nav-link" data-scroll-target="#next-time"><span class="header-section-number">3.10</span> Next time</a></li>
   <li><a href="#attribution" id="toc-attribution" class="nav-link" data-scroll-target="#attribution"><span class="header-section-number">3.11</span> Attribution</a></li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/data_wrangling_2.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/data_wrangling_2.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./data_wrangling_2.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data wrangling part 2</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./R_overview.html">Lessons</a></li><li class="breadcrumb-item"><a href="./data_wrangling_2.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data wrangling part 2</span></a></li></ol></nav>
+<div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title"><span id="sec-data_wrangling_2" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data wrangling part 2</span></span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button" data-quarto-source-url="https://github.com/tbep-tech/swfwmd-r-training/blob/main/data_wrangling_2.qmd">View Source</a></li></ul></div></div>
 </div>
 
@@ -260,22 +276,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>Get the lesson R script: <a href="data_wrangling_2.R">data_wrangling_2.R</a></p>
+</header>
+
+
+<p>Get the lesson R script: <a href="data_wrangling_2.R">data_wrangling_2.R</a></p>
 <p>Get the lesson data: <a href="data/data.zip">download zip</a></p>
-<section id="lesson-outline" class="level2" data-number="3.1"><h2 data-number="3.1" class="anchored" data-anchor-id="lesson-outline">
-<span class="header-section-number">3.1</span> Lesson Outline</h2>
+<section id="lesson-outline" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="lesson-outline"><span class="header-section-number">3.1</span> Lesson Outline</h2>
 <ul>
 <li><a href="#combining-data">Combining data</a></li>
 <li><a href="#tidy-data">Tidy data</a></li>
 <li><a href="#summarize">Summarize</a></li>
-</ul></section><section id="lesson-exercises" class="level2" data-number="3.2"><h2 data-number="3.2" class="anchored" data-anchor-id="lesson-exercises">
-<span class="header-section-number">3.2</span> Lesson Exercises</h2>
+</ul>
+</section>
+<section id="lesson-exercises" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="lesson-exercises"><span class="header-section-number">3.2</span> Lesson Exercises</h2>
 <ul>
 <li><a href="#exercise-6">Exercise 6</a></li>
 <li><a href="#exercise-7">Exercise 7</a></li>
 <li><a href="#exercise-8">Exercise 8</a></li>
-</ul></section><section id="goals" class="level2" data-number="3.3"><h2 data-number="3.3" class="anchored" data-anchor-id="goals">
-<span class="header-section-number">3.3</span> Goals</h2>
+</ul>
+</section>
+<section id="goals" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="goals"><span class="header-section-number">3.3</span> Goals</h2>
 <p>In this lesson we’ll continue our discussion of data wrangling with the tidyverse. Data wrangling is the manipulation or combination of datasets for the purpose of understanding. It fits within the broader scheme of <strong>data exploration</strong>, described as the art of looking at your data, rapidly generating hypotheses, quickly testing them, then repeating again and again and again (from <a href="https://r4ds.hadley.nz/" target="_blank">R for Data Science</a>, 2nd Ed., as is most of today’s content).</p>
 <p><a href="figs/data_wrangling_2/data-science-wrangle.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figs/data_wrangling_2/data-science-wrangle.png" class="img-fluid"></a></p>
 <p>Always remember that <strong>wrangling is based on a purpose.</strong> The process always begins by answering the following two questions:</p>
@@ -286,16 +309,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>You define what steps to take to get your data from input to where you want to go.</p>
 <p>Last lesson we learned the following functions from the <code>dplyr</code> package (cheatsheet <a href="https://rstudio.github.io/cheatsheets/data-transformation.pdf" target="_blank">here</a>):</p>
 <ul>
-<li>Selecting variables with <code>select</code>
-</li>
-<li>Filtering observations by some criteria with <code>filter</code>
-</li>
-<li>Adding or modifying existing variables with <code>mutate</code>
-</li>
-<li>Arranging rows by a variable with <code>arrange</code>
-</li>
-<li>Renaming variables with <code>rename</code>
-</li>
+<li>Selecting variables with <code>select</code></li>
+<li>Filtering observations by some criteria with <code>filter</code></li>
+<li>Adding or modifying existing variables with <code>mutate</code></li>
+<li>Arranging rows by a variable with <code>arrange</code></li>
+<li>Renaming variables with <code>rename</code></li>
 </ul>
 <p>As before, we only have one hour to cover the basics of data wrangling. It’s an unrealistic expectation that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what’s possible. I also want to provide resources that you can use for follow-up learning on your own.</p>
 <p>After this lesson you should be able to answer (or be able to find answers to) the following:</p>
@@ -306,12 +324,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>You should already have the tidyverse package installed, but let’s give it a go if you haven’t done this part yet:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># install</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'tidyverse'</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'tidyverse'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>After installation, we can load the package:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.2.1     ✔ readr     2.2.0
@@ -325,12 +343,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 </div>
-</section><section id="combining-data" class="level2" data-number="3.4"><h2 data-number="3.4" class="anchored" data-anchor-id="combining-data">
-<span class="header-section-number">3.4</span> Combining data</h2>
+</section>
+<section id="combining-data" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="combining-data"><span class="header-section-number">3.4</span> Combining data</h2>
 <p>Combining data is a common task of data wrangling. Perhaps we want to combine information between two datasets that share a common identifier. As a real world example, our training data contain measurements from various stations, but we also want to include spatial information about those stations (i.e., lat, lon). We would need to combine data if this information is in two different places. Combining data with dplyr is called joining.</p>
 <p>All joins require that each of the tables can be linked by shared identifiers. These are called ‘keys’ and are usually represented as a separate column that acts as a unique variable for the observations. The “Station ID” is our common key, but remember that a key might need to be unique for each row. It doesn’t make sense to join two tables by station ID if multiple site visits were made. In that case, your keys should include some information about the site visit <strong>and</strong> station ID. In other words, you would need to join with two variables.</p>
-<section id="types-of-joins" class="level3" data-number="3.4.1"><h3 data-number="3.4.1" class="anchored" data-anchor-id="types-of-joins">
-<span class="header-section-number">3.4.1</span> Types of joins</h3>
+<section id="types-of-joins" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="types-of-joins"><span class="header-section-number">3.4.1</span> Types of joins</h3>
 <p>The challenge with joins is that the two datasets may not represent the same observations for a given key. For example, you might have one table with all observations for every key, another with only some observations, or two tables with only a few shared keys. What you get back from a join will depend on what’s shared between tables, in addition to the type of join you use.</p>
 <p>We can demonstrate types of joins with simple graphics. The first is an <strong>inner-join</strong>.</p>
 <p><a href="figs/data_wrangling_2/join-inner.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figs/data_wrangling_2/join-inner.png" class="img-fluid"></a></p>
@@ -339,15 +358,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>If all keys are shared between two data objects, then left, right, and full joins will give you the same result. I typically only use left_join just because it’s intuitive to me. This assumes that there is never any more information in the second table - it has the same or less keys as the original table.</p>
 <p>The data we downloaded for this training included water quality measurements and the locations of each station. If we want to plot any of the data by location, we need to join the two datasets.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load the training data</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'data/dat.csv'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># load the station location data</span></span>
-<span><span class="va">statloc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'data/statloc.csv'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># join the two </span></span>
-<span><span class="va">joindat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">statloc</span>, by <span class="op">=</span> <span class="st">'Station'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">joindat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the training data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/dat.csv'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load the station location data</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>statloc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/statloc.csv'</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># join the two </span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dat, statloc, <span class="at">by =</span> <span class="st">'Station'</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joindat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 5
   Date       Station Value Longitude Latitude
@@ -361,9 +380,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>A final note about joins is that you will have relationships between two tables defined as one-to-one, one-to-many, many-to-one, or many-to-many. Often times you may expect a one-to-one join (i.e., one row in table x will always correspond to one row in table y), but another relationship is observed (e.g., one row in table x corresponds to more than one row in table y, a one-to-many join). The join functions in dplyr will notify you if this occurs depending on the type of join you use. This is good because it tells you how to interpret the results of the join and whether or not you may have unexpected results. In general, you should have a prior expectation of the relationship between two tables. You can be explicit with the type of relationship you expect by including the arguments <code>relationship = 'one-to-one'</code> (or other types) in your join function.</p>
-</section></section><section id="exercise-6" class="level2" data-number="3.5"><h2 data-number="3.5" class="anchored" data-anchor-id="exercise-6">
-<span class="header-section-number">3.5</span> Exercise 6</h2>
-<p>For this exercise we’ll repeat the join we just did, but on a subset of the data. We’re going to select some columns of interest from our training dataset, filter by station, then use <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join()</a></code> with the station location data. Try to use pipes if you can.</p>
+</section>
+</section>
+<section id="exercise-6" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="exercise-6"><span class="header-section-number">3.5</span> Exercise 6</h2>
+<p>For this exercise we’ll repeat the join we just did, but on a subset of the data. We’re going to select some columns of interest from our training dataset, filter by station, then use <code>full_join()</code> with the station location data. Try to use pipes if you can.</p>
 <ol type="1">
 <li><p>Select the <code>Date</code>, <code>Station</code>, and <code>Value</code> columns from the training dataset.</p></li>
 <li><p>Filter the dataset by <code>Station == 'A'</code>. Check the dimensions of the new dataset with <code>dim</code>.</p></li>
@@ -371,32 +392,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Check the dimensions of the new table. What happened?</p></li>
 </ol>
 <div class="cell">
-<details class="code-fold"><summary>Click to show/hide solution</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load the training data</span></span>
-<span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'data/dat.csv'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># load the station location data</span></span>
-<span><span class="va">statloc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'data/statloc.csv'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># wrangle before join</span></span>
-<span><span class="va">joindat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Station</span>, <span class="va">Value</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Station</span> <span class="op">==</span> <span class="st">'A'</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">joindat</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># full join</span></span>
-<span><span class="va">joindat</span> <span class="op">&lt;-</span> <span class="va">joindat</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">full_join</a></span><span class="op">(</span><span class="va">statloc</span>, by <span class="op">=</span> <span class="st">'Station'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">joindat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details class="code-fold">
+<summary>Click to show/hide solution</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the training data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/dat.csv'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load the station location data</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>statloc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/statloc.csv'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># wrangle before join</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Station, Value) <span class="sc">|&gt;</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Station <span class="sc">==</span> <span class="st">'A'</span>) </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joindat)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># full join</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> joindat <span class="sc">|&gt;</span> </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(statloc, <span class="at">by =</span> <span class="st">'Station'</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joindat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section><section id="tidy-data" class="level2" data-number="3.6"><h2 data-number="3.6" class="anchored" data-anchor-id="tidy-data">
-<span class="header-section-number">3.6</span> Tidy data</h2>
+</section>
+<section id="tidy-data" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">3.6</span> Tidy data</h2>
 <p>The opposite of a tidy dataset is a messy dataset. You should always work towards a tidy data set as an outcome of the wrangling process. Tidy data are easy to work with and will make downstream analysis much simpler. This will become apparent when we start summarizing and plotting our data.</p>
 <p>To help understand tidy data, it’s useful to look at alternative ways of representing data. The example below shows the same data organised in four different ways. Each dataset shows the same values of four variables <em>country</em>, <em>year</em>, <em>population</em>, and <em>cases</em>, but each dataset organises the values differently. Only one of these examples is tidy.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">table1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   country      year  cases population
@@ -408,7 +432,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 China        1999 212258 1272915272
 6 China        2000 213766 1280428583</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">table2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>table2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 4
    country      year type            count
@@ -426,7 +450,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 11 China        2000 cases          213766
 12 China        2000 population 1280428583</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">table3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>table3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   country      year rate             
@@ -438,8 +462,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 China        1999 212258/1272915272
 6 China        2000 213766/1280428583</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Spread across two tibbles</span></span>
-<span><span class="va">table4a</span>  <span class="co"># cases</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spread across two tibbles</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>table4a  <span class="co"># cases</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   country     `1999` `2000`
@@ -448,7 +472,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 2 Brazil       37737  80488
 3 China       212258 213766</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">table4b</span>  <span class="co"># population</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>table4b  <span class="co"># population</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   country         `1999`     `2000`
@@ -472,12 +496,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Data is often organised to facilitate some use other than analysis. For example, data is often organised to make entry as easy as possible.</p></li>
 </ol>
 <p>The <a href="https://tidyr.tidyverse.org/" target="_blank">tidyr</a> package can help you create tidy datasets. A full review of the functions in tidyr is beyond the scope of this training. Have a look at the <a href="https://rstudio.github.io/cheatsheets/tidyr.pdf" target="_blank">cheatsheet</a> to get started. Just know that the package is available to help create tidy data.</p>
-<p>For the example tables above, only the first table is tidy. The second table, although not technically tidy (variables spread across rows), is still a useful format that we’ll work with later. We’ll talk about how to manipulate a dataset to work with both formats using two functions from tidyr: <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code> and <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code>.</p>
-<section id="values-as-column-names" class="level3" data-number="3.6.1"><h3 data-number="3.6.1" class="anchored" data-anchor-id="values-as-column-names">
-<span class="header-section-number">3.6.1</span> Values as column names</h3>
+<p>For the example tables above, only the first table is tidy. The second table, although not technically tidy (variables spread across rows), is still a useful format that we’ll work with later. We’ll talk about how to manipulate a dataset to work with both formats using two functions from tidyr: <code>pivot_longer()</code> and <code>pivot_wider()</code>.</p>
+<section id="values-as-column-names" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="values-as-column-names"><span class="header-section-number">3.6.1</span> Values as column names</h3>
 <p>A common problem is a dataset where some of the column names are not names of variables, but <em>values</em> of a variable. Take <code>table4a</code>: the column names <code>1999</code> and <code>2000</code> represent values of the <code>year</code> variable, and each row represents two observations, not one.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">table4a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>table4a</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   country     `1999` `2000`
@@ -493,10 +517,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>The name of the variable whose values form the column name. Here it is <code>year</code>.</p></li>
 <li><p>The name of the variable whose values are spread over the cells. Here it’s the number of <code>cases</code>.</p></li>
 </ul>
-<p>Together those parameters generate the call to <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code>:</p>
+<p>Together those parameters generate the call to <code>pivot_longer()</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">table4a</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'1999'</span>, <span class="st">'2000'</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"year"</span>, values_to <span class="op">=</span> <span class="st">"cases"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>table4a <span class="sc">|&gt;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">'1999'</span>, <span class="st">'2000'</span>), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   country     year   cases
@@ -511,11 +535,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This operation can be graphically demonstrated:</p>
 <p><a href="figs/data_wrangling_2/tidy-9.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="figs/data_wrangling_2/tidy-9.png" class="img-fluid"></a></p>
-</section><section id="observations-across-rows" class="level3" data-number="3.6.2"><h3 data-number="3.6.2" class="anchored" data-anchor-id="observations-across-rows">
-<span class="header-section-number">3.6.2</span> Observations across rows</h3>
+</section>
+<section id="observations-across-rows" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="observations-across-rows"><span class="header-section-number">3.6.2</span> Observations across rows</h3>
 <p>Another problem is when you have a single observation scattered across rows. For example, <code>table2</code> shows that the number of cases and population is spread across rows where the observation is country and year.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">table2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>table2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 4
    country      year type            count
@@ -539,9 +564,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>The column that contains variable names. Here, it’s <code>type</code>.</p></li>
 <li><p>The column that contains values from multiple variables. Here it’s <code>count</code>.</p></li>
 </ul>
-<p>Once we’ve figured that out, we can use <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code>.</p>
+<p>Once we’ve figured that out, we can use <code>pivot_wider()</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span><span class="va">table2</span>, names_from <span class="op">=</span> <span class="st">'type'</span>, values_from <span class="op">=</span> <span class="st">'count'</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(table2, <span class="at">names_from =</span> <span class="st">'type'</span>, <span class="at">values_from =</span> <span class="st">'count'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   country      year  cases population
@@ -556,35 +581,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This operation can be graphically demonstrated:</p>
 <p><a href="figs/data_wrangling_2/tidy-8.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="figs/data_wrangling_2/tidy-8.png" class="img-fluid"></a></p>
-</section></section><section id="exercise-7" class="level2" data-number="3.7"><h2 data-number="3.7" class="anchored" data-anchor-id="exercise-7">
-<span class="header-section-number">3.7</span> Exercise 7</h2>
-<p>Let’s take a look at the training data. Are these data “tidy”? To help with the next few examples, we’ll use <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code> to manipulate the data.</p>
+</section>
+</section>
+<section id="exercise-7" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="exercise-7"><span class="header-section-number">3.7</span> Exercise 7</h2>
+<p>Let’s take a look at the training data. Are these data “tidy”? To help with the next few examples, we’ll use <code>pivot_longer()</code> to manipulate the data.</p>
 <ol type="1">
-<li><p>Inspect the training dataset. What are the dimensions (hint: <code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>)? What are the names and column types (hint: <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>)?</p></li>
-<li><p>If your data have multiple parameter columns, use the <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code> function to move the parameter columns and their values into two new columns. What value will you use for the <code>names_to</code> argument? What value will you use for the <code>values_to</code> argument? Assign the new dataset to a variable in your environment.</p></li>
+<li><p>Inspect the training dataset. What are the dimensions (hint: <code>dim()</code>)? What are the names and column types (hint: <code>str()</code>)?</p></li>
+<li><p>If your data have multiple parameter columns, use the <code>pivot_longer()</code> function to move the parameter columns and their values into two new columns. What value will you use for the <code>names_to</code> argument? What value will you use for the <code>values_to</code> argument? Assign the new dataset to a variable in your environment.</p></li>
 <li><p>Check the dimensions and structure of your new dataset. What’s different?</p></li>
 </ol>
 <div class="cell">
-<details class="code-fold"><summary>Click to show/hide solution</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># check dimensions, structure</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">dat</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># convert dat to long format</span></span>
-<span><span class="va">longdat</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Date</span>, <span class="va">Station</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">'Parameter'</span>, values_to <span class="op">=</span> <span class="st">'Value'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># check dimensions, structure</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">longdat</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">longdat</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details class="code-fold">
+<summary>Click to show/hide solution</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check dimensions, structure</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># convert dat to long format</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>longdat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(Date, Station), <span class="at">names_to =</span> <span class="st">'Parameter'</span>, <span class="at">values_to =</span> <span class="st">'Value'</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># check dimensions, structure</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(longdat)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(longdat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section><section id="summarize" class="level2" data-number="3.8"><h2 data-number="3.8" class="anchored" data-anchor-id="summarize">
-<span class="header-section-number">3.8</span> Summarize</h2>
+</section>
+<section id="summarize" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="summarize"><span class="header-section-number">3.8</span> Summarize</h2>
 <p>The last tool we’re going to learn about in <code>dplyr</code> is the <code>summarize</code> function. As the name implies, this function lets you summarize columns in a dataset. Think of it as a way to condense rows using a summary method of your choice, e.g., what’s the average of the values in a column based on groups in another column?</p>
-<p>We can use the <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize()</a></code> function to get the total or average value by group. Note the use of the <code>.by</code> argument as a critical piece that defines the groups for summarizing.</p>
+<p>We can use the <code>summarize()</code> function to get the total or average value by group. Note the use of the <code>.by</code> argument as a critical piece that defines the groups for summarizing.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_sta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">dat</span>, mean_val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>, .by <span class="op">=</span> <span class="va">Station</span><span class="op">)</span></span>
-<span><span class="va">by_sta</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>by_sta <span class="ot">&lt;-</span> <span class="fu">summarize</span>(dat, <span class="at">mean_val =</span> <span class="fu">mean</span>(Value), <span class="at">.by =</span> Station)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>by_sta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   Station mean_val
@@ -596,10 +626,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We can group the dataset by more than one column to get summaries with multiple groups.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">by_sta_yr</span> <span class="op">&lt;-</span> <span class="va">dat</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Year <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>mean_val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>, .by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Station</span>, <span class="va">Year</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">by_sta_yr</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>by_sta_yr <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(Date)) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_val =</span> <span class="fu">mean</span>(Value), <span class="at">.by =</span> <span class="fu">c</span>(Station, Year))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>by_sta_yr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 3
    Station  Year mean_val
@@ -618,16 +648,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 12 C        2023    11.1 </code></pre>
 </div>
 </div>
-<p>We can also get more than one summary at a time. The summary function can use any function that operates on a vector. Some common examples include <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>, <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code>, <code><a href="https://rdrr.io/r/stats/cor.html">var()</a></code>, <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, and <code><a href="https://dplyr.tidyverse.org/reference/context.html">n()</a></code>. It’s usually good practice to include a summary of how many observations were in each group, so get used to including the <code><a href="https://dplyr.tidyverse.org/reference/context.html">n()</a></code> function.</p>
+<p>We can also get more than one summary at a time. The summary function can use any function that operates on a vector. Some common examples include <code>min()</code>, <code>max()</code>, <code>sd()</code>, <code>var()</code>, <code>median()</code>, <code>mean()</code>, and <code>n()</code>. It’s usually good practice to include a summary of how many observations were in each group, so get used to including the <code>n()</code> function.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">more_sums</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span><span class="va">dat</span>, </span>
-<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    min_val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>,</span>
-<span>    max_val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>,</span>
-<span>    mean_val <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Value</span><span class="op">)</span>, </span>
-<span>    .by <span class="op">=</span> <span class="va">Station</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="va">more_sums</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>more_sums <span class="ot">&lt;-</span> <span class="fu">summarize</span>(dat, </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_val =</span> <span class="fu">min</span>(Value),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_val =</span> <span class="fu">max</span>(Value),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_val =</span> <span class="fu">mean</span>(Value), </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> Station</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>more_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 5
   Station     n min_val max_val mean_val
@@ -637,27 +667,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 3 C          48    2.87    16.8    10.6 </code></pre>
 </div>
 </div>
-<p>Finally, many of the summary functions we’ve used (e.g., <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>) will not work correctly if there are missing observations in your data. You’ll see these as <code>NA</code> (or sometimes <code>NaN</code>) entries. You have to use the argument <code>na.rm = T</code> to explicitly tell R how to handle the missing values. Setting <code>na.rm = T</code> says to remove the <code>NA</code> values when summarizing the data.</p>
+<p>Finally, many of the summary functions we’ve used (e.g., <code>sum()</code>, <code>min()</code>, <code>max()</code>, <code>mean()</code>) will not work correctly if there are missing observations in your data. You’ll see these as <code>NA</code> (or sometimes <code>NaN</code>) entries. You have to use the argument <code>na.rm = T</code> to explicitly tell R how to handle the missing values. Setting <code>na.rm = T</code> says to remove the <code>NA</code> values when summarizing the data.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="cn">NA</span>, <span class="fl">4</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="dv">4</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2.333333</code></pre>
 </div>
 </div>
 <p>A quick check for missing values can be done with <code>anyNA</code>. This works on vectors and data frames.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">anyNA</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
 </div>
-</section><section id="exercise-8" class="level2" data-number="3.9"><h2 data-number="3.9" class="anchored" data-anchor-id="exercise-8">
-<span class="header-section-number">3.9</span> Exercise 8</h2>
+</section>
+<section id="exercise-8" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="exercise-8"><span class="header-section-number">3.9</span> Exercise 8</h2>
 <p>Now we have access to a several tools in the tidyverse to help us wrangle more effectively. For the final exercise, we’re going to subset our training data and get a summary. Specifically, we’ll filter our data by a specific station and parameter, then summarize the average value by year.</p>
 <ol type="1">
 <li><p>Using the long data we created in exercise 7, filter the data by a specific station and parameter.</p></li>
@@ -665,19 +696,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Which year has the highest average value?</p></li>
 </ol>
 <div class="cell">
-<details class="code-fold"><summary>Click to show/hide solution</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sumdat</span> <span class="op">&lt;-</span> <span class="va">longdat</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">Station</span> <span class="op">==</span> <span class="st">'A'</span> <span class="op">&amp;</span> <span class="va">Parameter</span> <span class="op">==</span> <span class="st">'Value'</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Year <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/year.html">year</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span></span>
-<span>    ave <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">Value</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, </span>
-<span>    .by <span class="op">=</span> <span class="va">Year</span></span>
-<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="op">-</span><span class="va">ave</span><span class="op">)</span></span>
-<span><span class="va">sumdat</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details class="code-fold">
+<summary>Click to show/hide solution</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>sumdat <span class="ot">&lt;-</span> longdat <span class="sc">|&gt;</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Station <span class="sc">==</span> <span class="st">'A'</span> <span class="sc">&amp;</span> Parameter <span class="sc">==</span> <span class="st">'Value'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(Date)) <span class="sc">|&gt;</span> </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ave =</span> <span class="fu">mean</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> Year</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>ave)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>sumdat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-</section><section id="next-time" class="level2" data-number="3.10"><h2 data-number="3.10" class="anchored" data-anchor-id="next-time">
-<span class="header-section-number">3.10</span> Next time</h2>
+</section>
+<section id="next-time" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="next-time"><span class="header-section-number">3.10</span> Next time</h2>
 <p>Now you should be able to answer (or be able to find answers to) the following:</p>
 <ul>
 <li>How are data joined?</li>
@@ -685,12 +719,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>How do I summarize a dataset?</li>
 </ul>
 <p>In the next lesson we’ll learn about data visualization and graphics.</p>
-</section><section id="attribution" class="level2" data-number="3.11"><h2 data-number="3.11" class="anchored" data-anchor-id="attribution">
-<span class="header-section-number">3.11</span> Attribution</h2>
+</section>
+<section id="attribution" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="attribution"><span class="header-section-number">3.11</span> Attribution</h2>
 <p>Content in this lesson was pillaged extensively from the USGS-R training curriculum <a href="https://github.com/USGS-R/training-curriculum" target="_blank">here</a> and <a href="https://github.com/hadley/r4ds" target="_blank">R for data Science</a>.</p>
 
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -1140,7 +1178,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="./data_wrangling_1.html" class="pagination-link" aria-label="Data wrangling part 1">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data wrangling part 1</span></span>
       </a>          
@@ -1152,7 +1192,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <p>Website created by the instructor, with attribution to external content</p>
 </div>   
@@ -1163,7 +1204,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This book was built with <a href="https://quarto.org/" target="_blank">Quarto</a></p>
 </div>
   </div>
-</footer><script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+</footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
 (function() {
   let previousOnload = window.onload;
   window.onload = () => {
@@ -1195,6 +1237,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 })();
           </script>
+
+
 
 
 </body></html>

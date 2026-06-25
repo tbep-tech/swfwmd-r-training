@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.9.38">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
 <meta name="author" content="Dr.&nbsp;Marcus Beck">
 <meta name="dcterms.date" content="2026-06-25">
+
 <title>Introduction to R</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -21,6 +27,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -31,15 +38,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="./R_overview.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-75f02de4d0792729241189e21b3d3496.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-e1dc7c06b84616ffc65b98f43969cebb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -66,11 +73,16 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+
+
 </head>
+
 <body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -81,11 +93,13 @@ ul.task-list li input[type="checkbox"] {
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Introduction to R</a> 
         <div class="sidebar-tools-main">
@@ -105,7 +119,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">About this Training</span></a>
@@ -119,8 +133,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./R_overview.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">R overview</span></span></a>
@@ -151,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
@@ -160,8 +174,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./setup.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Setup for the training</span></span></a>
@@ -174,30 +188,34 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-<li>
-<a href="#about-this-training" id="toc-about-this-training" class="nav-link active" data-scroll-target="#about-this-training">About this Training</a>
+  <li><a href="#about-this-training" id="toc-about-this-training" class="nav-link active" data-scroll-target="#about-this-training">About this Training</a>
   <ul>
-<li><a href="#agenda" id="toc-agenda" class="nav-link" data-scroll-target="#agenda">Agenda</a></li>
+  <li><a href="#agenda" id="toc-agenda" class="nav-link" data-scroll-target="#agenda">Agenda</a></li>
   <li><a href="#housekeeping" id="toc-housekeeping" class="nav-link" data-scroll-target="#housekeeping">Housekeeping</a></li>
   <li><a href="#software-requirements" id="toc-software-requirements" class="nav-link" data-scroll-target="#software-requirements">Software requirements</a></li>
   <li><a href="#data-and-resources" id="toc-data-and-resources" class="nav-link" data-scroll-target="#data-and-resources">Data and resources</a></li>
   <li><a href="#instructor" id="toc-instructor" class="nav-link" data-scroll-target="#instructor">Instructor</a></li>
   <li><a href="#source-content" id="toc-source-content" class="nav-link" data-scroll-target="#source-content">Source content</a></li>
+  </ul></li>
   </ul>
-</li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">Introduction to R</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source" data-quarto-source-url="https://github.com/tbep-tech/swfwmd-r-training/blob/main/index.qmd"><i class="bi"></i> Code</button></div></div>
 <p class="subtitle lead">SWFWMD R Training</p>
 </div>
@@ -225,7 +243,10 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header><div class="cell">
+</header>
+
+
+<div class="cell">
 <style type="text/css">
 figcaption {
   margin: auto;
@@ -233,61 +254,55 @@ figcaption {
 }
 </style>
 </div>
-<section id="about-this-training" class="level1 unnumbered"><h1 class="unnumbered">About this Training</h1>
+<section id="about-this-training" class="level1 unnumbered">
+<h1 class="unnumbered">About this Training</h1>
 <p>This training is designed for SWFWMD staff who already have some experience working in R and want to become more effective using it for real analysis tasks. Attendees are expected to be comfortable running code in RStudio, but may want more confidence writing their own scripts for data wrangling, adapting scripts from colleagues, troubleshooting errors, and building reproducible workflows.</p>
 <p>The training content will combine instructor-led demonstrations with hands-on exercises focused on data manipulation, visualization, and practical problem solving. Examples will be framed around SWFWMD data and workflows so participants can connect the material to the kinds of data analysis problems they encounter in their work. By the end of the training, attendees should be better prepared to understand existing scripts, troubleshoot common issues, and use R more confidently for applied analyses.</p>
-<section id="agenda" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="agenda">Agenda</h2>
+<section id="agenda" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="agenda">Agenda</h2>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
-<thead><tr class="header">
-<th style="text-align: left;"></th>
+<thead>
+<tr class="header">
 <th style="text-align: left;">Time</th>
 <th style="text-align: left;">Topic</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">0</td>
 <td style="text-align: left;">8:30 AM - 9:00 AM</td>
 <td style="text-align: left;">Introduction and Setup</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">1</td>
 <td style="text-align: left;">9:00 AM - 10:30 AM</td>
 <td style="text-align: left;">R Basics</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">2</td>
 <td style="text-align: left;">10:30 AM - 10:45 AM</td>
 <td style="text-align: left;">Break</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">3</td>
 <td style="text-align: left;">10:45 AM - 12:15 PM</td>
 <td style="text-align: left;">Data Wrangling Part 1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">4</td>
 <td style="text-align: left;">12:15 PM - 1:00 PM</td>
 <td style="text-align: left;">Lunch</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">5</td>
 <td style="text-align: left;">1:00 PM - 2:30 PM</td>
 <td style="text-align: left;">Data Wrangling Part 2 and Data Visualization</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">6</td>
 <td style="text-align: left;">2:30 PM - 2:45 PM</td>
 <td style="text-align: left;">Break</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">7</td>
 <td style="text-align: left;">2:45 PM - 4:15 PM</td>
 <td style="text-align: left;">Spatial Data Analysis</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">8</td>
 <td style="text-align: left;">4:15 PM - 4:30 PM</td>
 <td style="text-align: left;">Wrap-up</td>
 </tr>
@@ -295,7 +310,9 @@ figcaption {
 </table>
 </div>
 </div>
-</section><section id="housekeeping" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="housekeeping">Housekeeping</h2>
+</section>
+<section id="housekeeping" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="housekeeping">Housekeeping</h2>
 <p>There are a few housekeeping items we need to go over before we start the training.</p>
 <ol type="1">
 <li><p>Feel free to ask questions during the training. We will also use the stickies to indicate progress on exercises (green means okay, red means I need help).</p></li>
@@ -306,20 +323,32 @@ figcaption {
 <li><p>Finally, please make sure to download the required datasets <a href="data/data.zip">here</a> and make sure you have the <code>tidyverse</code>, <code>sf</code>, and <code>mapview</code> packages installed. See the <a href="setup.html">setup instructions</a> for details.</p></li>
 </ol>
 <p>All exercises and breaks will be timed to make sure that we stay on schedule. A timer will be displayed on the screen to track progress.</p>
-</section><section id="software-requirements" class="level2"><h2 class="anchored" data-anchor-id="software-requirements">Software requirements</h2>
+</section>
+<section id="software-requirements" class="level2">
+<h2 class="anchored" data-anchor-id="software-requirements">Software requirements</h2>
 <p>This training will use RStudio and R. Please make sure that you are ready to use the required software prior to the training by following the setup instructions <a href="setup.html">here</a>. <strong>Installation issues will not be addressed the day of the training</strong>.</p>
 <p>Install RStudio and R on your personal computer (recommended).</p>
-</section><section id="data-and-resources" class="level2"><h2 class="anchored" data-anchor-id="data-and-resources">Data and resources</h2>
+</section>
+<section id="data-and-resources" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-resources">Data and resources</h2>
 <p>Please view the <a href="data_resources.html">Data and Resources</a> page for data used in this training and additional links for R learning material.</p>
-</section><section id="instructor" class="level2"><h2 class="anchored" data-anchor-id="instructor">Instructor</h2>
+</section>
+<section id="instructor" class="level2">
+<h2 class="anchored" data-anchor-id="instructor">Instructor</h2>
 <p><a href="mailto:mbeck@tbep.org">Dr.&nbsp;Marcus Beck</a> is the Senior Scientist for the Tampa Bay Estuary Program in St.&nbsp;Petersburg, Florida and is developing data analysis and visualization methods for Bay health indicators. Marcus has experience researching environmental indicators and developing open science products to support environmental decision-making. He has been using the R statistical programming language for over 15 years and has taught several workshops on its application to environmental sciences. Marcus has also developed several R packages and currently maintains 7 on CRAN. He received a PhD in Conservation Biology with a minor in Statistics from the University of Minnesota in 2013, his Masters in Conservation Biology from the University of Minnesota in 2009, and his Bachelors in Zoology from the University of Florida in 2007. <a href="https://github.com/fawda123" target="_blank">GitHub</a>, <a href="https://scholar.google.com/citations?user=9ZDDQ_8AAAAJ&amp;hl=en&amp;authuser=2" target="_blank">Scholar</a>, <a href="https://github.com/fawda123/CV/blob/master/Beck_CV.pdf" target="_blank">CV</a></p>
-</section><section id="source-content" class="level2"><h2 class="anchored" data-anchor-id="source-content">Source content</h2>
+</section>
+<section id="source-content" class="level2">
+<h2 class="anchored" data-anchor-id="source-content">Source content</h2>
 <p>All source materials for this website can be accessed at <a href="https://github.com/tbep-tech/swfwmd-r-training" target="_blank">https://github.com/tbep-tech/swfwmd-r-training</a></p>
-<p><a href="https://github.com/tbep-tech/swfwmd-r-training/actions"><img src="https://github.com/tbep-tech/swfwmd-r-training/workflows/build/badge.svg" class="img-fluid" alt="build"></a> This site is built automatically with GitHub Actions. Last site build 2026-06-25 10:39:34.599521.</p>
+<p><a href="https://github.com/tbep-tech/swfwmd-r-training/actions"><img src="https://github.com/tbep-tech/swfwmd-r-training/workflows/build/badge.svg" class="img-fluid" alt="build"></a> This site is built automatically with GitHub Actions. Last site build 2026-06-25 22:08:09.648707.</p>
 <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>&nbsp;&nbsp;This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -769,7 +798,9 @@ figcaption {
       }
     }
   });
-  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
       <a href="./R_overview.html" class="pagination-link" aria-label="R overview">
@@ -778,7 +809,8 @@ figcaption {
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <p>Website created by the instructor, with attribution to external content</p>
 </div>   
@@ -790,6 +822,8 @@ figcaption {
 </div>
   </div>
 </footer>
+
+
 
 
 </body></html>

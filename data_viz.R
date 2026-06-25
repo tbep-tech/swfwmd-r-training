@@ -1,73 +1,145 @@
-# Data viz lesson script
-# SWFWMD R Training
+library(tidyverse) # for the mpg dataset
+data(mpg)
+plot(hwy ~ displ, data = mpg)
 
-library(tidyverse)
+plot(mpg$displ, mpg$hwy)
 
-dat <- read_csv('data/dat.csv')
+# ?plot
 
-# ---- Base R graphics ----
+plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
+     xlab = 'engine size (l)', ylab = 'highway (mpg)')
 
-# simple plot
-plot(dat$Value)
+# ?par
 
-# scatter plot
-plot(dat$Date, dat$Value)
+plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
+     xlab = 'engine size (l)', ylab = 'highway (mpg)', 
+     col = 'blue', pch = 18, cex = 0.75, family = 'serif')
 
-# histogram
-hist(dat$Value)
+par(col = 'blue', pch = 18, cex = 0.75, family = 'serif')
+plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
+     xlab = 'engine size (l)', ylab = 'highway (mpg)')
 
-# boxplot
-boxplot(Value ~ Station, data = dat)
+hist(mpg$hwy)
 
-# ---- GGplot2 basics ----
+hist(mpg$hwy, breaks = 20)
 
-# basic scatter plot
-ggplot(dat, aes(x = Date, y = Value)) + 
+# # load tidyverse
+# library(tidyverse)
+# 
+# # load the fish data
+# dat <- read_csv('data/dat.csv')
+# 
+# # time series plot
+# plot(Value ~ Date, data = dat)
+# 
+# # time series plot with title
+# plot(Value ~ Date, data = dat, main = 'Value catch for all stations over time')
+
+# ggplot(data = mpg)
+
+# ggplot(data = mpg) +
+#   geom_point()
+
+# ggplot(data = mpg) +
+#   geom_point(mapping = aes(x = displ, y = hwy))
+
+# ggplot(data = <DATA>) +
+#   <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point()
 
-# add color by station
-ggplot(dat, aes(x = Date, y = Value, color = Station)) + 
-  geom_point()
-
-# line plot
-ggplot(dat, aes(x = Date, y = Value, color = Station)) + 
+ggplot(mpg, aes(x = displ, y = hwy)) + 
   geom_line()
 
-# histogram
-ggplot(dat, aes(x = Value)) + 
-  geom_histogram()
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_count()
 
-# boxplot
-ggplot(dat, aes(x = Station, y = Value)) + 
-  geom_boxplot()
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_density2d()
 
-# bar plot
-sumdat <- summarize(dat, mean_val = mean(Value, na.rm = TRUE), .by = Station)
-ggplot(sumdat, aes(x = Station, y = mean_val)) + 
-  geom_bar(stat = 'identity')
+# ggplot(mpg, aes(x = displ, y = hwy)) +
+#   geom_linerange()
 
-# ---- Modifying plot components ----
+# ?geom_linerange
 
-# labels and titles
-ggplot(dat, aes(x = Date, y = Value, color = Station)) + 
-  geom_point() +
-  labs(x = 'Date', y = 'Value', title = 'Training Data', color = 'Station')
+# ?geom_point
 
-# themes
-ggplot(dat, aes(x = Date, y = Value, color = Station)) + 
-  geom_point() +
-  theme_minimal()
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point()
 
-ggplot(dat, aes(x = Date, y = Value, color = Station)) + 
-  geom_point() +
+ggplot(mpg, aes(x = displ, y = hwy, size = displ)) + 
+  geom_point()
+
+ggplot(mpg, aes(x = displ, y = hwy, shape = drv)) + 
+  geom_point()
+
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(colour = 'red')
+
+# ggplot(dat, aes(x = Date, y = Value)) +
+#   geom_point() +
+#   scale_y_continuous('Value')
+
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  theme(
+    legend.position = 'top',
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = 'lightblue')
+  )
+
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
   theme_bw()
 
-# facets
-ggplot(dat, aes(x = Date, y = Value)) + 
-  geom_point() +
-  facet_wrap(~Station)
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  theme_minimal()
 
-# ---- Saving your plots ----
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  theme_classic()
 
-# save most recent plot
-ggsave('myplot.png', width = 8, height = 6)
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  theme_bw(base_family = 'serif', base_size = 16)
+
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  stat_smooth()
+
+ggplot(mpg, aes(x = displ, y = hwy)) + 
+  geom_point(aes(colour = drv)) + 
+  stat_smooth()
+
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  stat_smooth(method = 'lm')
+
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  stat_smooth(method = 'lm') + 
+  facet_wrap(~ drv, ncol = 3)
+
+ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+  geom_point() + 
+  stat_smooth(method = 'lm') + 
+  facet_wrap(~ drv, ncol = 3, scales = 'free')
+
+# ggplot(dat, aes(x = Date, y = Value)) +
+#   geom_point() +
+#   scale_y_continuous('Value') +
+#   theme_minimal() +
+#   stat_smooth(method = 'lm') +
+#   facet_wrap(~ Gear, ncol = 3)
+
+# ggsave('figure/myfig.jpg', device = 'jpeg', width = 5, height = 4, units = 'in', dpi = 300)
+
+# # save a plot as png file
+# png('figure/myfig.png', width = 5, height = 4, units = 'in', res = 300)
+# plot
+# dev.off()
