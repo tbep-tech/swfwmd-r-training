@@ -11,15 +11,16 @@ metaurl <- paste0(
   "&downloadfilename=Requested_Info_",
   "&custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"
 )
-
 metaurl
 
 # import the data
 metadat <- read.csv(metaurl)
 dim(metadat)
 
+# get the stations
 stations <- metadat$station_no
 
+# construct the URL with the stations
 wqurl <- paste0(
   "https://edp.swfwmd.state.fl.us/",
   "KiWIS/KiWIS?datasource=0",
@@ -30,10 +31,13 @@ wqurl <- paste0(
   "&period=complete",
   "&dateformat=yyyy-MM-dd%20HH:mm:ss"
 )
+
+# retrieve the data
 wqdat <- read.csv(wqurl)
 head(wqdat)
 dim(wqdat)
 
+unique(wqdat$station_no)
 setdiff(stations, unique(wqdat$station_no))
 
 wlurl1 <- paste0(

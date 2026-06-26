@@ -287,9 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="1.1" class="anchored" data-anchor-id="lesson-outline"><span class="header-section-number">1.1</span> Lesson Outline</h2>
 <ul>
 <li><a href="#goals-and-framing">Goals and framing</a></li>
-<li>[Why this training is different]</li>
 <li><a href="#project-oriented-workflow-in-rstudio">Project-oriented workflow in RStudio</a></li>
-<li>[Working with scripts from colleagues]</li>
 <li><a href="#accessing-swfwmd-data">Accessing SWFWMD data</a></li>
 <li><a href="#troubleshooting-and-getting-help">Troubleshooting and getting help</a></li>
 <li><a href="#generative-ai-as-a-support-tool">Generative AI as a support tool</a></li>
@@ -306,20 +304,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="goals-and-framing" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="goals-and-framing"><span class="header-section-number">1.3</span> Goals and framing</h2>
 <p><a href="https://www.r-project.org/" target="_blank">R</a> is a language for statistical computing and general purpose programming. It is one of the best languages for data science and analysis.</p>
-<p>This training is not intended to teach R from the ground up. Instead, it is meant for participants who can already run code in RStudio and want to become more effective using R for day-to-day work. The emphasis is on reproducible workflows, understanding inherited scripts, troubleshooting errors, and building confidence with realistic analysis tasks.</p>
+<p>This session is not intended to teach R from the ground up. Instead, it is meant for participants who can already run code in RStudio and want to become more effective using R for day-to-day work. The emphasis is on reproducible workflows, programmatically retrieving SWFWMD data, troubleshooting errors, and building confidence with realistic analysis tasks.</p>
 <p>You should be able to answer these questions at the end of this session:</p>
 <ul>
 <li>How should I organize an R project so my work is reproducible?</li>
-<li>How can I read and understand an R script that somebody else wrote?</li>
 <li>How do relative file paths and project structure prevent common errors?</li>
-<li>How can I bring external data into a project and inspect it quickly?</li>
+<li>How can I use the <a href="https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal" target="_blank">SWFWMD Environmental Data Portal</a> to programmatically retrieve data?</li>
 <li>Where can I go for help?</li>
 <li>How can AI help me troubleshoot without replacing the learning process?</li>
 </ul>
 </section>
 <section id="project-oriented-workflow-in-rstudio" class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="project-oriented-workflow-in-rstudio"><span class="header-section-number">1.4</span> Project-oriented workflow in RStudio</h2>
-<p><a href="https://posit.co/download/rstudio-desktop/" target="_blank">RStudio</a> remains the primary teaching environment for this workshop. It gives you one place to write scripts, run code, inspect objects, review files, and view plots. For professional work, the most important habit is not simply knowing where the panes are, but using RStudio in a way that makes your projects portable and understandable.</p>
+<p><a href="https://posit.co/download/rstudio-desktop/" target="_blank">RStudio</a> is the primary teaching environment for this workshop. It gives you one place to write scripts, run code, inspect objects, review files, and view plots. You can leverage RStudio in a way that makes your projects portable and understandable.</p>
 <section id="why-projects-matter" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="why-projects-matter"><span class="header-section-number">1.4.1</span> Why projects matter</h3>
 <p>An RStudio Project gives a single home for data, scripts, figures, and outputs associated with one analysis. This matters because many frustrating R problems are really project management problems:</p>
@@ -379,7 +376,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="accessing-swfwmd-data" class="level2" data-number="1.6">
 <h2 data-number="1.6" class="anchored" data-anchor-id="accessing-swfwmd-data"><span class="header-section-number">1.6</span> Accessing SWFWMD data</h2>
-<p>One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD <a href="https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal" target="_blank">Environmetnal Data Portal</a> and then use those data in later wrangling, plotting, and spatial examples.</p>
+<p>One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD <a href="https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal" target="_blank">Environmental Data Portal</a> and then use those data in later wrangling, plotting, and spatial examples.</p>
 <p>For now, think of portal access as another data import step. The main ideas are:</p>
 <ul>
 <li>build a request URL carefully,</li>
@@ -405,8 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;downloadfilename=Requested_Info_"</span>,</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"</span></span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>metaurl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>metaurl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?service=kisters&amp;type=queryServices&amp;request=getStationList&amp;station_no=*&amp;datasource=0&amp;returnfields=station_no,station_name,station_latitude,station_longitude,ca_sta&amp;format=csv&amp;csvdiv=,&amp;downloadfilename=Requested_Info_&amp;custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"</code></pre>
 </div>
@@ -422,20 +418,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Our request returned information for 8 active stations (as rows) in Lake Panasoffkee. There’s also a bunch of columns (73 to be exact) that we probably don’t need, but we’ll deal with those later. For now, we’ll use the station numbers (<code>station_no</code>) to retrieve water quality data and lake levels using another request.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> metadat<span class="sc">$</span>station_no</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>wqurl <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;service=kisters&amp;type=queryServices"</span>,</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getWqmSampleValues"</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;station_no="</span>, <span class="fu">paste</span>(stations, <span class="at">collapse =</span> <span class="st">','</span>),</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wqurl)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wqdat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the stations</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>stations <span class="ot">&lt;-</span> metadat<span class="sc">$</span>station_no</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># construct the URL with the stations</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>wqurl <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;service=kisters&amp;type=queryServices"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getWqmSampleValues"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;station_no="</span>, <span class="fu">paste</span>(stations, <span class="at">collapse =</span> <span class="st">','</span>),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieve the data</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wqurl)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wqdat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  station_no       station_name parametertype_shortname parametertype_name
 1      23113 Lake Panasoffkee 7                   WQ_79 Alkalinity (CaCO3)
@@ -457,41 +457,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 51931     7</code></pre>
 </div>
 </div>
-<p>The data we retrieved did not include all stations. Only those with water quality data were returned. Just keep that in mind when retrieving data. It may not be immediately obviuous that your request did not return data until you actually look at the results.</p>
+<p>The data we retrieved included 51931 rows and 7 columns. Also note that the data not include all stations. Only those with water quality data were returned. It may not be immediately obvious that your request did not return all stations until you actually look at the results.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(stations, <span class="fu">unique</span>(wqdat<span class="sc">$</span>station_no))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(wqdat<span class="sc">$</span>station_no)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 23113 23144 23152 23167 23169</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(stations, <span class="fu">unique</span>(wqdat<span class="sc">$</span>station_no))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1035944   23156   23142</code></pre>
 </div>
 </div>
-<p>The last data request is for water level data. These differ from the water quality data because they’re “continuous” in time, i.e., time series data, as opposed to “discrete” water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved. The requests also use a <code>ts_path</code>: something/station number/something else. I don’t know what this… I hope you do.</p>
+<p>The last data request we’ll make is for <em>water level</em> data. These differ from the <em>water quality</em> data because they’re “continuous” in time, i.e., time series data, as opposed to “discrete” water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved. The requests also use a <code>ts_path</code>: <code>something/station number/something else/some more stuff</code>. I don’t know what this… I hope you do.</p>
 <p>This requests data for station 1035944.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>wlurl1 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0&amp;service=kisters"</span>, </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;type=queryServices"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getTimeseriesValues"</span>, </span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;ts_path=362/1035944/236/Day.Mean.NAVD88.Published"</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;returnfields=Timestamp,Value&amp;metadata=TRUE"</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;md_returnfields=station_no,station_name,ts_unitsymbol"</span>,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span>, </span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;timezone=individual"</span>,</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>wldat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl1)</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>wlurl1 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0&amp;service=kisters"</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;type=queryServices"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getTimeseriesValues"</span>, </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;ts_path=362/1035944/236/Day.Mean.NAVD88.Published"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;returnfields=Timestamp,Value&amp;metadata=TRUE"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;md_returnfields=station_no,station_name,ts_unitsymbol"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span>, </span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;timezone=individual"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>wldat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl1)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 445   2</code></pre>
+<pre><code>[1] 446   2</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         X.station_no                   X1035944
 1       #station_name Lake Panasoffkee at CR 455
 2      #ts_unitsymbol                         ft
-3               #rows                        441
+3               #rows                        442
 4          #Timestamp                      Value
 5 2025-04-11 00:00:00                      38.94
 6 2025-04-12 00:00:00                      38.95</code></pre>
@@ -499,31 +503,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This requests data for station 23142.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>wlurl2 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0&amp;service=kisters"</span>, </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;type=queryServices"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getTimeseriesValues"</span>, </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;ts_path=1334/23142/236/Day.Mean.NAVD88.Published"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;returnfields=Timestamp,Value&amp;metadata=TRUE"</span>,</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;md_returnfields=station_no,station_name,ts_unitsymbol"</span>,</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span>, </span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;timezone=individual"</span>,</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>wldat2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl2)</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>wlurl2 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"KiWIS/KiWIS?datasource=0&amp;service=kisters"</span>, </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;type=queryServices"</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;request=getTimeseriesValues"</span>, </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;ts_path=1334/23142/236/Day.Mean.NAVD88.Published"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;returnfields=Timestamp,Value&amp;metadata=TRUE"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;md_returnfields=station_no,station_name,ts_unitsymbol"</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;period=complete"</span>,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;dateformat=yyyy-MM-dd%20HH:mm:ss"</span>, </span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;timezone=individual"</span>,</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"&amp;format=csv&amp;csvdiv=,"</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>wldat2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl2)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7512    2</code></pre>
+<pre><code>[1] 7513    2</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         X.station_no                  X23142
 1       #station_name Pana Vista Outlet River
 2      #ts_unitsymbol                      ft
-3               #rows                    7508
+3               #rows                    7509
 4          #Timestamp                   Value
 5 2005-12-05 00:00:00                   39.16
 6 2005-12-06 00:00:00                   39.17</code></pre>
@@ -531,10 +535,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>None of the data we requested is ready for analysis. Not only do we need to define what we want to do, but we also need to clean it up (wrangle) based on the needs of the analysis. We’ll deal with that later. For now, we can save the results to retrieve them later.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(metadat, <span class="st">"data/metadat.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wqdat, <span class="st">"data/wqdat.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat1, <span class="st">"data/wldat1.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat2, <span class="st">"data/wldat2.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(metadat, <span class="st">"data/metadat.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wqdat, <span class="st">"data/wqdat.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat1, <span class="st">"data/wldat1.csv"</span>, <span class="at">row.names =</span> F)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat2, <span class="st">"data/wldat2.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="exercise-2" class="level2" data-number="1.7">
@@ -562,9 +566,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="1.8.1" class="anchored" data-anchor-id="help-from-the-console-and-documentation"><span class="header-section-number">1.8.1</span> Help from the console and documentation</h3>
 <p>Getting help from the console is straightforward:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>?read_csv</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">"dplyr"</span>)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>??mutate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>?read_csv</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">"dplyr"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>??mutate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You should also get comfortable with package websites, vignettes, and worked examples. Searching the exact error message is often more effective than searching a vague description of the problem.</p>
 </section>
