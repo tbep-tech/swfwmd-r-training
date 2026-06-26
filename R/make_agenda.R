@@ -15,13 +15,13 @@ agenda <- data.frame(
   ),
   Topic = c(
     'Introduction and Setup',
-    'R Basics',
+    '[R Overview](R_overview.html)',
     'Break',
-    'Data Wrangling Part 1',
+    '[Data Wrangling Part 1](data_wrangling_1.html)',
     'Lunch',
-    'Data Wrangling Part 2 and Data Visualization',
+    '[Data Wrangling Part 2](data_wrangling_2.html) and [Data Visualization](data_viz.html)',
     'Break',
-    'Spatial Data Analysis',
+    '[Spatial Data Analysis](spatial_data_analysis.html)',
     'Wrap-up'
   ),
   stringsAsFactors = FALSE

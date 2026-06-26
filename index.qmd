@@ -22,7 +22,7 @@ The training content will combine instructor-led demonstrations with hands-on ex
 
 ```{r}
 load(file = 'data/agenda.RData')
-knitr::kable(agenda, row.names = F)
+knitr::kable(agenda, row.names = F, format = 'markdown')
 ```
 
 ## Housekeeping  {.unnumbered}
