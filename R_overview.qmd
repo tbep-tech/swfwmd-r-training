@@ -14,9 +14,7 @@ Get the lesson data: [download zip](data/data.zip)
 ## Lesson Outline
 
 - [Goals and framing]
-- [Why this training is different]
 - [Project-oriented workflow in RStudio]
-- [Working with scripts from colleagues]
 - [Accessing SWFWMD data]
 - [Troubleshooting and getting help]
 - [Generative AI as a support tool]
@@ -31,20 +29,19 @@ Get the lesson data: [download zip](data/data.zip)
 
 [R](https://www.r-project.org/){target="_blank"} is a language for statistical computing and general purpose programming. It is one of the best languages for data science and analysis. 
 
-This training is not intended to teach R from the ground up. Instead, it is meant for participants who can already run code in RStudio and want to become more effective using R for day-to-day work. The emphasis is on reproducible workflows, understanding inherited scripts, troubleshooting errors, and building confidence with realistic analysis tasks.
+This session is not intended to teach R from the ground up. Instead, it is meant for participants who can already run code in RStudio and want to become more effective using R for day-to-day work. The emphasis is on reproducible workflows, programmatically retrieving SWFWMD data, troubleshooting errors, and building confidence with realistic analysis tasks.
 
 You should be able to answer these questions at the end of this session:
 
 * How should I organize an R project so my work is reproducible?
-* How can I read and understand an R script that somebody else wrote?
 * How do relative file paths and project structure prevent common errors?
-* How can I bring external data into a project and inspect it quickly?
+* How can I use the [SWFWMD Environmental Data Portal](https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal){target="_blank"} to programmatically retrieve data?
 * Where can I go for help?
 * How can AI help me troubleshoot without replacing the learning process?
 
 ## Project-oriented workflow in RStudio
 
-[RStudio](https://posit.co/download/rstudio-desktop/){target="_blank"} remains the primary teaching environment for this workshop. It gives you one place to write scripts, run code, inspect objects, review files, and view plots. For professional work, the most important habit is not simply knowing where the panes are, but using RStudio in a way that makes your projects portable and understandable.
+[RStudio](https://posit.co/download/rstudio-desktop/){target="_blank"} is the primary teaching environment for this workshop. It gives you one place to write scripts, run code, inspect objects, review files, and view plots. You can leverage RStudio in a way that makes your projects portable and understandable.
 
 ### Why projects matter
 
@@ -118,7 +115,7 @@ This exercise sets up the project structure for the rest of the workshop.
 
 ## Accessing SWFWMD data
 
-One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD [Environmetnal Data Portal](https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal){target="_blank"} and then use those data in later wrangling, plotting, and spatial examples.
+One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD [Environmental Data Portal](https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal){target="_blank"} and then use those data in later wrangling, plotting, and spatial examples.
 
 For now, think of portal access as another data import step. The main ideas are:
 
@@ -147,7 +144,6 @@ metaurl <- paste0(
   "&downloadfilename=Requested_Info_",
   "&custattrfilter=station_status:Active;WaterBody_Name:Lake%20Panasoffkee"
 )
-
 metaurl
 ```
 
@@ -162,8 +158,10 @@ dim(metadat)
 Our request returned information for `r nrow(metadat)` active stations (as rows) in Lake Panasoffkee.  There's also a bunch of columns (`r ncol(metadat)` to be exact) that we probably don't need, but we'll deal with those later.  For now, we'll use the station numbers (`station_no`) to retrieve water quality data and lake levels using another request.
 
 ```{r}
+# get the stations
 stations <- metadat$station_no
 
+# construct the URL with the stations
 wqurl <- paste0(
   "https://edp.swfwmd.state.fl.us/",
   "KiWIS/KiWIS?datasource=0",
@@ -174,18 +172,21 @@ wqurl <- paste0(
   "&period=complete",
   "&dateformat=yyyy-MM-dd%20HH:mm:ss"
 )
+
+# retrieve the data
 wqdat <- read.csv(wqurl)
 head(wqdat)
 dim(wqdat)
 ```
 
-The data we retrieved did not include all stations.  Only those with water quality data were returned.  Just keep that in mind when retrieving data.  It may not be immediately obviuous that your request did not return data until you actually look at the results. 
+The data we retrieved included `r nrow(wqdat)` rows and `r ncol(wqdat)` columns. Also note that the data not include all stations.  Only those with water quality data were returned. It may not be immediately obvious that your request did not return all stations until you actually look at the results. 
 
 ```{r}
+unique(wqdat$station_no)
 setdiff(stations, unique(wqdat$station_no))
 ```
 
-The last data request is for water level data.  These differ from the water quality data because they're "continuous" in time, i.e., time series data, as opposed to "discrete" water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved.  The requests also use a `ts_path`: something/station number/something else.  I don't know what this... I hope you do.
+The last data request we'll make is for *water level* data.  These differ from the *water quality* data because they're "continuous" in time, i.e., time series data, as opposed to "discrete" water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved.  The requests also use a `ts_path`: `something/station number/something else/some more stuff`.  I don't know what this... I hope you do.
 
 This requests data for station 1035944. 
 
