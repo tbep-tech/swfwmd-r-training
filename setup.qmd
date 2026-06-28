@@ -69,7 +69,7 @@ Once installed, RStudio should be accessible from the start menu. Start up RStud
 For this training you will need to install the following R packages. You can do this by running the following code in the RStudio console:
 
 ```r
-install.packages(c('tidyverse', 'sf', 'mapview'))
+install.packages(c('here', 'tidyverse', 'sf', 'mapview'))
 ```
 
 If you encounter any errors during installation, please contact the instructor before the training day. __Installation issues will not be addressed the day of the training__.

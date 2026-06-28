@@ -83,6 +83,16 @@ data_file <- file.path("data", "dat.csv")
 station_file <- file.path("data", "statloc.csv")
 ```
 
+Better yet, get in the habit of using the [here](https://here.r-lib.org/){target="_blank"} package to construct paths relative to the project root:
+
+```{r}
+library(here)
+
+# project-relative file paths using here
+data_file <- here("data", "dat.csv")
+station_file <- here("data", "statloc.csv")
+```
+
 This is preferable to absolute paths such as `C:/Users/name/Desktop/...`, which usually fail as soon as the code moves to a different computer or folder.
 
 ### Scripting
@@ -97,6 +107,14 @@ After you write code in your script, use the `Run` button or `ctrl+enter` (`cmd+
 
 ![](figs/R_overview/rstudio_run.jpg)
 
+### Modular projects
+
+An RStudio project is simply a folder on your computer.  All of your data, scripts, and outputs can live in that folder.  You can create subfolders for different parts of your analysis.  For example, you might have a `data` folder for raw data, an `R` folder for your R scripts, and a `figs` folder for figures you create. As noted above, all file paths should be relative to the project root, so you can move the entire project folder to a different location or share it with someone else without breaking your code.
+
+An RStudio project also contains a file with the extension `.Rproj`.  This file contains information about the project and is used by RStudio to open the project.  You can share this file with others, but you should not edit it directly.  Instead, use the RStudio interface to manage your project.
+
+Rather than sharing a script with someone else, you can share the entire project folder.  This way, they can open the project in RStudio and have access to all of the data, scripts, and outputs.  This is especially useful for collaborative work.
+
 ## Exercise 1
 
 This exercise sets up the project structure for the rest of the workshop.
@@ -105,7 +123,7 @@ This exercise sets up the project structure for the rest of the workshop.
 
 1. Create a new project (File menu, New project, New directory, New project, Directory Name...). Name it `swfwmd_r_training`.
 
-1. Inside the project, create folders named `data`, `scripts`, and `figs`.
+1. Inside the project, create folders named `data`, `R`, and `figs`.
 
 1. Create a new script in the Source pane and save it as `scripts\workflow_notes.R`.
 
@@ -132,7 +150,7 @@ For this workshop, we'll be working with three different types of data, all of w
 
 These can be obtained by using a constructed web address (URL) with the information you like.  
 
-An example URL pattern for requesting station metadata looks like this.  I've separated it into parts for the example to better explain the request.  The API has a URL generator [here](https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681) that can create these requests.
+An example URL pattern for requesting station metadata looks like this.  The API has a URL generator [here](https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681) that can create these requests.  The URL below retrieves station metadata for all active stations in Lake Panasoffkee.  The request is broken into parts to make it easier to read.
 
 ```{r}
 metaurl <- paste0(
@@ -157,6 +175,8 @@ dim(metadat)
 
 Our request returned information for `r nrow(metadat)` active stations (as rows) in Lake Panasoffkee.  There's also a bunch of columns (`r ncol(metadat)` to be exact) that we probably don't need, but we'll deal with those later.  For now, we'll use the station numbers (`station_no`) to retrieve water quality data and lake levels using another request.
 
+The URL request for water quality looks like this.  We've constructed it to retrieve the active stations in Lake Panasoffkee. 
+
 ```{r}
 # get the stations
 stations <- metadat$station_no
@@ -179,7 +199,7 @@ head(wqdat)
 dim(wqdat)
 ```
 
-The data we retrieved included `r nrow(wqdat)` rows and `r ncol(wqdat)` columns. Also note that the data not include all stations.  Only those with water quality data were returned. It may not be immediately obvious that your request did not return all stations until you actually look at the results. 
+The data we retrieved included `r nrow(wqdat)` rows and `r ncol(wqdat)` columns. Also note that the data did not include all stations.  Only those with water quality data were returned. It may not be immediately obvious that your request did not return all stations until you actually look at the results. 
 
 ```{r}
 unique(wqdat$station_no)
@@ -232,7 +252,7 @@ dim(wldat2)
 head(wldat2)
 ```
 
-None of the data we requested is ready for analysis.  Not only do we need to define what we want to do, but we also need to clean it up (wrangle) based on the needs of the analysis.  We'll deal with that later.  For now, we can save the results to retrieve them later. 
+None of the data we requested is ready for analysis.  Not only do we need to figure out what we want to do, but we also need to clean it up (wrangle) based on the needs of the analysis.  We'll deal with that later.  For now, we can save the results to retrieve them later. 
 
 ```{r}
 write.csv(metadat, "data/metadat.csv", row.names = F)
@@ -241,13 +261,20 @@ write.csv(wldat1, "data/wldat1.csv", row.names = F)
 write.csv(wldat2, "data/wldat2.csv", row.names = F)
 ```
 
+A final note about APIs:
+
+* Sometimes you will need to make the request again if it fails on the first try.  The request can be fickle based on your web connection and the server load.
+* I noticed that the above request for the metadata returned `r nrow(metadat)` columns, but I only requested five fields. This is clearly not working correctly. 
+* APIs often change over time, so you may need to consult the online documentation for the correct format if something is not working as expected.
+* Most APIs also have limits on the amount of data you can retrieve per request.  You will need to make requests iteratively within a loop to get all the data you need, but that is beyond the scope of this workshop.
+
 ## Exercise 2
 
 Use the project you created in Exercise 1 and inspect the example data.
 
-1. Load `tidyverse`.
+1. Load the `here` and `tidyverse` packages.
 
-1. Import `metadat.csv` and `wqdat.csv` using relative file paths.
+1. Import `metadat.csv` and `wqdat.csv` with `read.csv()`using relative file paths constructed with the `here()` function.
 
 1. Use `names()`, `dim()`, `head()`, or `glimpse()` to inspect each dataset.
 
