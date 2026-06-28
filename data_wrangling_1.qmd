@@ -120,20 +120,22 @@ The `dplyr` package provides easy tools for these common data manipulation tasks
 I'll demonstrate the examples with the training dataset from the last lesson.
 
 ```{r}
+library(here)
+
 # import the data
-dat <- read_csv('data/dat.csv')
+metadat <- read_csv(here('data', 'metadat.csv'))
 
 # see first six rows
 head(dat)
 
 # dimensions
-dim(dat)
+dim(metadat)
 
 # column names
-names(dat)
+names(metadat)
 
 # structure
-str(dat)
+str(metadat)
 ```
 
 ### Selecting
@@ -142,26 +144,47 @@ Let's begin using dplyr. Don't forget to load the tidyverse if you haven't done 
 
 ```{r}
 # first, select some columns
-dplyr_sel1 <- select(dat, Date, Station, Value)
+dplyr_sel1 <- select(metadat, station_no, station_name, station_latitude, station_longitude)
 head(dplyr_sel1)
 
-# select everything but a column
-dplyr_sel2 <- select(dat, -Value)
+# select everything but some columns
+dplyr_sel2 <- select(metadat, -c(Waterbody_Name:region_district))
 head(dplyr_sel2)
 ```
 
 ### Filtering
 
-After selecting columns, you'll probably want to remove observations that don't fit some criteria.  For example, maybe you want to remove all rows with low values or maybe you want to look only at data from a specific station. 
+After selecting columns, you'll probably want to remove observations that don't fit some criteria.  We'll use the water quality data for this example. 
+
+```{r}
+# import water quality data
+wqdat <- read_csv(here('data', 'wqdat.csv'))
+
+# see first six rows
+head(wqdat)
+
+# dimensions
+dim(dat)
+
+# column names
+names(wqdat)
+
+# structure
+str(wqdat)
+```
+
+Maybe you want to look at only one parameter or one station.
 
 ```{r}
 # filter observations with high values
-dplyr_high <- filter(dat, Value > 10)
-head(dplyr_high)
+wqdat_temp <- filter(wqdat, parametertype_name == "Temperature, Water")
+head(wqdat_temp)
+dim(wqdat_temp)
 
-# filter observations for a specific station
-dplyr_sta <- filter(dat, Station == 'A')
-head(dplyr_sta)
+# filter data for one station
+wqdat_sta <- filter(wqdat, station_name == "Lake Panasoffkee 7")
+head(wqdat_sta)
+dim(wqdat_sta)
 ```
 
 Filtering can take a bit of time to master because there are several ways to tell R what you want. Within the filter function, the working part is a *logical selection* of `TRUE` and `FALSE` values that are used to select rows (`TRUE` means I want that row, `FALSE` means I don't).  Every selection within the filter function, no matter how complicated, will always be a T/F vector.  This is similar to running queries on a database if you're familiar with SQL.
@@ -172,23 +195,23 @@ Multiple logical selections to `filter()` can be combined. Every expression must
 
 ![](figs/data_wrangling_1/transform-logical.png)
 
-Let's start combining filtering operations.
+Let's create some more complicated filtering examples.
 
 ```{r}
-# get rows with values between 5 and 20
-filt1 <- filter(dat, Value > 5 & Value < 20)
+# all rows with water temperature greater than 25 C
+filt1 <- filter(wqdat, parametertype_name == 'Temperature, Water' & value > 25)
 head(filt1)
 
-# get rows from station A with values > 10
-filt2 <- filter(dat, Station == 'A' & Value > 10)
+# all rows with water temperature greater than 25 C and less than 30 C
+filt2 <- filter(wqdat, parametertype_name == 'Temperature, Water' & value > 25 & value < 30)
 head(filt2)
 
-# get rows from station A or B
-filt3 <- filter(dat, Station == 'A' | Station == 'B')
+# get rows for Lake Pansoffkee 7 or Lake Panasoffkee 4
+filt3 <- filter(wqdat, station_name == "Lake Panasoffkee 7" | station_name == "Lake Panasoffkee 4")
 head(filt3)
 
-# get rows from station A or B using different syntax
-filt4 <- filter(dat, Station %in% c('A', 'B'))
+# another way to get rows that fulfill multiple criteria
+filt4 <- filter(wqdat, station_name %in% c("Lake Panasoffkee 7", "Lake Panasoffkee 4"))
 head(filt4)
 ```
 
@@ -198,28 +221,44 @@ Now that we've seen how to select columns and filter observations, maybe we want
 
 ```{r}
 # add a new column
-dplyr_mut1 <- mutate(dat, dumb_column = 1)
+dplyr_mut1 <- mutate(wqdat, dumb_column = 1)
 head(dplyr_mut1)
 
 # add a column as Value divided by 100
-dplyr_mut2 <- mutate(dat, Value_p100 = Value / 100)
+dplyr_mut2 <- mutate(wqdat, Value_p100 = value / 100)
 head(dplyr_mut2)
 
 # add a category column
-dplyr_mut3 <- mutate(dat, category = ifelse(Value < 10, 'low', 'high'))
+dplyr_mut3 <- mutate(wqdat, category = ifelse(value < 10, 'low', 'high'))
 head(dplyr_mut3)
 ```
 
-Some other useful dplyr functions include `arrange` to sort the observations (rows) by a column and `rename` to (you guessed it) rename a column.
+Since the water quality data are collected on specific dates, we can also use `mutate` to convert the date column to different formats. The `lubridate` package allows us to easily extract different time components.  First, we want to make sure the timestamp column is ain the correct format.
 
 ```{r}
-# arrange by value
-dplyr_arr <- arrange(dat, Value)
-head(dplyr_arr)
+# check the class
+class(wqdat$timestamp)
 
-# rename a column
-dplyr_rnm <- rename(dat, date = Date)
-head(dplyr_rnm)
+# check the timezone
+attr(wqdat$timestamp, "tzone")
+```
+
+We'll need to convert the time zone from UTC to Eastern Time (`readxl::read_csv()` assumed UTC).  We'll use `mutate` and `lubridate::with_tz()` to convert the timestamp column to Eastern Time.  Note that the time zone is specified as "Etc/GMT+5", which is Eastern Time without daylight savings.
+
+```{r}
+# convert to Eastern Time
+wqdat <- mutate(wqdat, timestamp = lubridate::with_tz(timestamp, tzone = "Etc/GMT+5"))
+```
+
+Now we can create extra columns for different time components.  This might be useful if we want to know what time of day most parameters are collected or if results vary seasonally (e.g., by month).
+
+```{r}
+# create new columns for year, month, day, and hour
+wqdat <- mutate(wqdat, year = lubridate::year(timestamp),
+                month = lubridate::month(timestamp),
+                day = lubridate::day(timestamp),
+                hour = lubridate::hour(timestamp))
+head(wqdat)
 ```
 
 There are many more functions in `dplyr`, but you'll use the ones above the most.  As you can imagine, they are most effective when used together because there is never a single step in the data wrangling process.  After the exercise, we'll talk about how we can efficiently *pipe* functions to create a new data object.
