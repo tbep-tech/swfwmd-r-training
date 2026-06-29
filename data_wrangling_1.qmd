@@ -75,16 +75,17 @@ Other packages (e.g., `readxl`) are also included but you will probably not use 
 
 A nice feature of tidyverse is the ability to check for and install new versions of each package:
 
-``` r
+```r
 tidyverse_update()
 #> The following packages are out of date:
-#>  * broom (0.4.0 -> 0.4.1)
-#>  * DBI   (0.4.1 -> 0.5)
-#>  * Rcpp  (0.12.6 -> 0.12.7)
-#> Update now?
-#>
-#> 1: Yes
-#> 2: No
+#> 
+#> • dbplyr        (2.3.2 -> 2.6.0)
+#> • rlang         (1.1.7 -> 1.2.0)
+#> • tibble        (3.2.1 -> 3.3.1)
+#> • xml2          (1.5.2 -> 1.6.0)
+#> 
+#> Start a clean R session then run:
+#> install.packages(c("dbplyr", "rlang", "tibble", "xml2"))
 ```
 
 As you'll soon learn using R, there are often several ways to achieve the same goal.  The tidyverse provides tools to address problems that can be solved with other packages or even functions from the base installation.  Tidyverse is admittedly an *opinionated* approach to data exploration, but it's popularity and rapid growth within the R community is a testament to the power of the tools that are provided.
@@ -126,7 +127,7 @@ library(here)
 metadat <- read_csv(here('data', 'metadat.csv'))
 
 # see first six rows
-head(dat)
+head(metadat)
 
 # dimensions
 dim(metadat)
