@@ -312,8 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Selecting variables with <code>select</code></li>
 <li>Filtering observations by some criteria with <code>filter</code></li>
 <li>Adding or modifying existing variables with <code>mutate</code></li>
-<li>Arranging rows by a variable with <code>arrange</code></li>
-<li>Renaming variables with <code>rename</code></li>
+<li>Working with the <a href="http://lubridate.tidyverse.org" target="_blank">lubridate</a> package</li>
 </ul>
 <p>As before, we only have one hour to cover the basics of data wrangling. It’s an unrealistic expectation that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what’s possible. I also want to provide resources that you can use for follow-up learning on your own.</p>
 <p>After this lesson you should be able to answer (or be able to find answers to) the following:</p>
@@ -347,7 +346,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="combining-data" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="combining-data"><span class="header-section-number">3.4</span> Combining data</h2>
 <p>Combining data is a common task of data wrangling. Perhaps we want to combine information between two datasets that share a common identifier. As a real world example, our training data contain measurements from various stations, but we also want to include spatial information about those stations (i.e., lat, lon). We would need to combine data if this information is in two different places. Combining data with dplyr is called joining.</p>
-<p>All joins require that each of the tables can be linked by shared identifiers. These are called ‘keys’ and are usually represented as a separate column that acts as a unique variable for the observations. The “Station ID” is our common key, but remember that a key might need to be unique for each row. It doesn’t make sense to join two tables by station ID if multiple site visits were made. In that case, your keys should include some information about the site visit <strong>and</strong> station ID. In other words, you would need to join with two variables.</p>
+<p>All joins require that each of the tables can be linked by shared identifiers. These are called ‘keys’ and are usually represented as a separate column that acts as a unique variable for the observations. The <code>station_name</code> is our common key, but remember that a key might need to be unique for each row. It doesn’t make sense to join two tables by station if multiple site visits were made. In that case, your keys should include some information about the site visit <strong>and</strong> station. In other words, you would need to join with two variables.</p>
 <section id="types-of-joins" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="types-of-joins"><span class="header-section-number">3.4.1</span> Types of joins</h3>
 <p>The challenge with joins is that the two datasets may not represent the same observations for a given key. For example, you might have one table with all observations for every key, another with only some observations, or two tables with only a few shared keys. What you get back from a join will depend on what’s shared between tables, in addition to the type of join you use.</p>
@@ -356,27 +355,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The second is an <strong>outer-join</strong>, and comes in three flavors: left, right, and full.</p>
 <p><a href="figs/data_wrangling_2/join-outer.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figs/data_wrangling_2/join-outer.png" class="img-fluid"></a></p>
 <p>If all keys are shared between two data objects, then left, right, and full joins will give you the same result. I typically only use left_join just because it’s intuitive to me. This assumes that there is never any more information in the second table - it has the same or less keys as the original table.</p>
-<p>The data we downloaded for this training included water quality measurements and the locations of each station. If we want to plot any of the data by location, we need to join the two datasets.</p>
+<p>The data we downloaded for this training included station metadata and water quality measurements at the stations. If we want to plot any of the data by location, we need to join the two datasets.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the training data</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/dat.csv'</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load the station location data</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>statloc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/statloc.csv'</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># join the two </span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(dat, statloc, <span class="at">by =</span> <span class="st">'Station'</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joindat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load the metadata</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>metadat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"metadat.csv"</span>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># load the water quality data</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"wqdat.csv"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s do some quick wrangling to get the data ready for joining. We’ll remove the unnecessary columns from <code>metadat</code> and make sure that <code>timestamp</code> in <code>wqdat</code> is in the correct format.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select station name, lat, lon</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>metadat <span class="ot">&lt;-</span> metadat <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(station_name, station_latitude, station_longitude)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># format time zone</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp =</span> <span class="fu">force_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">"Etc/GMT+5"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now we can join the two datasets. We’ll use <code>left_join()</code> to combine the two datasets by the <code>station_name</code> key. We’re using a <code>left_join</code> because we know that there are fewer unique stations in the water quality data than the metadata. An <code>inner_join</code> would have also produced the same result. The result will be a new dataset that contains all of the water quality data, plus the station latitude and longitude.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># join the two </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> <span class="fu">left_join</span>(wqdat, metadat, <span class="at">by =</span> <span class="st">'station_name'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joindat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 5
-  Date       Station Value Longitude Latitude
-  &lt;date&gt;     &lt;chr&gt;   &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-1 2020-01-01 A        9.57     -82.4     28.0
-2 2020-02-01 A        9.48     -82.4     28.0
-3 2020-03-01 A        9.67     -82.4     28.0
-4 2020-04-01 A       12.1      -82.4     28.0
-5 2020-05-01 A        9.62     -82.4     28.0
-6 2020-06-01 A        5.51     -82.4     28.0</code></pre>
+<pre><code>[1] 51931     9</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(joindat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 9
+  station_no station_name       parametertype_shortname parametertype_name
+       &lt;dbl&gt; &lt;chr&gt;              &lt;chr&gt;                   &lt;chr&gt;             
+1      23113 Lake Panasoffkee 7 WQ_79                   Alkalinity (CaCO3)
+2      23113 Lake Panasoffkee 7 WQ_79                   Alkalinity (CaCO3)
+3      23113 Lake Panasoffkee 7 WQ_79                   Alkalinity (CaCO3)
+4      23113 Lake Panasoffkee 7 WQ_79                   Alkalinity (CaCO3)
+5      23113 Lake Panasoffkee 7 WQ_79                   Alkalinity (CaCO3)
+6      23113 Lake Panasoffkee 7 WQ_79                   Alkalinity (CaCO3)
+# ℹ 5 more variables: timestamp &lt;dttm&gt;, value &lt;dbl&gt;, unit_symbol &lt;chr&gt;,
+#   station_latitude &lt;dbl&gt;, station_longitude &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <p>A final note about joins is that you will have relationships between two tables defined as one-to-one, one-to-many, many-to-one, or many-to-many. Often times you may expect a one-to-one join (i.e., one row in table x will always correspond to one row in table y), but another relationship is observed (e.g., one row in table x corresponds to more than one row in table y, a one-to-many join). The join functions in dplyr will notify you if this occurs depending on the type of join you use. This is good because it tells you how to interpret the results of the join and whether or not you may have unexpected results. In general, you should have a prior expectation of the relationship between two tables. You can be explicit with the type of relationship you expect by including the arguments <code>relationship = 'one-to-one'</code> (or other types) in your join function.</p>
@@ -386,32 +405,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3.5" class="anchored" data-anchor-id="exercise-6"><span class="header-section-number">3.5</span> Exercise 6</h2>
 <p>For this exercise we’ll repeat the join we just did, but on a subset of the data. We’re going to select some columns of interest from our training dataset, filter by station, then use <code>full_join()</code> with the station location data. Try to use pipes if you can.</p>
 <ol type="1">
-<li><p>Select the <code>Date</code>, <code>Station</code>, and <code>Value</code> columns from the training dataset.</p></li>
-<li><p>Filter the dataset by <code>Station == 'A'</code>. Check the dimensions of the new dataset with <code>dim</code>.</p></li>
-<li><p>Use a <code>full_join</code> to join the dataset with the station location dataset. What is the key value for joining?</p></li>
+<li><p>Select the <code>station_name</code>, <code>timestamp</code>, <code>parametertype_name</code>, and <code>value</code> columns from the water quality dataset.</p></li>
+<li><p>Filter by <code>station_name</code> to get only station <code>"Lake Panasoffkee 8"</code> and <code>parametertype_name</code> to get only <code>"Temperature, Water"</code></p></li>
+<li><p>Use a <code>full_join</code> to join the dataset with the metadata. What is the key value for joining?</p></li>
 <li><p>Check the dimensions of the new table. What happened?</p></li>
 </ol>
 <div class="cell">
 <details class="code-fold">
 <summary>Click to show/hide solution</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load the training data</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/dat.csv'</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># load the station location data</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>statloc <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/statloc.csv'</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># wrangle before join</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Date, Station, Value) <span class="sc">|&gt;</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Station <span class="sc">==</span> <span class="st">'A'</span>) </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joindat)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># full join</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> joindat <span class="sc">|&gt;</span> </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(statloc, <span class="at">by =</span> <span class="st">'Station'</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joindat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wrangle before join</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(station_name, timestamp, parametertype_name, value) <span class="sc">|&gt;</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(station_name <span class="sc">==</span> <span class="st">"Lake Panasoffkee 8"</span> <span class="sc">&amp;</span> parametertype_name <span class="sc">==</span> <span class="st">"Temperature, Water"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joindat)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># full join</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>joindat <span class="ot">&lt;-</span> joindat <span class="sc">|&gt;</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">full_join</span>(metadat, <span class="at">by =</span> <span class="st">'station_name'</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(joindat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -420,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The opposite of a tidy dataset is a messy dataset. You should always work towards a tidy data set as an outcome of the wrangling process. Tidy data are easy to work with and will make downstream analysis much simpler. This will become apparent when we start summarizing and plotting our data.</p>
 <p>To help understand tidy data, it’s useful to look at alternative ways of representing data. The example below shows the same data organised in four different ways. Each dataset shows the same values of four variables <em>country</em>, <em>year</em>, <em>population</em>, and <em>cases</em>, but each dataset organises the values differently. Only one of these examples is tidy.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>table1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   country      year  cases population
@@ -432,7 +445,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 China        1999 212258 1272915272
 6 China        2000 213766 1280428583</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>table2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>table2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 4
    country      year type            count
@@ -450,7 +463,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 11 China        2000 cases          213766
 12 China        2000 population 1280428583</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>table3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>table3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   country      year rate             
@@ -462,8 +475,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5 China        1999 212258/1272915272
 6 China        2000 213766/1280428583</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spread across two tibbles</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>table4a  <span class="co"># cases</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spread across two tibbles</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>table4a  <span class="co"># cases</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   country     `1999` `2000`
@@ -472,7 +485,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 2 Brazil       37737  80488
 3 China       212258 213766</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>table4b  <span class="co"># population</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>table4b  <span class="co"># population</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   country         `1999`     `2000`
@@ -501,7 +514,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="3.6.1" class="anchored" data-anchor-id="values-as-column-names"><span class="header-section-number">3.6.1</span> Values as column names</h3>
 <p>A common problem is a dataset where some of the column names are not names of variables, but <em>values</em> of a variable. Take <code>table4a</code>: the column names <code>1999</code> and <code>2000</code> represent values of the <code>year</code> variable, and each row represents two observations, not one.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>table4a</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>table4a</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 3
   country     `1999` `2000`
@@ -519,8 +532,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Together those parameters generate the call to <code>pivot_longer()</code>:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>table4a <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">'1999'</span>, <span class="st">'2000'</span>), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>table4a <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(<span class="st">'1999'</span>, <span class="st">'2000'</span>), <span class="at">names_to =</span> <span class="st">"year"</span>, <span class="at">values_to =</span> <span class="st">"cases"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 3
   country     year   cases
@@ -540,7 +553,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="observations-across-rows"><span class="header-section-number">3.6.2</span> Observations across rows</h3>
 <p>Another problem is when you have a single observation scattered across rows. For example, <code>table2</code> shows that the number of cases and population is spread across rows where the observation is country and year.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>table2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>table2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 12 × 4
    country      year type            count
@@ -566,7 +579,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Once we’ve figured that out, we can use <code>pivot_wider()</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(table2, <span class="at">names_from =</span> <span class="st">'type'</span>, <span class="at">values_from =</span> <span class="st">'count'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pivot_wider</span>(table2, <span class="at">names_from =</span> <span class="st">'type'</span>, <span class="at">values_from =</span> <span class="st">'count'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 4
   country      year  cases population
@@ -585,105 +598,104 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="exercise-7" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="exercise-7"><span class="header-section-number">3.7</span> Exercise 7</h2>
-<p>Let’s take a look at the training data. Are these data “tidy”? To help with the next few examples, we’ll use <code>pivot_longer()</code> to manipulate the data.</p>
+<p>Let’s take a look at the water quality data. Are these data “tidy”? To demonstrate a different format, we’ll use <code>pivot_wider()</code> to manipulate the data.</p>
 <ol type="1">
-<li><p>Inspect the training dataset. What are the dimensions (hint: <code>dim()</code>)? What are the names and column types (hint: <code>str()</code>)?</p></li>
-<li><p>If your data have multiple parameter columns, use the <code>pivot_longer()</code> function to move the parameter columns and their values into two new columns. What value will you use for the <code>names_to</code> argument? What value will you use for the <code>values_to</code> argument? Assign the new dataset to a variable in your environment.</p></li>
+<li><p>Inspect the water quality dataset. What are the dimensions (hint: <code>dim()</code>)? What are the names and column types (hint: <code>str()</code>)?</p></li>
+<li><p>Remove the <code>unit_symbol</code> and <code>parametertype_shortname</code> columns and convert <code>timestamp</code> to date using <code>as.Date()</code>. Assign the new dataset to a variable in your environment. Why do we need to do this?</p></li>
+<li><p>The data are in long format with parameters spread across rows. We can convert it to wide format with one parameter per column using the <code>pivot_wider()</code> function. What value will you use for the <code>names_from</code> argument? What value will you use for the <code>values_from</code> argument? Also add the argument <code>values_fn = mean</code>. We’ll explain what this does in a minute. Assign the new dataset to a variable in your environment.</p></li>
 <li><p>Check the dimensions and structure of your new dataset. What’s different?</p></li>
 </ol>
 <div class="cell">
 <details class="code-fold">
 <summary>Click to show/hide solution</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check dimensions, structure</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dat)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># convert dat to long format</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>longdat <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span><span class="fu">c</span>(Date, Station), <span class="at">names_to =</span> <span class="st">'Parameter'</span>, <span class="at">values_to =</span> <span class="st">'Value'</span>)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="co"># check dimensions, structure</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(longdat)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(longdat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check dimensions, structure</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wqdat)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wqdat)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># convert dat to long format</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>longdat <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>unit_symbol, <span class="sc">-</span>parametertype_shortname) <span class="sc">|&gt;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp =</span> <span class="fu">as.Date</span>(timestamp)) <span class="sc">|&gt;</span> </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> parametertype_name, <span class="at">values_from =</span> value, <span class="at">values_fn =</span> mean)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co"># check dimensions, structure</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(longdat)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(longdat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
 <section id="summarize" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="summarize"><span class="header-section-number">3.8</span> Summarize</h2>
 <p>The last tool we’re going to learn about in <code>dplyr</code> is the <code>summarize</code> function. As the name implies, this function lets you summarize columns in a dataset. Think of it as a way to condense rows using a summary method of your choice, e.g., what’s the average of the values in a column based on groups in another column?</p>
-<p>We can use the <code>summarize()</code> function to get the total or average value by group. Note the use of the <code>.by</code> argument as a critical piece that defines the groups for summarizing.</p>
+<p>We can use the <code>summarize()</code> function to get the total or average value by group. Note the use of the <code>.by</code> argument as a critical piece that defines the groups for summarizing. The mean function also uses the optional argument <code>na.rm = T</code> to remove missing values from the calculation, otherwise, the result will be <code>NA</code>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>by_sta <span class="ot">&lt;-</span> <span class="fu">summarize</span>(dat, <span class="at">mean_val =</span> <span class="fu">mean</span>(Value), <span class="at">.by =</span> Station)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>by_sta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>by_sta <span class="ot">&lt;-</span> <span class="fu">summarize</span>(wqdat, <span class="at">mean_val =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> T), <span class="at">.by =</span> <span class="fu">c</span>(station_name, parametertype_name))</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>by_sta</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  Station mean_val
-  &lt;chr&gt;      &lt;dbl&gt;
-1 A           9.90
-2 B          10.3 
-3 C          10.6 </code></pre>
+<pre><code># A tibble: 241 × 3
+   station_name       parametertype_name         mean_val
+   &lt;chr&gt;              &lt;chr&gt;                         &lt;dbl&gt;
+ 1 Lake Panasoffkee 7 Alkalinity (CaCO3)         133.    
+ 2 Lake Panasoffkee 7 Ammonia (N)                  0.0443
+ 3 Lake Panasoffkee 7 Arsenic                      6.22  
+ 4 Lake Panasoffkee 7 Bicarbonate (CaCO3)        132.    
+ 5 Lake Panasoffkee 7 Cadmium                      0.3   
+ 6 Lake Panasoffkee 7 Calcium                     58.9   
+ 7 Lake Panasoffkee 7 Carbon- Total Organic       12.5   
+ 8 Lake Panasoffkee 7 Chloride                    11.2   
+ 9 Lake Panasoffkee 7 Chlorophyll a- corrected    19.6   
+10 Lake Panasoffkee 7 Chlorophyll a- uncorrected  20.6   
+# ℹ 231 more rows</code></pre>
 </div>
 </div>
-<p>We can group the dataset by more than one column to get summaries with multiple groups.</p>
+<p>The below example is the same as the previous, except we’re also grouping by year, firstby creating the <code>Year</code> variable using <code>mutate()</code> and the <code>lubridate::year()</code> function. The result is a summary of the average value by station, parameter, and year.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>by_sta_yr <span class="ot">&lt;-</span> dat <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(Date)) <span class="sc">|&gt;</span> </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_val =</span> <span class="fu">mean</span>(Value), <span class="at">.by =</span> <span class="fu">c</span>(Station, Year))</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>by_sta_yr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>by_sta_yr <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(timestamp)) <span class="sc">|&gt;</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_val =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.by =</span> <span class="fu">c</span>(station_name, parametertype_name, Year))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>by_sta_yr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 12 × 3
-   Station  Year mean_val
-   &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;
- 1 A        2020    10.0 
- 2 A        2021     9.94
- 3 A        2022     9.18
- 4 A        2023    10.5 
- 5 B        2020    10.6 
- 6 B        2021    10.6 
- 7 B        2022     8.94
- 8 B        2023    11.0 
- 9 C        2020    11.4 
-10 C        2021     9.63
-11 C        2022    10.4 
-12 C        2023    11.1 </code></pre>
+<pre><code># A tibble: 4,339 × 4
+   station_name       parametertype_name  Year mean_val
+   &lt;chr&gt;              &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Lake Panasoffkee 7 Alkalinity (CaCO3)  2000     80.8
+ 2 Lake Panasoffkee 7 Alkalinity (CaCO3)  2001    130. 
+ 3 Lake Panasoffkee 7 Alkalinity (CaCO3)  2002    132. 
+ 4 Lake Panasoffkee 7 Alkalinity (CaCO3)  2003    148. 
+ 5 Lake Panasoffkee 7 Alkalinity (CaCO3)  2004    141. 
+ 6 Lake Panasoffkee 7 Alkalinity (CaCO3)  2005    155. 
+ 7 Lake Panasoffkee 7 Alkalinity (CaCO3)  2006    109. 
+ 8 Lake Panasoffkee 7 Alkalinity (CaCO3)  2007    107. 
+ 9 Lake Panasoffkee 7 Alkalinity (CaCO3)  2008    146. 
+10 Lake Panasoffkee 7 Alkalinity (CaCO3)  2009    128. 
+# ℹ 4,329 more rows</code></pre>
 </div>
 </div>
 <p>We can also get more than one summary at a time. The summary function can use any function that operates on a vector. Some common examples include <code>min()</code>, <code>max()</code>, <code>sd()</code>, <code>var()</code>, <code>median()</code>, <code>mean()</code>, and <code>n()</code>. It’s usually good practice to include a summary of how many observations were in each group, so get used to including the <code>n()</code> function.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>more_sums <span class="ot">&lt;-</span> <span class="fu">summarize</span>(dat, </span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_val =</span> <span class="fu">min</span>(Value),</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_val =</span> <span class="fu">max</span>(Value),</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_val =</span> <span class="fu">mean</span>(Value), </span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> Station</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>more_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>more_sums <span class="ot">&lt;-</span> <span class="fu">summarize</span>(wqdat, </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">min_val =</span> <span class="fu">min</span>(value),</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">max_val =</span> <span class="fu">max</span>(value),</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_val =</span> <span class="fu">mean</span>(value), </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">c</span>(station_name, parametertype_name)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>more_sums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 5
-  Station     n min_val max_val mean_val
-  &lt;chr&gt;   &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
-1 A          48    2.14    13.9     9.90
-2 B          48    4.48    17.0    10.3 
-3 C          48    2.87    16.8    10.6 </code></pre>
-</div>
-</div>
-<p>Finally, many of the summary functions we’ve used (e.g., <code>sum()</code>, <code>min()</code>, <code>max()</code>, <code>mean()</code>) will not work correctly if there are missing observations in your data. You’ll see these as <code>NA</code> (or sometimes <code>NaN</code>) entries. You have to use the argument <code>na.rm = T</code> to explicitly tell R how to handle the missing values. Setting <code>na.rm = T</code> says to remove the <code>NA</code> values when summarizing the data.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="cn">NA</span>, <span class="dv">4</span>)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] NA</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">na.rm =</span> T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.333333</code></pre>
-</div>
-</div>
-<p>A quick check for missing values can be done with <code>anyNA</code>. This works on vectors and data frames.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
+<pre><code># A tibble: 241 × 6
+   station_name       parametertype_name             n min_val max_val mean_val
+   &lt;chr&gt;              &lt;chr&gt;                      &lt;int&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Lake Panasoffkee 7 Alkalinity (CaCO3)           205   1     197     133.    
+ 2 Lake Panasoffkee 7 Ammonia (N)                  212   0.005   0.631   0.0443
+ 3 Lake Panasoffkee 7 Arsenic                      149   0.6    11.2     6.22  
+ 4 Lake Panasoffkee 7 Bicarbonate (CaCO3)            7  73.4   162     132.    
+ 5 Lake Panasoffkee 7 Cadmium                        4   0.3     0.3     0.3   
+ 6 Lake Panasoffkee 7 Calcium                      158  18.6   128      58.9   
+ 7 Lake Panasoffkee 7 Carbon- Total Organic        221   3.24   33.3    12.5   
+ 8 Lake Panasoffkee 7 Chloride                     215   6.74   16.5    11.2   
+ 9 Lake Panasoffkee 7 Chlorophyll a- corrected     174   1     118.     19.6   
+10 Lake Panasoffkee 7 Chlorophyll a- uncorrected   146   1.41  116      20.6   
+# ℹ 231 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -691,22 +703,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3.9" class="anchored" data-anchor-id="exercise-8"><span class="header-section-number">3.9</span> Exercise 8</h2>
 <p>Now we have access to a several tools in the tidyverse to help us wrangle more effectively. For the final exercise, we’re going to subset our training data and get a summary. Specifically, we’ll filter our data by a specific station and parameter, then summarize the average value by year.</p>
 <ol type="1">
-<li><p>Using the long data we created in exercise 7, filter the data by a specific station and parameter.</p></li>
+<li><p>Using <code>wqdat</code>, filter the data by a specific station and parameter.</p></li>
 <li><p>Summarize the value column by taking the average grouped by year.</p></li>
 <li><p>Which year has the highest average value?</p></li>
 </ol>
 <div class="cell">
 <details class="code-fold">
 <summary>Click to show/hide solution</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>sumdat <span class="ot">&lt;-</span> longdat <span class="sc">|&gt;</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Station <span class="sc">==</span> <span class="st">'A'</span> <span class="sc">&amp;</span> Parameter <span class="sc">==</span> <span class="st">'Value'</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(Date)) <span class="sc">|&gt;</span> </span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ave =</span> <span class="fu">mean</span>(Value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> Year</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>ave)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>sumdat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sumdat <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(station_name <span class="sc">==</span> <span class="st">'Lake Panasoffkee 4'</span> <span class="sc">&amp;</span> parametertype_name <span class="sc">==</span> <span class="st">'Temperature, Water'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(timestamp)) <span class="sc">|&gt;</span> </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ave =</span> <span class="fu">mean</span>(value, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> Year</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>ave)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>sumdat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>

@@ -3,32 +3,37 @@
 
 library(tidyverse)
 
-# load the training data
-dat <- read_csv('data/dat.csv')
+library(here)
 
-# load the station location data
-statloc <- read_csv('data/statloc.csv')
+# load the metadata
+metadat <- read_csv(here("data", "metadat.csv"))
+
+# load the water quality data
+wqdat <- read_csv(here("data", "wqdat.csv"))
+
+# select station name, lat, lon
+metadat <- metadat |> 
+  select(station_name, station_latitude, station_longitude)
+
+# format time zone
+wqdat <- wqdat |> 
+  mutate(timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
 
 # join the two 
-joindat <- left_join(dat, statloc, by = 'Station')
+joindat <- left_join(wqdat, metadat, by = 'station_name')
+dim(joindat)
 head(joindat)
 
-# load the training data
-dat <- read_csv('data/dat.csv')
-
-# load the station location data
-statloc <- read_csv('data/statloc.csv')
-
 # wrangle before join
-joindat <- dat |> 
-  select(Date, Station, Value) |> 
-  filter(Station == 'A') 
+joindat <- wqdat |> 
+  select(station_name, timestamp, parametertype_name, value) |> 
+  filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Temperature, Water")
 
 dim(joindat)
 
 # full join
 joindat <- joindat |> 
-  full_join(statloc, by = 'Station')
+  full_join(metadat, by = 'station_name')
 
 dim(joindat)
 
@@ -50,45 +55,41 @@ table2
 pivot_wider(table2, names_from = 'type', values_from = 'count')
 
 # check dimensions, structure
-dim(dat)
-str(dat)
+dim(wqdat)
+str(wqdat)
 
 # convert dat to long format
-longdat <- dat |>
-  pivot_longer(-c(Date, Station), names_to = 'Parameter', values_to = 'Value')
+longdat <- wqdat |>
+  select(-unit_symbol, -parametertype_shortname) |>
+  mutate(timestamp = as.Date(timestamp)) |> 
+  pivot_wider(names_from = parametertype_name, values_from = value, values_fn = mean)
 
 # check dimensions, structure
 dim(longdat)
 str(longdat)
 
-by_sta <- summarize(dat, mean_val = mean(Value), .by = Station)
+by_sta <- summarize(wqdat, mean_val = mean(value, na.rm = T), .by = c(station_name, parametertype_name))
 by_sta
 
-by_sta_yr <- dat |> 
-  mutate(Year = lubridate::year(Date)) |> 
-  summarize(mean_val = mean(Value), .by = c(Station, Year))
+by_sta_yr <- wqdat |> 
+  mutate(Year = lubridate::year(timestamp)) |> 
+  summarize(mean_val = mean(value, na.rm = TRUE), .by = c(station_name, parametertype_name, Year))
 by_sta_yr
 
-more_sums <- summarize(dat, 
+more_sums <- summarize(wqdat, 
     n = n(),
-    min_val = min(Value),
-    max_val = max(Value),
-    mean_val = mean(Value), 
-    .by = Station
+    min_val = min(value),
+    max_val = max(value),
+    mean_val = mean(value), 
+    .by = c(station_name, parametertype_name)
   )
 more_sums
 
-x <- c(1, 2, NA, 4)
-mean(x)
-mean(x, na.rm = T)
-
-anyNA(x)
-
-sumdat <- longdat |>
-  filter(Station == 'A' & Parameter == 'Value') |> 
-  mutate(Year = lubridate::year(Date)) |> 
+sumdat <- wqdat |>
+  filter(station_name == 'Lake Panasoffkee 4' & parametertype_name == 'Temperature, Water') |> 
+  mutate(Year = lubridate::year(timestamp)) |> 
   summarize(
-    ave = mean(Value, na.rm = TRUE), 
+    ave = mean(value, na.rm = TRUE), 
     .by = Year
   ) |> 
   arrange(-ave)
