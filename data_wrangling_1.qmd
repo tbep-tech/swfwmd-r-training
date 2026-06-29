@@ -165,7 +165,7 @@ wqdat <- read_csv(here('data', 'wqdat.csv'))
 head(wqdat)
 
 # dimensions
-dim(dat)
+dim(wqdat)
 
 # column names
 names(wqdat)
