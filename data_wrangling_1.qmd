@@ -246,42 +246,46 @@ attr(wqdat$timestamp, "tzone")
 We'll need to convert the time zone from UTC to Eastern Time (`readxl::read_csv()` assumed UTC).  We'll use `mutate` and `lubridate::with_tz()` to convert the timestamp column to Eastern Time.  Note that the time zone is specified as "Etc/GMT+5", which is Eastern Time without daylight savings.
 
 ```{r}
+# load lubridate
+library(lubridate)
+
 # convert to Eastern Time
-wqdat <- mutate(wqdat, timestamp = lubridate::with_tz(timestamp, tzone = "Etc/GMT+5"))
+wqdat <- mutate(wqdat, timestamp = with_tz(timestamp, tzone = "Etc/GMT+5"))
 ```
 
 Now we can create extra columns for different time components.  This might be useful if we want to know what time of day most parameters are collected or if results vary seasonally (e.g., by month).
 
 ```{r}
 # create new columns for year, month, day, and hour
-wqdat <- mutate(wqdat, year = lubridate::year(timestamp),
-                month = lubridate::month(timestamp),
-                day = lubridate::day(timestamp),
-                hour = lubridate::hour(timestamp))
-head(wqdat)
+wqdat_dates <- mutate(wqdat, 
+  year = year(timestamp),
+  month = month(timestamp),
+  day = day(timestamp),
+  hour = hour(timestamp)
+)
+head(wqdat_dates)
 ```
 
 There are many more functions in `dplyr`, but you'll use the ones above the most.  As you can imagine, they are most effective when used together because there is never a single step in the data wrangling process.  After the exercise, we'll talk about how we can efficiently *pipe* functions to create a new data object.
 
 ## Exercise 4
 
-Now that you know the basic functions in `dplyr` and how to use them, let's put them to use.  Using `dat`, let's select some columns of interest, filter by station, and rename one of the columns.
+Now that you know the basic functions in `dplyr` and how to use them, let's put them to use.  Using `wqdat`, let's select some columns of interest, filter by station, and rename one of the columns.
 
-1.  Select the `Date`, `Station`, and `Value` columns.  Assign this dataset to a new object in your workspace.
+1.  Select the `timestamp`, `station_name`, `parametertype_name`, and `value` columns.  Assign this dataset to a new object in your workspace.
 
-1. Using the new object, filter to get all rows where Station is equal to `'A'` (hint, filter by the `Station` column and don't forget to use `==`). 
+1. Using the new object, filter to get all rows where Station is equal to `'Lake Panasoffkee 8'` and parameter is equal to `Temperature, Water` (hint, filter by the `station_name` column and `parametertype_name`, don't forget to use `==`). 
 
-1. Rename the `Date` column to `date`. 
+1. Convert the `timestamp` column to the correct time zone (hing, use `mutate` with `with_tz` for timezone `"Etc/GMT+5"`). 
 
 ```{r}
 #| eval: false
 #| echo: true
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
-ex1 <- select(dat, Date, Station, Value)
-ex1 <- filter(ex1, Station == 'A')
-ex1 <- rename(ex1, date = Date)
-head(ex1)
+ex1 <- select(wqdat, timestamp, station_name, parametertype_name, value)
+ex1 <- filter(ex1, station_name == "Lake Panasoffkee 8" & `parametertype_name` == "Temperature, Water")
+ex1 <- mutate(ex1, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
 ```
 
 ## Piping
@@ -298,7 +302,7 @@ top10df <- savecols[savecols$rank2015 <= 10,]
 basedat <- cropdat[cropdat$Party %in% top10df$Party,]
 ```
 
-Technically, if this works it's not "wrong", but there are a couple of issues that can lead to problems down the line. First, the flow of functions to manipulate the data is not obvious and this makes your code very hard to read. Second, lots of unecessary intermediates have been created in your workspace.  Anything that adds to clutter should be avoided because R is fundamentally based on object assignments.  The less you assign as a variable in your environment the easier it will be to navigate complex scripts.
+Technically, if this works it's not "wrong", but there are a couple of issues that can cause problems. First, the flow of functions to manipulate the data is not obvious and this makes your code very hard to read. Second, lots of unnecessary intermediates have been created in your workspace.  Anything that adds clutter should be avoided because R is fundamentally based on object assignments.  The less you assign to variables in your environment the easier it will be to navigate complex scripts.
 
 The good news is that you now know how to use the dplyr functions to wrangle data.  The function names in dplyr were chosen specifically to be descriptive.  This will make your code much more readable than if you were using base R counterparts.  However, I haven't told you how to easily link the functions.  Fortunately, there's an easy fix to this problem.
 
@@ -308,17 +312,17 @@ Consider the simple example:
 
 ```{r}
 # not using pipes, select a column, filter rows
-bad_ex <- select(dat, Station, Value)
-bad_ex2 <- filter(bad_ex, Value > 10)
+bad_ex <- select(wqdat, station_name, value)
+bad_ex2 <- filter(bad_ex, value > 10)
 ```
 
 With pipes, it looks like this:
 
 ```{r}
 # with pipes, select a column, filter rows
-good_ex <- dat |> 
-  select(Station, Value) |>
-  filter(Value > 10)
+good_ex <- wqdat |> 
+  select(station_name, value) |>
+  filter(value > 10)
 ```
 
 Now we've created only one new object in our environment and we can clearly see that we select, then filter.  The only real coding differences are the use of a pipe operator and now the select and filter functions only include the relevant information.  You do not need to explicitly specify the data inputs in each function if you're using piping. The pipe will always use the input that comes from above.
@@ -331,25 +335,25 @@ A couple comments about piping:
 
 ## Exercise 5
 
-Now that we know how to pipe functions, let's repeat exercise 4.  You should already have code to select and filter the data. Use the following to repeat the analysis but with pipes.  You should only have to create one data object in this exercise. 
+Now that we know how to pipe functions, let's repeat exercise 4.  You should already have code to select, filter, and mutate the data. Use the following to repeat the analysis but with pipes.  You should only have to create one data object in this exercise. 
 
 Using your code from exercise four, try to replicate the steps __using pipes__.  The steps we used in exercise four were:
 
-1. From dat, select the `Date`, `Station`, and `Value` columns
+1. From wqdat, select the `timestamp`, `station_name`, `parametertype_name`, and `value` columns
 
-1. Filter by `Station` to get only station `'A'`
+1. Filter by `station_name` to get only station `"Lake Panasoffkee 8"` and `parametertype_name` to get only `"Temperature, Water"`
 
-1. Rename `Date` to `date`
+1. Correct the timezone for `timestamp` to `"Etc/GMT+5"` using `mutate` and `with_tz`.
 
 ```{r}
 #| eval: false
 #| echo: true
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
-ex2 <- dat |> 
-  select(Date, Station, Value) |> 
-  filter(Station == 'A') |> 
-  rename(date = Date)
+ex2 <- wqdat |> 
+  select(timestamp, station_name, parametertype_name, value) |> 
+  filter(station_name == "Lake Panasoffkee 8" & `parametertype_name` == "Temperature, Water") |> 
+  mutate(timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
 head(ex2)
 ```
 
