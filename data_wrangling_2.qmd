@@ -41,8 +41,7 @@ Last lesson we learned the following functions from the `dplyr` package (cheatsh
 * Selecting variables with `select`
 * Filtering observations by some criteria with `filter`
 * Adding or modifying existing variables with `mutate`
-* Arranging rows by a variable with `arrange`
-* Renaming variables with `rename`
+* Working with the [lubridate](http://lubridate.tidyverse.org){target="_blank"} package 
 
 As before, we only have one hour to cover the basics of data wrangling. It's an unrealistic expectation that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what's possible. I also want to provide resources that you can use for follow-up learning on your own.
 
@@ -70,7 +69,7 @@ library(tidyverse)
 
 Combining data is a common task of data wrangling.  Perhaps we want to combine information between two datasets that share a common identifier.  As a real world example, our training data contain measurements from various stations, but we also want to include spatial information about those stations (i.e., lat, lon).  We would need to combine data if this information is in two different places.  Combining data with dplyr is called joining.
 
-All joins require that each of the tables can be linked by shared identifiers.  These are called 'keys' and are usually represented as a separate column that acts as a unique variable for the observations.  The "Station ID" is our common key, but remember that a key might need to be unique for each row.  It doesn't make sense to join two tables by station ID if multiple site visits were made. In that case, your keys should include some information about the site visit **and** station ID. In other words, you would need to join with two variables.
+All joins require that each of the tables can be linked by shared identifiers.  These are called 'keys' and are usually represented as a separate column that acts as a unique variable for the observations.  The `station_name` is our common key, but remember that a key might need to be unique for each row.  It doesn't make sense to join two tables by station if multiple site visits were made. In that case, your keys should include some information about the site visit **and** station. In other words, you would need to join with two variables.
 
 ### Types of joins
 
@@ -86,17 +85,36 @@ The second is an **outer-join**, and comes in three flavors: left, right, and fu
 
 If all keys are shared between two data objects, then left, right, and full joins will give you the same result.  I typically only use left_join just because it's intuitive to me.  This assumes that there is never any more information in the second table - it has the same or less keys as the original table.
 
-The data we downloaded for this training included water quality measurements and the locations of each station.  If we want to plot any of the data by location, we need to join the two datasets. 
+The data we downloaded for this training included station metadata and water quality measurements at the stations. If we want to plot any of the data by location, we need to join the two datasets. 
 
 ```{r}
-# load the training data
-dat <- read_csv('data/dat.csv')
+library(here)
 
-# load the station location data
-statloc <- read_csv('data/statloc.csv')
+# load the metadata
+metadat <- read_csv(here("data", "metadat.csv"))
 
+# load the water quality data
+wqdat <- read_csv(here("data", "wqdat.csv"))
+```
+
+Let's do some quick wrangling to get the data ready for joining.  We'll remove the unnecessary columns from `metadat` and make sure that `timestamp` in `wqdat` is in the correct format.
+
+```{r}
+# select station name, lat, lon
+metadat <- metadat |> 
+  select(station_name, station_latitude, station_longitude)
+
+# format time zone
+wqdat <- wqdat |> 
+  mutate(timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
+```
+
+Now we can join the two datasets.  We'll use `left_join()` to combine the two datasets by the `station_name` key.  We're using a `left_join` because we know that there are fewer unique stations in the water quality data than the metadata.  An `inner_join` would have also produced the same result.   The result will be a new dataset that contains all of the water quality data, plus the station latitude and longitude.
+
+```{r}
 # join the two 
-joindat <- left_join(dat, statloc, by = 'Station')
+joindat <- left_join(wqdat, metadat, by = 'station_name')
+dim(joindat)
 head(joindat)
 ```
 
@@ -106,11 +124,11 @@ A final note about joins is that you will have relationships between two tables 
 
 For this exercise we'll repeat the join we just did, but on a subset of the data. We're going to select some columns of interest from our training dataset, filter by station, then use `full_join()` with the station location data. Try to use pipes if you can. 
 
-1. Select the `Date`, `Station`, and `Value` columns from the training dataset.
+1. Select the `station_name`, `timestamp`, `parametertype_name`, and `value` columns from the water quality dataset.
 
-1. Filter the dataset by `Station == 'A'`. Check the dimensions of the new dataset with `dim`. 
+1. Filter by `station_name` to get only station `"Lake Panasoffkee 8"` and `parametertype_name` to get only `"Temperature, Water"`
 
-1. Use a `full_join` to join the dataset with the station location dataset.  What is the key value for joining?  
+1. Use a `full_join` to join the dataset with the metadata.  What is the key value for joining?  
 
 1. Check the dimensions of the new table.  What happened?
 
@@ -119,22 +137,16 @@ For this exercise we'll repeat the join we just did, but on a subset of the data
 #| echo: true
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
-# load the training data
-dat <- read_csv('data/dat.csv')
-
-# load the station location data
-statloc <- read_csv('data/statloc.csv')
-
 # wrangle before join
-joindat <- dat |> 
-  select(Date, Station, Value) |> 
-  filter(Station == 'A') 
+joindat <- wqdat |> 
+  select(station_name, timestamp, parametertype_name, value) |> 
+  filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Temperature, Water")
 
 dim(joindat)
 
 # full join
 joindat <- joindat |> 
-  full_join(statloc, by = 'Station')
+  full_join(metadat, by = 'station_name')
 
 dim(joindat)
 ```
@@ -233,11 +245,13 @@ This operation can be graphically demonstrated:
 
 ## Exercise 7
 
-Let's take a look at the training data. Are these data "tidy"? To help with the next few examples, we'll use `pivot_longer()` to manipulate the data.
+Let's take a look at the water quality data. Are these data "tidy"? To demonstrate a different format, we'll use `pivot_wider()` to manipulate the data.
 
-1. Inspect the training dataset.  What are the dimensions (hint: `dim()`)?  What are the names and column types (hint: `str()`)?
+1. Inspect the water quality dataset.  What are the dimensions (hint: `dim()`)?  What are the names and column types (hint: `str()`)?
 
-1. If your data have multiple parameter columns, use the `pivot_longer()` function to move the parameter columns and their values into two new columns. What value will you use for the `names_to` argument? What value will you use for the `values_to` argument?  Assign the new dataset to a variable in your environment.
+1. Remove the `unit_symbol` and `parametertype_shortname` columns and convert `timestamp` to date using `as.Date()`.  Assign the new dataset to a variable in your environment.  Why do we need to do this?
+
+1. The data are in long format with parameters spread across rows.  We can convert it to wide format with one parameter per column using the `pivot_wider()` function. What value will you use for the `names_from` argument? What value will you use for the `values_from` argument?  Also add the argument `values_fn = mean`.  We'll explain what this does in a minute. Assign the new dataset to a variable in your environment.
 
 1. Check the dimensions and structure of your new dataset. What's different?
 
@@ -247,12 +261,14 @@ Let's take a look at the training data. Are these data "tidy"? To help with the 
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
 # check dimensions, structure
-dim(dat)
-str(dat)
+dim(wqdat)
+str(wqdat)
 
 # convert dat to long format
-longdat <- dat |>
-  pivot_longer(-c(Date, Station), names_to = 'Parameter', values_to = 'Value')
+longdat <- wqdat |>
+  select(-unit_symbol, -parametertype_shortname) |>
+  mutate(timestamp = as.Date(timestamp)) |> 
+  pivot_wider(names_from = parametertype_name, values_from = value, values_fn = mean)
 
 # check dimensions, structure
 dim(longdat)
@@ -263,54 +279,40 @@ str(longdat)
 
 The last tool we're going to learn about in `dplyr` is the `summarize` function.  As the name implies, this function lets you summarize columns in a dataset.  Think of it as a way to condense rows using a summary method of your choice, e.g., what's the average of the values in a column based on groups in another column?
 
-We can use the `summarize()` function to get the total or average value by group.  Note the use of the `.by` argument as a critical piece that defines the groups for summarizing.
+We can use the `summarize()` function to get the total or average value by group.  Note the use of the `.by` argument as a critical piece that defines the groups for summarizing.  The mean function also uses the optional argument `na.rm = T` to remove missing values from the calculation, otherwise, the result will be `NA`.
 
 ```{r}
-by_sta <- summarize(dat, mean_val = mean(Value), .by = Station)
+by_sta <- summarize(wqdat, mean_val = mean(value, na.rm = T), .by = c(station_name, parametertype_name))
 by_sta
 ```
 
-We can group the dataset by more than one column to get summaries with multiple groups.
+The below example is the same as the previous, except we're also grouping by year, firstby creating the `Year` variable using `mutate()` and the `lubridate::year()` function.  The result is a summary of the average value by station, parameter, and year.
 
 ```{r}
-by_sta_yr <- dat |> 
-  mutate(Year = lubridate::year(Date)) |> 
-  summarize(mean_val = mean(Value), .by = c(Station, Year))
+by_sta_yr <- wqdat |> 
+  mutate(Year = lubridate::year(timestamp)) |> 
+  summarize(mean_val = mean(value, na.rm = TRUE), .by = c(station_name, parametertype_name, Year))
 by_sta_yr
 ```
 
 We can also get more than one summary at a time.  The summary function can use any function that operates on a vector.  Some common examples include `min()`, `max()`, `sd()`, `var()`, `median()`, `mean()`, and `n()`.  It's usually good practice to include a summary of how many observations were in each group, so get used to including the `n()` function.
 
 ```{r}
-more_sums <- summarize(dat, 
+more_sums <- summarize(wqdat, 
     n = n(),
-    min_val = min(Value),
-    max_val = max(Value),
-    mean_val = mean(Value), 
-    .by = Station
+    min_val = min(value),
+    max_val = max(value),
+    mean_val = mean(value), 
+    .by = c(station_name, parametertype_name)
   )
 more_sums
-```
-
-Finally, many of the summary functions we've used (e.g., `sum()`, `min()`, `max()`, `mean()`) will not work correctly if there are missing observations in your data.  You'll see these as `NA` (or sometimes `NaN`) entries.  You have to use the argument `na.rm = T` to explicitly tell R how to handle the missing values.  Setting `na.rm = T` says to remove the `NA` values when summarizing the data.
-
-```{r}
-x <- c(1, 2, NA, 4)
-mean(x)
-mean(x, na.rm = T)
-```
-
-A quick check for missing values can be done with `anyNA`. This works on vectors and data frames.
-
-```{r}
-anyNA(x)
 ```
 
 ## Exercise 8
 
 Now we have access to a several tools in the tidyverse to help us wrangle more effectively.  For the final exercise, we're going to subset our training data and get a summary.  Specifically, we'll filter our data by a specific station and parameter, then summarize the average value by year. 
 
-1. Using the long data we created in exercise 7, filter the data by a specific station and parameter.
+1. Using `wqdat`, filter the data by a specific station and parameter.
 
 1. Summarize the value column by taking the average grouped by year.
 
@@ -321,11 +323,11 @@ Now we have access to a several tools in the tidyverse to help us wrangle more e
 #| echo: true
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
-sumdat <- longdat |>
-  filter(Station == 'A' & Parameter == 'Value') |> 
-  mutate(Year = lubridate::year(Date)) |> 
+sumdat <- wqdat |>
+  filter(station_name == 'Lake Panasoffkee 4' & parametertype_name == 'Temperature, Water') |> 
+  mutate(Year = lubridate::year(timestamp)) |> 
   summarize(
-    ave = mean(Value, na.rm = TRUE), 
+    ave = mean(value, na.rm = TRUE), 
     .by = Year
   ) |> 
   arrange(-ave)
