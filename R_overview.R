@@ -2,6 +2,12 @@
 data_file <- file.path("data", "dat.csv")
 station_file <- file.path("data", "statloc.csv")
 
+library(here)
+
+# project-relative file paths using here
+data_file <- here("data", "dat.csv")
+station_file <- here("data", "statloc.csv")
+
 metaurl <- paste0(
   "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?",
   "service=kisters&type=queryServices&request=getStationList",

@@ -4,77 +4,108 @@
 # load
 library(tidyverse)
 
+library(here)
+
 # import the data
-dat <- read_csv('data/dat.csv')
+metadat <- read_csv(here('data', 'metadat.csv'))
 
 # see first six rows
-head(dat)
+head(metadat)
 
 # dimensions
-dim(dat)
+dim(metadat)
 
 # column names
-names(dat)
+names(metadat)
 
 # structure
-str(dat)
+str(metadat)
 
 # first, select some columns
-dplyr_sel1 <- select(dat, Date, Station, Value)
+dplyr_sel1 <- select(metadat, station_no, station_name, station_latitude, station_longitude)
 head(dplyr_sel1)
 
-# select everything but a column
-dplyr_sel2 <- select(dat, -Value)
+# select everything but some columns
+dplyr_sel2 <- select(metadat, -c(Waterbody_Name:region_district))
 head(dplyr_sel2)
 
+# import water quality data
+wqdat <- read_csv(here('data', 'wqdat.csv'))
+
+# see first six rows
+head(wqdat)
+
+# dimensions
+dim(wqdat)
+
+# column names
+names(wqdat)
+
+# structure
+str(wqdat)
+
 # filter observations with high values
-dplyr_high <- filter(dat, Value > 10)
-head(dplyr_high)
+wqdat_temp <- filter(wqdat, parametertype_name == "Temperature, Water")
+head(wqdat_temp)
+dim(wqdat_temp)
 
-# filter observations for a specific station
-dplyr_sta <- filter(dat, Station == 'A')
-head(dplyr_sta)
+# filter data for one station
+wqdat_sta <- filter(wqdat, station_name == "Lake Panasoffkee 7")
+head(wqdat_sta)
+dim(wqdat_sta)
 
-# get rows with values between 5 and 20
-filt1 <- filter(dat, Value > 5 & Value < 20)
+# all rows with water temperature greater than 25 C
+filt1 <- filter(wqdat, parametertype_name == 'Temperature, Water' & value > 25)
 head(filt1)
 
-# get rows from station A with values > 10
-filt2 <- filter(dat, Station == 'A' & Value > 10)
+# all rows with water temperature greater than 25 C and less than 30 C
+filt2 <- filter(wqdat, parametertype_name == 'Temperature, Water' & value > 25 & value < 30)
 head(filt2)
 
-# get rows from station A or B
-filt3 <- filter(dat, Station == 'A' | Station == 'B')
+# get rows for Lake Pansoffkee 7 or Lake Panasoffkee 4
+filt3 <- filter(wqdat, station_name == "Lake Panasoffkee 7" | station_name == "Lake Panasoffkee 4")
 head(filt3)
 
-# get rows from station A or B using different syntax
-filt4 <- filter(dat, Station %in% c('A', 'B'))
+# another way to get rows that fulfill multiple criteria
+filt4 <- filter(wqdat, station_name %in% c("Lake Panasoffkee 7", "Lake Panasoffkee 4"))
 head(filt4)
 
 # add a new column
-dplyr_mut1 <- mutate(dat, dumb_column = 1)
+dplyr_mut1 <- mutate(wqdat, dumb_column = 1)
 head(dplyr_mut1)
 
 # add a column as Value divided by 100
-dplyr_mut2 <- mutate(dat, Value_p100 = Value / 100)
+dplyr_mut2 <- mutate(wqdat, Value_p100 = value / 100)
 head(dplyr_mut2)
 
 # add a category column
-dplyr_mut3 <- mutate(dat, category = ifelse(Value < 10, 'low', 'high'))
+dplyr_mut3 <- mutate(wqdat, category = ifelse(value < 10, 'low', 'high'))
 head(dplyr_mut3)
 
-# arrange by value
-dplyr_arr <- arrange(dat, Value)
-head(dplyr_arr)
+# check the class
+class(wqdat$timestamp)
 
-# rename a column
-dplyr_rnm <- rename(dat, date = Date)
-head(dplyr_rnm)
+# check the timezone
+attr(wqdat$timestamp, "tzone")
 
-# ex1 <- select(dat, Date, Station, Value)
-# ex1 <- filter(ex1, Station == 'A')
-# ex1 <- rename(ex1, date = Date)
-# head(ex1)
+# load lubridate
+library(lubridate)
+
+# convert to Eastern Time
+wqdat <- mutate(wqdat, timestamp = with_tz(timestamp, tzone = "Etc/GMT+5"))
+
+# create new columns for year, month, day, and hour
+wqdat_dates <- mutate(wqdat, 
+  year = year(timestamp),
+  month = month(timestamp),
+  day = day(timestamp),
+  hour = hour(timestamp)
+)
+head(wqdat_dates)
+
+# ex1 <- select(wqdat, timestamp, station_name, parametertype_name, value)
+# ex1 <- filter(ex1, station_name == "Lake Panasoffkee 8" & `parametertype_name` == "Temperature, Water")
+# ex1 <- mutate(ex1, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
 
 # cropdat <- rawdat[1:28]
 # savecols <- data.frame(cropdat$Party, cropdat$`Last Inventory Year (2015)`)
@@ -84,16 +115,16 @@ head(dplyr_rnm)
 # basedat <- cropdat[cropdat$Party %in% top10df$Party,]
 
 # not using pipes, select a column, filter rows
-bad_ex <- select(dat, Station, Value)
-bad_ex2 <- filter(bad_ex, Value > 10)
+bad_ex <- select(wqdat, station_name, value)
+bad_ex2 <- filter(bad_ex, value > 10)
 
 # with pipes, select a column, filter rows
-good_ex <- dat |> 
-  select(Station, Value) |>
-  filter(Value > 10)
+good_ex <- wqdat |> 
+  select(station_name, value) |>
+  filter(value > 10)
 
-# ex2 <- dat |>
-#   select(Date, Station, Value) |>
-#   filter(Station == 'A') |>
-#   rename(date = Date)
+# ex2 <- wqdat |>
+#   select(timestamp, station_name, parametertype_name, value) |>
+#   filter(station_name == "Lake Panasoffkee 8" & `parametertype_name` == "Temperature, Water") |>
+#   mutate(timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
 # head(ex2)
