@@ -1,83 +1,60 @@
-library(tidyverse) # for the mpg dataset
-data(mpg)
-plot(hwy ~ displ, data = mpg)
+# load packages
+library(tidyverse)
+library(here)
 
-plot(mpg$displ, mpg$hwy)
+# import water quality data
+wqdat <- read_csv(here('data', 'wqdat.csv'))
 
-# ?plot
+# prepare data to plot (toplo)
+toplo <- wqdat |> 
+  filter(station_name == 'Lake Panasoffkee 4' & parametertype_name == 'Temperature, Water') |> 
+  mutate(
+    timestamp = lubridate::with_tz(timestamp, tzone = 'Etc/GMT+5')
+  )
 
-plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
-     xlab = 'engine size (l)', ylab = 'highway (mpg)')
+# ggplot(data = toplo)
 
-# ?par
-
-plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
-     xlab = 'engine size (l)', ylab = 'highway (mpg)', 
-     col = 'blue', pch = 18, cex = 0.75, family = 'serif')
-
-par(col = 'blue', pch = 18, cex = 0.75, family = 'serif')
-plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
-     xlab = 'engine size (l)', ylab = 'highway (mpg)')
-
-hist(mpg$hwy)
-
-hist(mpg$hwy, breaks = 20)
-
-# # load tidyverse
-# library(tidyverse)
-# 
-# # load the fish data
-# dat <- read_csv('data/dat.csv')
-# 
-# # time series plot
-# plot(Value ~ Date, data = dat)
-# 
-# # time series plot with title
-# plot(Value ~ Date, data = dat, main = 'Value catch for all stations over time')
-
-# ggplot(data = mpg)
-
-# ggplot(data = mpg) +
+# ggplot(data = toplo) +
 #   geom_point()
 
-# ggplot(data = mpg) +
-#   geom_point(mapping = aes(x = displ, y = hwy))
+# ggplot(data = toplo) +
+#   geom_point(mapping = aes(x = timestamp, y = value))
 
 # ggplot(data = <DATA>) +
 #   <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
 
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = toplo) + 
+  geom_point(mapping = aes(x = timestamp, y = value))
 
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+ggplot(data = toplo, mapping = aes(x = timestamp, y = value)) + 
   geom_point()
 
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_line()
 
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_count()
 
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_density2d()
 
-# ggplot(mpg, aes(x = displ, y = hwy)) +
+# ggplot(toplo, aes(x = timestamp, y = value)) +
 #   geom_linerange()
 
 # ?geom_linerange
 
 # ?geom_point
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = timestamp)) + 
   geom_point()
 
-ggplot(mpg, aes(x = displ, y = hwy, size = displ)) + 
+ggplot(toplo, aes(x = timestamp, y = value, size = value)) + 
   geom_point()
 
-ggplot(mpg, aes(x = displ, y = hwy, shape = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, shape = am(timestamp))) + 
   geom_point()
 
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_point(colour = 'red')
 
 # ggplot(dat, aes(x = Date, y = Value)) +
