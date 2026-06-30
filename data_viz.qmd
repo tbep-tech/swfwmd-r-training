@@ -13,7 +13,6 @@ Get the lesson data: [download zip](data/data.zip)
 
 ## Lesson Outline
 
-* [Base R graphics]
 * [GGplot2]
      * [Basics]
      * [Modifying plot components]
@@ -21,7 +20,6 @@ Get the lesson data: [download zip](data/data.zip)
 
 ## Lesson Exercises
 
-* [Exercise 9]
 * [Exercise 10]
 * [Exercise 11]
 
@@ -31,127 +29,15 @@ This section will introduce you to concepts of data visualization and graphics i
 
 ![](figs/data_viz/data-science.png)
 
-Graphics capabilities in R have improved tremendously over time. The de facto plotting library is `ggplot2` as part of the `tidyverse`, but there are many other packages available that enhance or build on existing functionality.  The base R installation also comes with its own set of plotting functions.  Base R plotting functions are useful for quick and dirty exploration but you'll quickly find that these methods are tedious.  We'll start this lesson with a cursory look at some of the base R plotting functions.  Later, we'll focus on `ggplot2`.
+Graphics capabilities in R have improved tremendously over time. The de facto plotting library is `ggplot2` as part of the `tidyverse`, but there are many other packages available that enhance or build on existing functionality.  The base R installation also comes with its own set of plotting functions.  Base R plotting functions are useful for quick and dirty exploration but you'll quickly find that these methods are tedious.  For this lesson, we'll focus on `ggplot2`.
 
 After this lesson you should be able to answer (or be able to find answers to) the following:
 
-* What can I do with base R plots?
 * What are the requirements of every ggplot?
 * What are geoms?
 * What are facets?
 * What are themes?
 * How do I save a plot?
-
-## Base R graphics
-
-In theory, all of your plotting needs can be accomplished with functions in base R.  However, these graphics are not easy to customize and it's very tedious to create publication-quality graphics.  For these reasons, base R graphics are rarely taught but I believe they still serve a purpose in the data exploration workflow. Base R graphics are extremely fast and provide some simple tools for quick viewing of your data. 
-
-My most frequent use for base R graphics include:
-
-* Simple scatterplots to see how two variables are related (`plot()`)
-* Histograms to explore the distribution of a variable (`hist()`)
-
-We'll explore some of these simple tools in base R with the `mpg` dataset that comes with the tidyverse. This dataset describes various characteristics of vehicles. 
-
-The workhorse plotting function is `plot()`.  Let's make a simple plot of highway mileage vs engine size.
-
-```{r}
-#| message: false
-#| warning: false
-library(tidyverse) # for the mpg dataset
-data(mpg)
-plot(hwy ~ displ, data = mpg)
-```
-
-We created this plot using the `formula` notation that denotes a variable `y` against a variable `x`.  The `data` argument must always be specified using this method.
-
-We can also create the plot by calling the columns directly.  Note the placement of the `x` and `y` variables in the function call. Here, we do not need to explicitly specify the dataset.
-
-```{r}
-plot(mpg$displ, mpg$hwy)
-```
-
-Confusing right? Let's have a look at the help file for `plot`.
-
-```{r}
-#| eval: false
-?plot
-```
-![](figs/data_viz/plot_help.PNG)
-
-This help file lays out some of the basics of plot formatting. We can change the type of plot using the `type` argument (here, we can only use points), give it a title with `main`, and change labels on the x and y axes with `xlab` and `ylab`. 
-
-```{r}
-plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
-     xlab = 'engine size (l)', ylab = 'highway (mpg)')
-```
-
-The help file for the plot function also has this ambiguous `...` argument.  You'll see this argument for many functions in the help files.  This means that the function accepts arguments from other functions.  In this case, the plot function accepts arguments from the `par()` function which is used for setting graphical parameters in base R.  Let's look at the help file for `par()`.
-
-```{r}
-#| eval: false
-?par
-```
-
-![](figs/data_viz/par_help.PNG)
-
-The most useful section in this help file is the description of the actual graphical parameters you can set. Some useful ones are the `cex` family of arguments for sizing of data points in the plot, `col` family of arguments for color, the `pch` argument for point types, and the `family` argument for font.  All of these arguments can be passed directly to the `plot` function or separately with the `par` function.
-
-```{r}
-plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
-     xlab = 'engine size (l)', ylab = 'highway (mpg)', 
-     col = 'blue', pch = 18, cex = 0.75, family = 'serif')
-```
-
-Or like this...
-
-```{r}
-par(col = 'blue', pch = 18, cex = 0.75, family = 'serif')
-plot(hwy ~ displ, data = mpg, main = 'Highway mileage by engine size', 
-     xlab = 'engine size (l)', ylab = 'highway (mpg)')
-```
-
-Notice how the plots are different depending on where the additional arguments are used. Confusing, right?  You'll waste a lot of time trying to tweak the base graphics.  
-
-The `hist()` (histogram) function is the only other plotting function from base R that I use frequently.  This gets you info on the basic distribution of a variable and is a graphical way of assessing the spread and central tendency (i.e., variance and mean) of a variable.
-
-```{r}
-hist(mpg$hwy)
-```
-
-The only useful argument in `hist()` is `breaks` that controls the number of bins.
-
-```{r}
-hist(mpg$hwy, breaks = 20)
-```
-
-## Exercise 9
-
-Let's make a simple graphic of our training dataset using base R.  We'll make a time series plot of catch using the `plot` function.  We'll also add a title and better axis labels to make the plot slightly more palatable.  
-
-1. First, start by loading the fish data as you've done before.  Use `read_csv()` from the tidyverse. 
-
-1. Make a time series plot of `Value` catch over time using the `plot` function.  Try creating the plot using the `formula` notation (hint: `Value ~ Date`).  Remember you have to use the `data` argument when you're using the formula (i.e., `data = dat`). 
-
-1. Give the plot an informative title using the `main` argument directly in the plot function, something like `main = "Value catch for all stations over time"`.
-
-```{r}
-#| eval: false
-#| echo: true
-#| code-fold: true
-#| code-summary: "Click to show/hide solution"
-# load tidyverse
-library(tidyverse)
-
-# load the fish data
-dat <- read_csv('data/dat.csv')
-     
-# time series plot
-plot(Value ~ Date, data = dat)
-
-# time series plot with title
-plot(Value ~ Date, data = dat, main = 'Value catch for all stations over time')
-```
 
 ## GGplot2
 
@@ -159,18 +45,36 @@ plot(Value ~ Date, data = dat, main = 'Value catch for all stations over time')
 
 The `ggplot2` package (full [reference](http://ggplot2.tidyverse.org/index.html){target="_blank"}) is a huge improvement over base R because it was developed following a strict philosophy known as the *grammar of graphics*.  This philosophy was designed to make thinking, reasoning, and communicating about graphs easier by following a few simple rules.  Like building a sentence in speech (aka grammar), all graphs start with a foundational component that is used for building other graph pieces.  
 
+For these examples, we'll focus on one parameter at one station.  Later, we'll work with the continuous data for some more interesting examples.
+
+```{r}
+# load packages
+library(tidyverse)
+library(here)
+
+# import water quality data
+wqdat <- read_csv(here('data', 'wqdat.csv'))
+
+# prepare data to plot (toplo)
+toplo <- wqdat |> 
+  filter(station_name == 'Lake Panasoffkee 4' & parametertype_name == 'Temperature, Water') |> 
+  mutate(
+    timestamp = lubridate::with_tz(timestamp, tzone = 'Etc/GMT+5')
+  )
+```
+
 With ggplot2, you begin a plot with the function `ggplot()`. `ggplot()` creates a coordinate system for adding "geometries" (aka `geoms`). The first argument of `ggplot()` is the dataset to use in the graph. So, `ggplot(data = mpg)` creates an empty base graph.
 
 ```{r}
 #| eval: false
-ggplot(data = mpg)
+ggplot(data = toplo)
 ```
 
 The next step is to add one or more `geoms` to `ggplot()`. The function `geom_point()` adds a layer of points to your plot, which creates a scatterplot. There are many geom functions that each add a different type of layer to a plot.
 
 ```{r}
 #| eval: false
-ggplot(data = mpg) +
+ggplot(data = toplo) +
   geom_point()
 ```
 
@@ -178,8 +82,8 @@ Each geom function in ggplot2 takes a `mapping` argument. This defines how varia
 
 ```{r}
 #| eval: false
-ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = toplo) +
+  geom_point(mapping = aes(x = timestamp, y = value))
 ```
 
 Just remember these requirements:
@@ -198,14 +102,14 @@ ggplot(data = <DATA>) +
 Applied to the data:
 
 ```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy))
+ggplot(data = toplo) + 
+  geom_point(mapping = aes(x = timestamp, y = value))
 ```
 
 More commonly, the `aes` function that defines the mapping is included in the initial call to `ggplot`.  This will globally define the mapping to all geoms in a plot, instead of for only one geom. There may be different reasons to globally apply the aesthetics or separately for each geom depending on the data.   
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+ggplot(data = toplo, mapping = aes(x = timestamp, y = value)) + 
   geom_point()
 ```
 
@@ -216,21 +120,21 @@ Let's explore some of the other geoms.
 As lines...
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_line()
 ```
 
 As counts...
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_count()
 ```
 
 As density...
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_density2d()
 ```
 
@@ -238,7 +142,7 @@ As a line range...
 
 ```{r}
 #| eval: false
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_linerange()
 ```
 ```
@@ -271,28 +175,28 @@ We've got the required aesthetics in our plot. Let's add some others that we can
 Changing the color:
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = timestamp)) + 
   geom_point()
 ```
 
 Changing the size:
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, size = displ)) + 
+ggplot(toplo, aes(x = timestamp, y = value, size = value)) + 
   geom_point()
 ```
 
 Changing the shapes:
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, shape = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, shape = am(timestamp))) + 
   geom_point()
 ```
 
 In all of the above examples we've mapped an aesthetic to a variable in our dataset. We can just as easily modify the plot without mapping it to a variable (i.e., changing a part of the plot independent of the data).  For example, maybe we want to change the color of the points using a single color for everything.  Notice the placement of `colour` outside of the `aes()` mapping function.
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_point(colour = 'red')
 ```
 
