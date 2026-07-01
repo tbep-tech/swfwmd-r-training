@@ -21,7 +21,7 @@ agenda <- data.frame(
     'Lunch',
     '[Data Wrangling Part 2](data_wrangling_2.html) and [Data Visualization](data_viz.html)',
     'Break',
-    '[SWFWMD Examples](swfwmd_examples.html)',
+    '[SWFWMD examples](swfwmd_examples.html)',
     'Wrap-up'
   ),
   stringsAsFactors = FALSE

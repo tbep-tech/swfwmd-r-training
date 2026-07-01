@@ -5,7 +5,7 @@ execute:
   echo: true
 ---
 
-# SWFWMD Examples {#sec-swfwmd_examples}
+# SWFWMD examples {#sec-swfwmd_examples}
 
 Get the lesson R script: [swfwmd_examples.R](swfwmd_examples.R)
 
@@ -189,7 +189,59 @@ dev.off()
 
 ## Time series plots
 
-Although the previous pl
+Next, we'll create a plot similar to this one using our water level data from the first lesson.
+
+![](figs/swfwmd_examples/tsfig.png)
+
+```{r}
+wldat1 <- read_csv(here('data', 'wldat1.csv')) |>  
+  slice(5:n()) |> 
+  rename(
+    date = X.station_no, 
+    levelft = X1035944
+  ) |> 
+  mutate(
+    date = as.Date(date), 
+    levelft = as.numeric(levelft)
+  )
+
+wldat2 <- read_csv(here('data', 'wldat2.csv')) |>  
+  slice(5:n()) |> 
+  rename(
+    date = X.station_no, 
+    levelft = X23142
+  ) |> 
+  mutate(
+    date = as.Date(date), 
+    levelft = as.numeric(levelft)
+  )
+
+toplo <- inner_join(wldat1, wldat2, by = 'date', suffix = c('_1035944', '_23142')) |> 
+  pivot_longer(-date) |> 
+  separate(name, c('var', 'station')) |> 
+  mutate(
+    station = paste('Station', station)
+  )
+
+toplopts <- toplo |> 
+  filter(date == max(date))
+
+ggplot(toplo, aes(x = date, y = value, color = station)) + 
+  geom_line() + 
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() + 
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1), 
+    legend.position = 'bottom', 
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_legend(nrow = 2, byrow = TRUE)) +
+  labs(
+    x = 'Recorded Date', 
+    y = 'Water Level, NAVD88 (ft)', 
+    color = NULL
+  )
+```
 
 ## Maps 
 
