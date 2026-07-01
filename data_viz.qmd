@@ -20,8 +20,8 @@ Get the lesson data: [download zip](data/data.zip)
 
 ## Lesson Exercises
 
+* [Exercise 9]
 * [Exercise 10]
-* [Exercise 11]
 
 ## Goals
 
@@ -200,24 +200,33 @@ ggplot(toplo, aes(x = timestamp, y = value)) +
   geom_point(colour = 'red')
 ```
 
-## Exercise 10
+## Exercise 9
 
-Let's reproduce the time series plot we created in exercise 9 using ggplot. This requires us to map the `Date` and `Value` variables to the x and y aesthetics for `geom_point`. 
+Let's create a nice ggplot for a different site and parameter. This requires us to wrangle the data we want to plot.  Then we can map the `timestamp` and `value` variables to the x and y aesthetics for `geom_point`. 
 
-1. Setup your initial plot with `ggplot()`.  Map the x variable to `Date` and the y variable to `Value`.  The setup should look like this: `ggplot(dat, aes(x = Date, y = Value))`).  What happens if you run only this code?
+1. Filter the `wqdat` dataset for a site and parameter of your choosing.
+
+1. Setup your initial plot with `ggplot()`.  Map the x variable to `timestamp` and the y variable to `value`.  The setup should look like this: `ggplot(toplo, aes(x = timestamp, y = value))`).  What happens if you run only this code?
 
 1. Add the `geom_point()` geom to your plot using the `+` operator. Remember the correct placement of `+`, it always occurs in the line preceding the layer that is being added to the plot.
 
-1. The catch data are heavily skewed.  We can easily transform the y-axis by adding a scale. The ggplot2 package has multiple scale functions that accomplish different tasks, all of which relate to setting limits or characteristics of measured variables in your data.  Add the following after `geom_point()` (remember to put a `+` after `geom_point()`): `scale_y_continuous('Value')`.  How does the plot look now?
+1. Make it look a little nicer by changing the labels using the `labs()` function (see `?labs` for more info).  Give it more meaningful x and y axis labels.  Also add an informative title.   How does the plot look now?
 
 ```{r}
 #| eval: false
 #| echo: true
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
-ggplot(dat, aes(x = Date, y = Value)) +
+toplo <- wqdat |> 
+  filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Dissolved Oxygen")
+
+ggplot(toplo, aes(x = timestamp, y = value)) +
   geom_point() + 
-  scale_y_continuous('Value')
+  labs(
+    x = "Date", 
+    y = "mg/L",
+    title = "Dissolved oxygen at station Lake Panasoffkee 8"
+  )
 ```
 
 ## Modifying plot components
@@ -228,10 +237,21 @@ There are countless ways we can modify a ggplot, either by manipulating the appe
 * Adding statistical summaries with `stat_smooth()`
 * Making multi-panel plots with `facet_wrap()` or `facet_grid()`.
 
+Before we proceed, we'll use the example data from the previous lesson.  We'll also add a new variable for AM/PM sampling time.
+
+```{r}
+toplo <- toplo <- wqdat |> 
+  filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Dissolved Oxygen") |> 
+  mutate(
+    sample_time = am(timestamp), 
+    sample_time = ifelse(sample_time, 'AM', 'PM')
+  )
+```
+
 First I'll show you how to modify the appearance. Individual plot components can be modified with `theme`.  Here, the legend is moved to the top, the minor grid lines between axis ticks are removed, and the gray panel background is changed to light blue. Check the help file for `theme()` to see all the options.
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme(
     legend.position = 'top',
@@ -245,7 +265,7 @@ Changing plot elements with theme can take some practice because there's lots to
 Black and white:
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_bw()
 ```
@@ -253,7 +273,7 @@ ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) +
 Minimal:
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_minimal()
 ```
@@ -261,7 +281,7 @@ ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) +
 Classic:
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_classic()
 ```
@@ -269,7 +289,7 @@ ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) +
 The pre-packaged themes with ggplot have the added benefit of easily changing the global font types and sizes in the plot. These are modified by including the arguments `base_family` and `base_size`.
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_bw(base_family = 'serif', base_size = 16)
 ```
@@ -277,23 +297,23 @@ ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) +
 In addition to its functional syntax, the real power of ggplot2 is the ability to add components to the plot that let you quickly evaluate relationships or trends in the data.  Statistical relationships can be added with `stat_smooth()`. 
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   stat_smooth()
 ```
 
-Notice that we get one smooth for each type of drive train. This is because we've mapped colour to the drive train. Both the `geom_point()` and `stat_smooth()` functions use colour as an aesthetic, which is defined globally with `aes()` in `ggplot()`.  We can change this behavior by moving the location of the `colour` aesthetic.  Here color is only mapped to the points. 
+Notice that we get one smooth for each time of day. This is because we've mapped colour to sample time. Both the `geom_point()` and `stat_smooth()` functions use colour as an aesthetic, which is defined globally with `aes()` in `ggplot()`.  We can change this behavior by moving the location of the `colour` aesthetic.  Here color is only mapped to the points. 
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy)) + 
-  geom_point(aes(colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
+  geom_point(aes(colour = sample_time)) + 
   stat_smooth()
 ```
 
 By default the `stat_smooth` function uses a non-linear smooth, either a locally estimated polynomial or generalized additive model depending on size of the dataset.  We can change this using the `method` argument, with a linear model for example. 
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, color = sample_time)) + 
   geom_point() + 
   stat_smooth(method = 'lm')
 ```
@@ -301,44 +321,52 @@ ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) +
 Finally, ggplot2 provides some simple functions to create multi-panelled or faceted plots.  This is useful for viewing different groups of the data as they relate to a variable in the dataset. The `facet_wrap()` function is one of two functions in ggplot2 that can be used for multi-panel plots (the other being `facet_grid()`, which is similar but always creates a rectangular grid of plots).  To create facets, we have to specify which variable you're using that acts as a grouping variable for each subplot. This is defined using the `~` sign followed by the variable name within `facet_wrap`.  The `ncol` (or `nrow`) argument also indicates how many columns (or rows) in the multi-panel plot to create.
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   stat_smooth(method = 'lm') + 
-  facet_wrap(~ drv, ncol = 3)
+  facet_wrap(~ sample_time, ncol = 2)
 ```
 
 The `scales` argument is also a useful part of `facet_wrap`.  By default, the x and y axes are fixed between the panels.  You can change this behavior by using `scales = "free"`.  Be careful using this feature because it can lead to different interpretations of the magnitude of trends.
 
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   stat_smooth(method = 'lm') + 
-  facet_wrap(~ drv, ncol = 3, scales = 'free')
+  facet_wrap(~ sample_time, ncol = 2, scales = 'free')
 ```
 
-## Exercise 11
+## Exercise 10
 
-Let's modify the time series plot we created in exercise 10 by adding a theme, a statistical summary, and facets.
+Let's modify the time series plot we created in the previous exercise by adding a theme, a statistical summary, and facets.
 
-1. Setup the initial plot as before. Map the x variable to `Date` and the y variable to `Value`.  The initial `ggplot()` line will look like this `ggplot(dat, aes(x = Date, y = Value)`.  Add the `geom_point` geom and the `scale_y_continuous` scale with `trans = "log10"` to transform catch.
+1. Setup the initial plot as before. Map the x variable to `timestamp` and the y variable to `value`.  The initial `ggplot()` line will look like this `ggplot(toplo, aes(x = timestamp, y = value)`.  Add the `geom_point` geom.
 
-1. Add one of these thems to the plot: `theme_bw()`, `theme_classic()`, or `theme_minimal()`.
+1. Add one of these themes to the plot: `theme_bw()`, `theme_classic()`, or `theme_minimal()`.
 
-1. Add the `stat_smooth` function with the argument `method = "lm"` to add linear smooths between catch and time for each gear type. 
+1. Add the `stat_smooth` function with the argument `method = "lm"` to add linear smooths between the values and time for each sample time. 
 
-1. Use `facet_wrap` to create a three column plot by gear type (hint: `facet_wrap(~ Gear, ncol = 3)`).  
+1. Use `facet_wrap` to create a two column plot by sample time. 
+
+1. Use `labs` to add better axis labels and a title.
 
 ```{r}
 #| eval: false
 #| echo: true
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
-ggplot(dat, aes(x = Date, y = Value)) +
+ggplot(toplo, aes(x = timestamp, y = value)) +
   geom_point() + 
-  scale_y_continuous('Value') + 
   theme_minimal() + 
-  stat_smooth(method = 'lm') + 
-  facet_wrap(~ Gear, ncol = 3)
+  stat_smooth(method = "lm") + 
+  facet_wrap(~ sample_time, ncol = 2) +
+  labs(
+    x = NULL,
+    y = "mg/L", 
+    title = "Lake Panasoffkee 8", 
+    subtitle = "Dissolved oxygen over time, grouped by sample time", 
+    caption = "Source: SWFWMD Environmental Data Portal"
+  )
 ```
 
 ## Saving your plots
@@ -349,7 +377,7 @@ A quality plot deserves to be saved and shared.  As you can imagine, there are s
 
 Although this is convenient, you don't have fine control over many options that can really make your graphic pop.  I recommend using either the `ggsave` function for ggplot2 graphics, or preferably, one of the available graphics devices from base R (`bmp`, `jpeg`, `png`, `tiff`, `eps`, `ps`, `tex`, `svg`, `wmf`, and my favorite, `pdf`).
 
-The `ggsave` function works only with ggplot objects.  You can contol where the plot is saved, the file type, plotting dimensions, resolution, and a few other minor options.  By default, it will save the last ggplot that you made.
+The `ggsave` function works only with ggplot objects.  You can control where the plot is saved, the file type, plotting dimensions, resolution, and a few other minor options.  By default, it will save the last ggplot that you made.
 
 ```{r}
 #| eval: false
@@ -372,14 +400,13 @@ The value of this approach is the ability to fine tune the output for your graph
 
 Now you should be able to answer (or be able to find answers to) the following:
 
-* What can I do with base R plots?
 * What are the requirements of every ggplot?
 * What are geoms?
 * What are facets?
 * What are themes?
 * How do I save a plot? 
 
-In the next lesson we'll learn about the basics of spatial analysis in R. 
+In the next lesson we'll work through some specific SWFWMD data analysis examples, combining elements from each of the previous lessons.
 
 ## Attribution
 
