@@ -57,11 +57,25 @@ ggplot(toplo, aes(x = timestamp, y = value, shape = am(timestamp))) +
 ggplot(toplo, aes(x = timestamp, y = value)) + 
   geom_point(colour = 'red')
 
-# ggplot(dat, aes(x = Date, y = Value)) +
+# toplo <- wqdat |>
+#   filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Dissolved Oxygen")
+# 
+# ggplot(toplo, aes(x = timestamp, y = value)) +
 #   geom_point() +
-#   scale_y_continuous('Value')
+#   labs(
+#     x = "Date",
+#     y = "mg/L",
+#     title = "Dissolved oxygen at station Lake Panasoffkee 8"
+#   )
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+toplo <- toplo <- wqdat |> 
+  filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Dissolved Oxygen") |> 
+  mutate(
+    sample_time = am(timestamp), 
+    sample_time = ifelse(sample_time, 'AM', 'PM')
+  )
+
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme(
     legend.position = 'top',
@@ -69,50 +83,56 @@ ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) +
     panel.background = element_rect(fill = 'lightblue')
   )
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_bw()
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_minimal()
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_classic()
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   theme_bw(base_family = 'serif', base_size = 16)
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   stat_smooth()
 
-ggplot(mpg, aes(x = displ, y = hwy)) + 
-  geom_point(aes(colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value)) + 
+  geom_point(aes(colour = sample_time)) + 
   stat_smooth()
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, color = sample_time)) + 
   geom_point() + 
   stat_smooth(method = 'lm')
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   stat_smooth(method = 'lm') + 
-  facet_wrap(~ drv, ncol = 3)
+  facet_wrap(~ sample_time, ncol = 2)
 
-ggplot(mpg, aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) + 
   geom_point() + 
   stat_smooth(method = 'lm') + 
-  facet_wrap(~ drv, ncol = 3, scales = 'free')
+  facet_wrap(~ sample_time, ncol = 2, scales = 'free')
 
-# ggplot(dat, aes(x = Date, y = Value)) +
+# ggplot(toplo, aes(x = timestamp, y = value)) +
 #   geom_point() +
-#   scale_y_continuous('Value') +
 #   theme_minimal() +
-#   stat_smooth(method = 'lm') +
-#   facet_wrap(~ Gear, ncol = 3)
+#   stat_smooth(method = "lm") +
+#   facet_wrap(~ sample_time, ncol = 2) +
+#   labs(
+#     x = NULL,
+#     y = "mg/L",
+#     title = "Lake Panasoffkee 8",
+#     subtitle = "Dissolved oxygen over time, grouped by sample time",
+#     caption = "Source: SWFWMD Environmental Data Portal"
+#   )
 
 # ggsave('figure/myfig.jpg', device = 'jpeg', width = 5, height = 4, units = 'in', dpi = 300)
 
