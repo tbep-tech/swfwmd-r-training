@@ -141,7 +141,7 @@ ggplot(toplo, aes(x = date, y = value, fill = station_name)) +
     legend.position = 'bottom', 
     panel.grid.minor = element_blank()
   )
- ```
+```
 
 Now we add our nice labels and we're done!
 
@@ -188,6 +188,8 @@ dev.off()
 ![](figs/swfwmd_examples/dosummary.png)
 
 ## Time series plots
+
+Although the previous pl
 
 ## Maps 
 
