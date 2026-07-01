@@ -28,7 +28,7 @@ book:
         - data_wrangling_1.qmd
         - data_wrangling_2.qmd
         - data_viz.qmd
-        - spatial_data_analysis.qmd  
+        - swfwmd_examples.qmd
   appendices:
     - setup.qmd
     - data_resources.qmd

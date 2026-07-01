@@ -133,7 +133,7 @@ This exercise sets up the project structure for the rest of the workshop.
 
 ## Accessing SWFWMD data
 
-One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD [Environmental Data Portal](https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal){target="_blank"} and then use those data in later wrangling, plotting, and spatial examples.
+One goal for this workshop is to use examples that look more like real SWFWMD work. A useful way to do that is to access data from the SWFWMD [Environmental Data Portal](https://www.swfwmd.state.fl.us/resources/data-maps/environmental-data-portal){target="_blank"} and then use those data in later wrangling, plotting, and analysis examples.
 
 For now, think of portal access as another data import step. The main ideas are:
 
