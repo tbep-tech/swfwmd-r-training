@@ -87,6 +87,109 @@ png(here('figs/swfwmd_examples', 'dosummary.png'), height = 3, width = 8, units 
 print(p)
 dev.off()
 
+wldat1 <- read_csv(here('data', 'wldat1.csv')) |>
+  slice(5:n()) |>
+  rename(
+    date = X.station_no,
+    levelft = X1035944
+  ) |>
+  mutate(
+    date = as.Date(date),
+    levelft = as.numeric(levelft)
+  )
+
+wldat2 <- read_csv(here('data', 'wldat2.csv')) |>
+  slice(5:n()) |>
+  rename(
+    date = X.station_no,
+    levelft = X23142
+  ) |>
+  mutate(
+    date = as.Date(date),
+    levelft = as.numeric(levelft)
+  )
+
+str(wldat1)
+str(wldat2)
+
+toplo <- inner_join(wldat1, wldat2, by = 'date', suffix = c('_1035944', '_23142')) |>
+  pivot_longer(-date) |>
+  separate(name, c('var', 'station')) |>
+  mutate(
+    station = paste('Station', station)
+  )
+
+str(toplo)
+
+toplopts <- toplo |>
+  filter(date == max(date))
+
+toplopts
+
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line()
+
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F)
+
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    panel.grid.minor = element_blank()
+  )
+
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_legend(nrow = 2, byrow = TRUE))
+
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_legend(nrow = 2, byrow = TRUE)) +
+  labs(
+    x = 'Recorded Date',
+    y = 'Water Level, NAVD88 (ft)',
+    color = NULL
+  )
+
+p <- ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_legend(nrow = 2, byrow = TRUE)) +
+  labs(
+    x = 'Recorded Date',
+    y = 'Water Level, NAVD88 (ft)',
+    color = NULL
+  )
+
+png(here('figs/swfwmd_examples', 'tsplot.png'), height = 3.5, width = 8, units = 'in', res = 300)
+print(p)
+dev.off()
+
 methods(class = 'sf')
 
 metadat <- read_csv(here('data', 'metadat.csv')) |> 
