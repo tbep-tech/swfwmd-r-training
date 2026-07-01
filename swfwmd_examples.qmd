@@ -35,6 +35,7 @@ library(here)
 library(sf)
 library(mapview)
 ```
+
 ## Summary plots
 
 We'll reproduce this figure using our water quality data. 
@@ -82,7 +83,7 @@ str(toplo)
 
 Now we're ready to plot. The final plot looks relatively simple, but there's a number of things we need to do to replicate the styling.
 
-1. Setup the aeshetics
+1. Setup the aesthetics
 1. "dodge" the bars by date
 1. Use a green color palette
 1. Chang the overall theme
@@ -98,7 +99,7 @@ ggplot(toplo, aes(x = date, y = value)) +
   geom_col()
 ```
 
-The first plot groupled all the stations together.  We can use the fill aesthetic to distinguish them.
+The first plot grouped all the stations together.  We can use the fill aesthetic to distinguish them.
 
 ```{r}
 ggplot(toplo, aes(x = date, y = value, fill = station_name)) +
@@ -112,7 +113,7 @@ ggplot(toplo, aes(x = date, y = value, fill = station_name)) +
   geom_col(position = position_dodge(), color = 'grey')
 ```
 
-Next we can change the color using `scale_fill_brewer().
+Next we can change the color using `scale_fill_brewer()`.
 
 ```{r}
 ggplot(toplo, aes(x = date, y = value, fill = station_name)) + 
@@ -193,55 +194,168 @@ Next, we'll create a plot similar to this one using our water level data from th
 
 ![](figs/swfwmd_examples/tsfig.png)
 
+Take a moment to evaluate the figure. What does it show you? Do we have the right data to recreate it? What do we need to do to our data to plot it?
+
+Let's look at our water level data. This time, we have two separate files, one for each station: `wldat1.csv` and `wldat2.csv`. Each file needs quite a bit of cleanup before we can combine them.
+
+There are a number of things we need to do to prepare these data for plotting.
+
+1. Import each station's file and remove the header rows
+1. Rename the date and level columns to meaningful names
+1. Convert the date and level columns to the correct data types
+1. Join the two station datasets by date
+1. Reshape the joined data to long format
+1. Create a label for each station
+1. Get the most recent date's values to use for point labels
+
 ```{r}
-wldat1 <- read_csv(here('data', 'wldat1.csv')) |>  
-  slice(5:n()) |> 
+wldat1 <- read_csv(here('data', 'wldat1.csv')) |>
+  slice(5:n()) |>
   rename(
-    date = X.station_no, 
+    date = X.station_no,
     levelft = X1035944
-  ) |> 
+  ) |>
   mutate(
-    date = as.Date(date), 
+    date = as.Date(date),
     levelft = as.numeric(levelft)
   )
 
-wldat2 <- read_csv(here('data', 'wldat2.csv')) |>  
-  slice(5:n()) |> 
+wldat2 <- read_csv(here('data', 'wldat2.csv')) |>
+  slice(5:n()) |>
   rename(
-    date = X.station_no, 
+    date = X.station_no,
     levelft = X23142
-  ) |> 
+  ) |>
   mutate(
-    date = as.Date(date), 
+    date = as.Date(date),
     levelft = as.numeric(levelft)
   )
 
-toplo <- inner_join(wldat1, wldat2, by = 'date', suffix = c('_1035944', '_23142')) |> 
-  pivot_longer(-date) |> 
-  separate(name, c('var', 'station')) |> 
+str(wldat1)
+str(wldat2)
+```
+
+Now we can join the two station datasets by date and reshape to long format so we have a single column for water level with a column identifying the station.
+
+```{r}
+toplo <- inner_join(wldat1, wldat2, by = 'date', suffix = c('_1035944', '_23142')) |>
+  pivot_longer(-date) |>
+  separate(name, c('var', 'station')) |>
   mutate(
     station = paste('Station', station)
   )
 
-toplopts <- toplo |> 
+str(toplo)
+```
+
+We also need a separate dataset with only the most recent date so we can label the lines with the current water level.
+
+```{r}
+toplopts <- toplo |>
   filter(date == max(date))
 
-ggplot(toplo, aes(x = date, y = value, color = station)) + 
-  geom_line() + 
+toplopts
+```
+
+Now we're ready to plot. As before, the final plot requires several styling additions.
+
+1. Setup the aesthetics and plot the lines
+1. Add labels showing the most recent value for each station
+1. Change the overall theme
+1. Move the legend to the bottom and arrange it over two rows
+1. Angle the x-axis text
+1. Modify the plot grid lines
+1. Make nice labels
+
+Let's first create the initial plot with a line for each station.  We're using a different "geom" here, `geom_line()`, which is used to plot lines instead of bars.
+
+```{r}
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line()
+```
+
+Next, we can add labels showing the most recent water level for each station, using the `toplopts` data we created above.  We'll have to get fancy with some of the arguments so that we can see the actual labels (there are much better ways of doing this using the [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html){target="_blank"} package, but we'll keep it simple for now).
+
+```{r}
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F)
+```
+
+As before, we can apply `theme_bw()` and use `theme()` to angle the x-axis text, move the legend to the bottom, and remove the minor gridlines.
+
+```{r}
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
   geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
-  theme_bw() + 
+  theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 45, hjust = 1), 
-    legend.position = 'bottom', 
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    panel.grid.minor = element_blank()
+  )
+```
+
+We can use `guides()` to wrap the legend across two rows.  I always have to Google this step...
+
+```{r}
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_legend(nrow = 2, byrow = TRUE))
+```
+
+Now we add our nice labels and we're done!
+
+```{r}
+ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
     panel.grid.minor = element_blank()
   ) +
   guides(color = guide_legend(nrow = 2, byrow = TRUE)) +
   labs(
-    x = 'Recorded Date', 
-    y = 'Water Level, NAVD88 (ft)', 
+    x = 'Recorded Date',
+    y = 'Water Level, NAVD88 (ft)',
     color = NULL
   )
 ```
+
+We can save it using the same method as before to get the dimensions similar to the original plot. 
+
+```{r}
+p <- ggplot(toplo, aes(x = date, y = value, color = station)) +
+  geom_line() +
+  geom_label(data = toplopts, aes(label = value), hjust = "inward", vjust = "inward", show.legend = F) +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = 'bottom',
+    panel.grid.minor = element_blank()
+  ) +
+  guides(color = guide_legend(nrow = 2, byrow = TRUE)) +
+  labs(
+    x = 'Recorded Date',
+    y = 'Water Level, NAVD88 (ft)',
+    color = NULL
+  )
+
+png(here('figs/swfwmd_examples', 'tsplot.png'), height = 3.5, width = 8, units = 'in', res = 300)
+print(p)
+dev.off()
+```
+
+![](figs/swfwmd_examples/tsplot.png)
 
 ## Maps 
 
