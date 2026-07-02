@@ -59,11 +59,11 @@ wqdat <- read_csv(here('data', 'wqdat.csv'))
 toplo <- wqdat |> 
   filter(station_name == 'Lake Panasoffkee 4' & parametertype_name == 'Temperature, Water') |> 
   mutate(
-    timestamp = lubridate::with_tz(timestamp, tzone = 'Etc/GMT+5')
+    timestamp = lubridate::force_tz(timestamp, tzone = 'Etc/GMT+5')
   )
 ```
 
-With ggplot2, you begin a plot with the function `ggplot()`. `ggplot()` creates a coordinate system for adding "geometries" (aka `geoms`). The first argument of `ggplot()` is the dataset to use in the graph. So, `ggplot(data = mpg)` creates an empty base graph.
+With ggplot2, you begin a plot with the function `ggplot()`. `ggplot()` creates a coordinate system for adding "geometries" (aka `geoms`). The first argument of `ggplot()` is the dataset to use in the graph. So, `ggplot(data = toplo)` creates an empty base graph.
 
 ```{r}
 #| eval: false
@@ -78,7 +78,7 @@ ggplot(data = toplo) +
   geom_point()
 ```
 
-Each geom function in ggplot2 takes a `mapping` argument. This defines how variables in your dataset are mapped to visual properties. The `mapping` argument is defined with `aes()` for aesthetics, and the `x` and `y` arguments of `aes()` specify which variables to map to the x and y axes. The geom functions look for the mapped variable in the `data` argument, in this case, `mpg`.
+Each geom function in ggplot2 takes a `mapping` argument. This defines how variables in your dataset are mapped to visual properties. The `mapping` argument is defined with `aes()` for aesthetics, and the `x` and `y` arguments of `aes()` specify which variables to map to the x and y axes. The geom functions look for the mapped variable in the `data` argument, in this case, `toplo`.
 
 ```{r}
 #| eval: false
@@ -240,7 +240,7 @@ There are countless ways we can modify a ggplot, either by manipulating the appe
 Before we proceed, we'll use the example data from the previous lesson.  We'll also add a new variable for AM/PM sampling time.
 
 ```{r}
-toplo <- toplo <- wqdat |> 
+toplo <- wqdat |> 
   filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Dissolved Oxygen") |> 
   mutate(
     sample_time = am(timestamp), 

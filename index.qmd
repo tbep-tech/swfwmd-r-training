@@ -47,8 +47,6 @@ All exercises and breaks will be timed to make sure that we stay on schedule. A 
 
 This training will use RStudio and R. Please make sure that you are ready to use the required software prior to the training by following the setup instructions [here](setup.html).  __Installation issues will not be addressed the day of the training__.
 
-Install RStudio and R on your personal computer (recommended). 
-
 ## Data and resources
 
 Please view the [Data and Resources](data_resources.html) page for data used in this training and additional links for R learning material.

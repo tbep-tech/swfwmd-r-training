@@ -47,9 +47,22 @@ jobs:
           for (f in files) knitr::purl(f, documentation = 0)
           "
 
-      - name: Render and Publish
+      - name: Zip R scripts
+        run: |
+          zip -j scripts.zip R_overview.R data_wrangling_1.R data_wrangling_2.R data_viz.R swfwmd_examples.R
+
+      - name: Render site
+        uses: quarto-dev/quarto-actions/render@v2
+
+      - name: Zip data files
+        run: |
+          zip -j data/data.zip data/metadat.csv data/wqdat.csv data/wldat1.csv data/wldat2.csv
+          cp data/data.zip _site/data/data.zip
+
+      - name: Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
+          render: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

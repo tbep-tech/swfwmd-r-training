@@ -13,17 +13,17 @@ Get the lesson data: [download zip](data/data.zip)
 
 ## Lesson Outline
 
-- [Goals and framing]
-- [Project-oriented workflow in RStudio]
-- [Accessing SWFWMD data]
-- [Troubleshooting and getting help]
-- [Generative AI as a support tool]
+* [Goals and framing]
+* [Project-oriented workflow in RStudio]
+* [Accessing SWFWMD data]
+* [Troubleshooting and getting help]
+* [Generative AI as a support tool]
 
 ## Lesson Exercises
 
-- [Exercise 1]
-- [Exercise 2]
-- [Exercise 3]
+* [Exercise 1]
+* [Exercise 2]
+* [Exercise 3]
 
 ## Goals and framing
 
@@ -89,8 +89,8 @@ Better yet, get in the habit of using the [here](https://here.r-lib.org/){target
 library(here)
 
 # project-relative file paths using here
-data_file <- here("data", "dat.csv")
-station_file <- here("data", "statloc.csv")
+metadat <- here("data", "metadat.csv")
+wqdat <- here("data", "wqdat.csv")
 ```
 
 This is preferable to absolute paths such as `C:/Users/name/Desktop/...`, which usually fail as soon as the code moves to a different computer or folder.
@@ -125,7 +125,7 @@ This exercise sets up the project structure for the rest of the workshop.
 
 1. Inside the project, create folders named `data`, `R`, and `figs`.
 
-1. Create a new script in the Source pane and save it as `scripts\workflow_notes.R`.
+1. Create a new script in the Source pane and save it as `R/workshop.R`.
 
 1. Add a short header comment to the file that explains what the script is for.
 
@@ -255,16 +255,16 @@ head(wldat2)
 None of the data we requested is ready for analysis.  Not only do we need to figure out what we want to do, but we also need to clean it up (wrangle) based on the needs of the analysis.  We'll deal with that later.  For now, we can save the results to retrieve them later. 
 
 ```{r}
-write.csv(metadat, "data/metadat.csv", row.names = F)
-write.csv(wqdat, "data/wqdat.csv", row.names = F)
-write.csv(wldat1, "data/wldat1.csv", row.names = F)
-write.csv(wldat2, "data/wldat2.csv", row.names = F)
+write.csv(metadat, here("data", "metadat.csv"), row.names = F)
+write.csv(wqdat, here("data", "wqdat.csv"), row.names = F)
+write.csv(wldat1, here("data", "wldat1.csv"), row.names = F)
+write.csv(wldat2, here("data", "wldat2.csv"), row.names = F)
 ```
 
 A final note about APIs:
 
 * Sometimes you will need to make the request again if it fails on the first try.  The request can be fickle based on your web connection and the server load.
-* I noticed that the above request for the metadata returned `r nrow(metadat)` columns, but I only requested five fields. This is clearly not working correctly. 
+* I noticed that the above request for the metadata returned `r ncol(metadat)` columns, but I only requested five fields. This is clearly not working correctly. 
 * APIs often change over time, so you may need to consult the online documentation for the correct format if something is not working as expected.
 * Most APIs also have limits on the amount of data you can retrieve per request.  You will need to make requests iteratively within a loop to get all the data you need, but that is beyond the scope of this workshop.
 
@@ -335,6 +335,6 @@ Use a short script from this lesson or one of your own and practice a structured
 
 1. If something fails, write down the exact error and list the first two things you would inspect before changing the code.
 
-## Summary
+## Next time
 
 In this lesson we framed the workshop around a reproducible workflow and imported data we'll use later. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.

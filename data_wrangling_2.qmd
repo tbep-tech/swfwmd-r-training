@@ -264,15 +264,15 @@ Let's take a look at the water quality data. Are these data "tidy"? To demonstra
 dim(wqdat)
 str(wqdat)
 
-# convert dat to long format
-longdat <- wqdat |>
+# convert dat to wide format
+widedat <- wqdat |>
   select(-unit_symbol, -parametertype_shortname) |>
   mutate(timestamp = as.Date(timestamp)) |> 
   pivot_wider(names_from = parametertype_name, values_from = value, values_fn = mean)
 
 # check dimensions, structure
-dim(longdat)
-str(longdat)
+dim(widedat)
+str(widedat)
 ```
 
 ## Summarize
@@ -286,7 +286,7 @@ by_sta <- summarize(wqdat, mean_val = mean(value, na.rm = T), .by = c(station_na
 by_sta
 ```
 
-The below example is the same as the previous, except we're also grouping by year, firstby creating the `Year` variable using `mutate()` and the `lubridate::year()` function.  The result is a summary of the average value by station, parameter, and year.
+The below example is the same as the previous, except we're also grouping by year, first by creating the `Year` variable using `mutate()` and the `lubridate::year()` function.  The result is a summary of the average value by station, parameter, and year.
 
 ```{r}
 by_sta_yr <- wqdat |> 

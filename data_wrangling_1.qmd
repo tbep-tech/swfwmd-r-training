@@ -207,7 +207,7 @@ head(filt1)
 filt2 <- filter(wqdat, parametertype_name == 'Temperature, Water' & value > 25 & value < 30)
 head(filt2)
 
-# get rows for Lake Pansoffkee 7 or Lake Panasoffkee 4
+# get rows for Lake Panasoffkee 7 or Lake Panasoffkee 4
 filt3 <- filter(wqdat, station_name == "Lake Panasoffkee 7" | station_name == "Lake Panasoffkee 4")
 head(filt3)
 
@@ -234,7 +234,7 @@ dplyr_mut3 <- mutate(wqdat, category = ifelse(value < 10, 'low', 'high'))
 head(dplyr_mut3)
 ```
 
-Since the water quality data are collected on specific dates, we can also use `mutate` to convert the date column to different formats. The `lubridate` package allows us to easily extract different time components.  First, we want to make sure the timestamp column is ain the correct format.
+Since the water quality data are collected on specific dates, we can also use `mutate` to convert the date column to different formats. The `lubridate` package allows us to easily extract different time components.  First, we want to make sure the timestamp column is in the correct format.
 
 ```{r}
 # check the class
@@ -244,14 +244,20 @@ class(wqdat$timestamp)
 attr(wqdat$timestamp, "tzone")
 ```
 
-We'll need to convert the time zone from UTC to Eastern Time (`readxl::read_csv()` assumed UTC).  We'll use `mutate` and `lubridate::with_tz()` to convert the timestamp column to Eastern Time.  Note that the time zone is specified as "Etc/GMT+5", which is Eastern Time without daylight savings.
+We'll need to convert the time zone from UTC to Eastern Time since `readr::read_csv()` assumed UTC.  We'll use `mutate` and `lubridate::force_tz()` to convert the timestamp column to Eastern Time.  This function is distinct from `lubridate::with_tz()` which will actually change the hour value, i.e., 5pm UTC would be changed to 12pm Eastern Time.  In this example, we want to keep the hour value the same because `readr::read_csv()` assumed the timestamp was in UTC, but it was actually collected in Eastern Time.  The `force_tz()` function will keep the hour value the same, but change the time zone attribute to Eastern Time.  We can verify the actual hour values are in Eastern Time by looking at a histogram of the hours.
+
+```{r}
+hist(hour(wqdat$timestamp))
+```
+
+Below, we change the time zone attribute with `force_tz`.  Note that the `tzone` argument is specified as `"Etc/GMT+5"`, which is Eastern Time without daylight savings.
 
 ```{r}
 # load lubridate
 library(lubridate)
 
 # convert to Eastern Time
-wqdat <- mutate(wqdat, timestamp = with_tz(timestamp, tzone = "Etc/GMT+5"))
+wqdat <- mutate(wqdat, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
 ```
 
 Now we can create extra columns for different time components.  This might be useful if we want to know what time of day most parameters are collected or if results vary seasonally (e.g., by month).
@@ -277,7 +283,7 @@ Now that you know the basic functions in `dplyr` and how to use them, let's put 
 
 1. Using the new object, filter to get all rows where Station is equal to `'Lake Panasoffkee 8'` and parameter is equal to `Temperature, Water` (hint, filter by the `station_name` column and `parametertype_name`, don't forget to use `==`). 
 
-1. Convert the `timestamp` column to the correct time zone (hing, use `mutate` with `with_tz` for timezone `"Etc/GMT+5"`). 
+1. Convert the `timestamp` column to the correct time zone (hint, use `mutate` with `force_tz` for timezone `"Etc/GMT+5"`). 
 
 ```{r}
 #| eval: false
@@ -344,7 +350,7 @@ Using your code from exercise four, try to replicate the steps __using pipes__. 
 
 1. Filter by `station_name` to get only station `"Lake Panasoffkee 8"` and `parametertype_name` to get only `"Temperature, Water"`
 
-1. Correct the timezone for `timestamp` to `"Etc/GMT+5"` using `mutate` and `with_tz`.
+1. Correct the timezone for `timestamp` to `"Etc/GMT+5"` using `mutate` and `force_tz`.
 
 ```{r}
 #| eval: false

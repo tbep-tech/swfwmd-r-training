@@ -11,7 +11,7 @@ This page contains links to the data we're using in our training, and a sample o
 This is a list of the data sources used in this training.  We'll download these files directly from the source during the first lesson, but they are provided here as backup.
 
  - Full Dataset as a [zipped folder](data/data.zip). Inside you'll find these files:
-    - Station metadata: [metadata.csv](data/metadata.csv)
+    - Station metadata: [metadat.csv](data/metadat.csv)
     - Water quality data: [wqdat.csv](data/wqdat.csv)
     - Water level data 1: [wldat1.csv](data/wldat1.csv)
     - Water level data 2: [wldat2.csv](data/wldat2.csv)
@@ -21,7 +21,7 @@ This is a list of the data sources used in this training.  We'll download these 
     - [data_wrangling_1.R](data_wrangling_1.R)
     - [data_wrangling_2.R](data_wrangling_2.R)
     - [data_viz.R](data_viz.R)
-    - [spatial_data_analysis.R](spatial_data_analysis.R)
+    - [swfwmd_examples.R](swfwmd_examples.R)
 
 ## Resources
 
