@@ -560,7 +560,7 @@ Static maps are all well and good, but sometimes we want to be able to interact 
 mapview(tomap, zcol = 'value')
 ```
 
-Then changing the color ramp and cleaning it up a bit. To match the blue gradient ggplot uses by default for continuous values, we can interpolate between its two endpoint colors, `'#132B43'` and `'#56B1F7'`, using `colorRampPalette()`. This function is part of the `grDevices` package, which comes with base R, so no additional package is required. Note that we pass the function itself to `col.regions`, rather than calling it with a fixed number of colors. This lets mapview generate as many colors as it needs internally for a smooth, continuous legend, rather than locking it into a small, discrete set of colors.
+We can also change the color ramp and clean it up a bit. To match the blue gradient ggplot uses by default for continuous values, we can interpolate between its two endpoint colors, `'#132B43'` and `'#56B1F7'`, using `colorRampPalette()`. This function is part of the `grDevices` package, which comes with base R.
 
 ```{r}
 mapview(tomap, zcol = 'value', col.regions = colorRampPalette(c('#132B43', '#56B1F7')), legend = TRUE, layer.name = 'Dissolved Oxygen (mg/L)')
