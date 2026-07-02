@@ -566,7 +566,7 @@ mapview(tomap, zcol = 'value', col.regions = colorRampPalette(c('#132B43', '#56B
 If you'd like to share this interactive map with others who don't use R, you can save it as an html file using the `mapshot()` function from mapview. Passing `selfcontained = TRUE` bundles all of the JavaScript and CSS the map depends on directly into that one file, rather than a separate folder of dependencies, so you can email or move a single file and it will still work.
 
 ```{r}
-m <- mapview(sfmetadat, zcol = 'value')
+m <- mapview(tomap, zcol = 'value', col.regions = colorRampPalette(c('#132B43', '#56B1F7')), legend = TRUE, layer.name = 'Dissolved Oxygen (mg/L)')
 mapshot(m, url = here('figs/swfwmd_examples', 'sfmetadat.html'), selfcontained = TRUE)
 ```
 
