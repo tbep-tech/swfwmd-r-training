@@ -52,7 +52,12 @@ jobs:
           zip -j scripts.zip R_overview.R data_wrangling_1.R data_wrangling_2.R data_viz.R swfwmd_examples.R
 
       - name: Render site
-        uses: quarto-dev/quarto-actions/render@v2
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 15
+          max_attempts: 2
+          retry_wait_seconds: 30
+          command: quarto render
 
       - name: Zip data files
         run: |
