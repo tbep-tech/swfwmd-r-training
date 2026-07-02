@@ -8,17 +8,14 @@ This page contains links to the data we're using in our training, and a sample o
 
 ## Datasets
 
-This is a list of the data sources used in this training.
+This is a list of the data sources used in this training.  We'll download these files directly from the source during the first lesson, but they are provided here as backup.
 
  - Full Dataset as a [zipped folder](data/data.zip). Inside you'll find these files:
-    - Training data: [dat.csv](data/dat.csv)
-    - Station locations: [statloc.csv](data/statloc.csv)
-    - Spatial boundary shapefile:
-         - [bounds.dbf](data/bounds.dbf)
-         - [bounds.prj](data/bounds.prj)
-         - [bounds.shp](data/bounds.shp)
-         - [bounds.shx](data/bounds.shx)
-         
+    - Station metadata: [metadata.csv](data/metadata.csv)
+    - Water quality data: [wqdat.csv](data/wqdat.csv)
+    - Water level data 1: [wldat1.csv](data/wldat1.csv)
+    - Water level data 2: [wldat2.csv](data/wldat2.csv)
+
  - All R scripts used in the lessons as a [zipped folder](scripts.zip).  Inside you'll find these files: 
     - [R_overview.R](R_overview.R)
     - [data_wrangling_1.R](data_wrangling_1.R)

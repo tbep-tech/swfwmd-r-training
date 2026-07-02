@@ -39,7 +39,7 @@ There are a few housekeeping items we need to go over before we start the traini
 
 1. Each lesson has its own R script that is linked at the top. If you are not using the live coding link, you can download the lesson R script and use that directly. 
 
-1. Finally, please make sure to download the required datasets [here](data/data.zip) and make sure you have the `here`, `tidyverse`, `sf`, and `mapview` packages installed. See the [setup instructions](setup.html) for details.
+1. Finally, please make sure to download the required datasets [here](data/data.zip) and make sure you have the `here`, `tidyverse`, `sf`, `mapview`, and `ggspatial` packages installed. See the [setup instructions](setup.html) for details.
 
 All exercises and breaks will be timed to make sure that we stay on schedule. A timer will be displayed on the screen to track progress.
 
