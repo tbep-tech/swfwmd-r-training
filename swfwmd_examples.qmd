@@ -17,12 +17,6 @@ Get the lesson data: [download zip](data/data.zip)
 * [Time series plots]
 * [Maps]
 
-## Lesson Exercises
-
-* [Exercise 11]
-* [Exercise 12]
-* [Exercise 13]
-
 Now we should be at a point where we can run through a complete analysis workflow, from data import all the way to data product.  In this lesson, we'll recreate some of the plots provided in this [SWFWMD report](Lake-Pan-Report-%2020251222.pdf) for Lake Panasoffkee. 
 
 The goal for this lesson is to learn how to conceptualize and execute a complete data analysis workflow.  To do this, you will need to know where you're starting and where you need to go and what pieces are needed in between.  The examples provided will demonstrate how to do this and will use methods from the prior lessons to develop the workflows.
@@ -59,6 +53,8 @@ There are a number of things we need to do to prepare this for plotting.
 1. Create a date column
 1. Convert stations to factor levels for plot order
 1. Summarize the parameter by station and date
+
+Also take note of the use of `dplyr::filter()`, which means use `filter()` from the dplyr package.  There's a "namespace" conflict with the `filter()` function from the base stats package, so we need to be explicit here.
 
 ```{r}
 # a station vector so we don't have to type out all the names
@@ -204,6 +200,7 @@ There are a number of things we need to do to prepare these data for plotting.
 1. Rename the date and level columns to meaningful names
 1. Convert the date and level columns to the correct data types
 1. Join the two station datasets by date
+1. Filter only the most recent month
 1. Reshape the joined data to long format
 1. Create a label for each station
 1. Get the most recent date's values to use for point labels
@@ -235,11 +232,26 @@ str(wldat1)
 str(wldat2)
 ```
 
-Now we can join the two station datasets by date and reshape to long format so we have a single column for water level with a column identifying the station.
+Now we can join the two station datasets by date and filter to the most recent month.
 
 ```{r}
 toplo <- inner_join(wldat1, wldat2, by = 'date', suffix = c('_1035944', '_23142')) |>
-  pivot_longer(-date) |>
+  dplyr::filter(date >= as.Date('2026-06-01'))
+head(toplo)
+```
+
+Then we reshape to long format so we have a single column for water level and station and a single column for the values.
+
+```{r}
+toplo <- toplo |> 
+  pivot_longer(-date)
+head(toplo) 
+```
+
+The `name` column is not tidy because it has two pieces of information in each "cell". We can separate the `name` column into two with `separate()` so that we have the variable and station names as two different columns. Then we add "Station" to the station values so it will look nicer in the legend.
+
+```{r}
+toplo <- toplo |>
   separate(name, c('var', 'station')) |>
   mutate(
     station = paste('Station', station)
@@ -478,8 +490,6 @@ mapview(sfmetadat, zcol = 'WBID')
 ```
 
 There's a lot more we can do with mapview but the point is that these maps are incredibly easy to make with `sf` objects and they offer a lot more functionality than static plots.
-
-## Exercise 14
 
 ## Next steps
 
