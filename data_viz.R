@@ -9,7 +9,7 @@ wqdat <- read_csv(here('data', 'wqdat.csv'))
 toplo <- wqdat |> 
   filter(station_name == 'Lake Panasoffkee 4' & parametertype_name == 'Temperature, Water') |> 
   mutate(
-    timestamp = lubridate::with_tz(timestamp, tzone = 'Etc/GMT+5')
+    timestamp = lubridate::force_tz(timestamp, tzone = 'Etc/GMT+5')
   )
 
 # ggplot(data = toplo)
@@ -68,7 +68,7 @@ ggplot(toplo, aes(x = timestamp, y = value)) +
 #     title = "Dissolved oxygen at station Lake Panasoffkee 8"
 #   )
 
-toplo <- toplo <- wqdat |> 
+toplo <- wqdat |> 
   filter(station_name == "Lake Panasoffkee 8" & parametertype_name == "Dissolved Oxygen") |> 
   mutate(
     sample_time = am(timestamp), 

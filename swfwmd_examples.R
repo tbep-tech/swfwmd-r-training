@@ -2,6 +2,7 @@ library(tidyverse)
 library(here)
 library(sf)
 library(mapview)
+library(ggspatial)
 
 wqdat <- read_csv(here('data', 'wqdat.csv'))
 str(wqdat)
@@ -113,7 +114,14 @@ str(wldat1)
 str(wldat2)
 
 toplo <- inner_join(wldat1, wldat2, by = 'date', suffix = c('_1035944', '_23142')) |>
-  pivot_longer(-date) |>
+  dplyr::filter(date >= as.Date('2026-06-01'))
+head(toplo)
+
+toplo <- toplo |> 
+  pivot_longer(-date)
+head(toplo) 
+
+toplo <- toplo |>
   separate(name, c('var', 'station')) |>
   mutate(
     station = paste('Station', station)
@@ -193,7 +201,7 @@ dev.off()
 methods(class = 'sf')
 
 metadat <- read_csv(here('data', 'metadat.csv')) |> 
-  select(station_name, station_longitude, station_latitude, WBID)
+  select(station_name, station_longitude, station_latitude)
 
 sfmetadat <- st_as_sf(metadat, coords = c('station_longitude', 'station_latitude'), crs = 4326)
 sfmetadat
@@ -203,7 +211,52 @@ sfmetadatutm <- sfmetadat |>
 st_crs(sfmetadatutm)
 
 # use ggplot with sf objects
-ggplot() + 
-  geom_sf(data = sfmetadat, aes(fill = WBID))
+ggplot() +
+  geom_sf(data = sfmetadat)
 
-mapview(sfmetadat, zcol = 'WBID')
+meando <- wqdat |> 
+  dplyr::filter(parametertype_name == 'Dissolved Oxygen') |> 
+  dplyr::filter(month(timestamp) == 6) |>
+  summarise(
+    value = mean(value, na.rm = T), 
+    .by = c(station_name)
+  )
+meando
+
+tomap <- inner_join(sfmetadat, meando, by = 'station_name')
+tomap
+
+ggplot() +
+  geom_sf(data = tomap, aes(color = value), size = 5)
+
+ggplot() +
+  annotation_map_tile(zoomin = 0) +
+  geom_sf(data = tomap, aes(color = value), size = 5)
+
+ggplot() +
+  annotation_map_tile(zoomin = 0) +
+  geom_sf(data = tomap, aes(color = value), size = 5) +
+  annotation_scale(location = 'bl') +
+  annotation_north_arrow(location = 'tr', style = north_arrow_fancy_orienteering())
+
+ggplot() +
+  annotation_map_tile(zoomin = 0) +
+  geom_sf(data = tomap, aes(color = value), size = 5) +
+  annotation_scale(location = 'bl') +
+  annotation_north_arrow(location = 'tr', style = north_arrow_fancy_orienteering()) +
+  theme(
+    legend.position = 'bottom'
+  ) + 
+  labs(
+    title = 'Lake Panasoffkee June average Dissolved Oxygen',
+    subtitle = 'Southwest Florida Water Management District',
+    color = 'mg/L',
+    caption = 'Source: SWFWMD Environmental Data Portal'
+  )
+
+mapview(tomap, zcol = 'value')
+
+mapview(tomap, zcol = 'value', col.regions = colorRampPalette(c('#132B43', '#56B1F7')), legend = TRUE, layer.name = 'Dissolved Oxygen (mg/L)')
+
+m <- mapview(tomap, zcol = 'value', col.regions = colorRampPalette(c('#132B43', '#56B1F7')), legend = TRUE, layer.name = 'Dissolved Oxygen (mg/L)')
+mapshot(m, url = here('figs/swfwmd_examples', 'sfmetadat.html'), selfcontained = TRUE)

@@ -256,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#generative-ai-as-a-support-tool" id="toc-generative-ai-as-a-support-tool" class="nav-link" data-scroll-target="#generative-ai-as-a-support-tool"><span class="header-section-number">1.9</span> Generative AI as a support tool</a></li>
   <li><a href="#exercise-3" id="toc-exercise-3" class="nav-link" data-scroll-target="#exercise-3"><span class="header-section-number">1.10</span> Exercise 3</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">1.11</span> Summary</a></li>
+  <li><a href="#next-time" id="toc-next-time" class="nav-link" data-scroll-target="#next-time"><span class="header-section-number">1.11</span> Next time</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/tbep-tech/swfwmd-r-training/edit/main/R_overview.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -357,8 +357,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># project-relative file paths using here</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>data_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"dat.csv"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>station_file <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"statloc.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>metadat <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"metadat.csv"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"wqdat.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This is preferable to absolute paths such as <code>C:/Users/name/Desktop/...</code>, which usually fail as soon as the code moves to a different computer or folder.</p>
 </section>
@@ -384,7 +384,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Start RStudio on your computer.</p></li>
 <li><p>Create a new project (File menu, New project, New directory, New project, Directory Name…). Name it <code>swfwmd_r_training</code>.</p></li>
 <li><p>Inside the project, create folders named <code>data</code>, <code>R</code>, and <code>figs</code>.</p></li>
-<li><p>Create a new script in the Source pane and save it as <code>scripts\workflow_notes.R</code>.</p></li>
+<li><p>Create a new script in the Source pane and save it as <code>R/workshop.R</code>.</p></li>
 <li><p>Add a short header comment to the file that explains what the script is for.</p></li>
 <li><p>Download the training zip file <a href="data/data.zip">here</a>, extract it, and copy the provided data into your project <code>data</code> folder.</p></li>
 </ol>
@@ -504,14 +504,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>wldat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl1)</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 451   2</code></pre>
+<pre><code>[1] 452   2</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         X.station_no                   X1035944
 1       #station_name Lake Panasoffkee at CR 455
 2      #ts_unitsymbol                         ft
-3               #rows                        447
+3               #rows                        448
 4          #Timestamp                      Value
 5 2025-04-11 00:00:00                      38.94
 6 2025-04-12 00:00:00                      38.95</code></pre>
@@ -536,14 +536,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>wldat2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl2)</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7518    2</code></pre>
+<pre><code>[1] 7519    2</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         X.station_no                  X23142
 1       #station_name Pana Vista Outlet River
 2      #ts_unitsymbol                      ft
-3               #rows                    7514
+3               #rows                    7515
 4          #Timestamp                   Value
 5 2005-12-05 00:00:00                   39.16
 6 2005-12-06 00:00:00                   39.17</code></pre>
@@ -551,15 +551,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>None of the data we requested is ready for analysis. Not only do we need to figure out what we want to do, but we also need to clean it up (wrangle) based on the needs of the analysis. We’ll deal with that later. For now, we can save the results to retrieve them later.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(metadat, <span class="st">"data/metadat.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wqdat, <span class="st">"data/wqdat.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat1, <span class="st">"data/wldat1.csv"</span>, <span class="at">row.names =</span> F)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat2, <span class="st">"data/wldat2.csv"</span>, <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(metadat, <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"metadat.csv"</span>), <span class="at">row.names =</span> F)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wqdat, <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"wqdat.csv"</span>), <span class="at">row.names =</span> F)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat1, <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"wldat1.csv"</span>), <span class="at">row.names =</span> F)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(wldat2, <span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"wldat2.csv"</span>), <span class="at">row.names =</span> F)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>A final note about APIs:</p>
 <ul>
 <li>Sometimes you will need to make the request again if it fails on the first try. The request can be fickle based on your web connection and the server load.</li>
-<li>I noticed that the above request for the metadata returned 8 columns, but I only requested five fields. This is clearly not working correctly.</li>
+<li>I noticed that the above request for the metadata returned 73 columns, but I only requested five fields. This is clearly not working correctly.</li>
 <li>APIs often change over time, so you may need to consult the online documentation for the correct format if something is not working as expected.</li>
 <li>Most APIs also have limits on the amount of data you can retrieve per request. You will need to make requests iteratively within a loop to get all the data you need, but that is beyond the scope of this workshop.</li>
 </ul>
@@ -624,8 +624,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>If something fails, write down the exact error and list the first two things you would inspect before changing the code.</p></li>
 </ol>
 </section>
-<section id="summary" class="level2" data-number="1.11">
-<h2 data-number="1.11" class="anchored" data-anchor-id="summary"><span class="header-section-number">1.11</span> Summary</h2>
+<section id="next-time" class="level2" data-number="1.11">
+<h2 data-number="1.11" class="anchored" data-anchor-id="next-time"><span class="header-section-number">1.11</span> Next time</h2>
 <p>In this lesson we framed the workshop around a reproducible workflow and imported data we’ll use later. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.</p>
 
 

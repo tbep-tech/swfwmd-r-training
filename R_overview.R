@@ -5,8 +5,8 @@ station_file <- file.path("data", "statloc.csv")
 library(here)
 
 # project-relative file paths using here
-data_file <- here("data", "dat.csv")
-station_file <- here("data", "statloc.csv")
+metadat <- here("data", "metadat.csv")
+wqdat <- here("data", "wqdat.csv")
 
 metaurl <- paste0(
   "https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?",
@@ -82,10 +82,10 @@ wldat2 <- read.csv(wlurl2)
 dim(wldat2)
 head(wldat2)
 
-write.csv(metadat, "data/metadat.csv", row.names = F)
-write.csv(wqdat, "data/wqdat.csv", row.names = F)
-write.csv(wldat1, "data/wldat1.csv", row.names = F)
-write.csv(wldat2, "data/wldat2.csv", row.names = F)
+write.csv(metadat, here("data", "metadat.csv"), row.names = F)
+write.csv(wqdat, here("data", "wqdat.csv"), row.names = F)
+write.csv(wldat1, here("data", "wldat1.csv"), row.names = F)
+write.csv(wldat2, here("data", "wldat2.csv"), row.names = F)
 
 # ?read_csv
 # help(package = "dplyr")

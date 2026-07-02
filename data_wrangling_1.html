@@ -610,7 +610,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ..   hydrounit_no = col_character(),
   ..   region_district = col_character()
   .. )
- - attr(*, "problems")=&lt;pointer: 0x5577ee577d00&gt; </code></pre>
+ - attr(*, "problems")=&lt;pointer: 0x5561df6bf990&gt; </code></pre>
 </div>
 </div>
 <section id="selecting" class="level3" data-number="2.5.1">
@@ -702,7 +702,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   ..   value = col_double(),
   ..   unit_symbol = col_character()
   .. )
- - attr(*, "problems")=&lt;pointer: 0x5577ec66ec00&gt; </code></pre>
+ - attr(*, "problems")=&lt;pointer: 0x5561df6a3df0&gt; </code></pre>
 </div>
 </div>
 <p>Maybe you want to look at only one parameter or one station.</p>
@@ -782,7 +782,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 6      23113 Lake Panasoffkee 7 WQ_360                  Temperature, Water
 # ℹ 3 more variables: timestamp &lt;dttm&gt;, value &lt;dbl&gt;, unit_symbol &lt;chr&gt;</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get rows for Lake Pansoffkee 7 or Lake Panasoffkee 4</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get rows for Lake Panasoffkee 7 or Lake Panasoffkee 4</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>filt3 <span class="ot">&lt;-</span> <span class="fu">filter</span>(wqdat, station_name <span class="sc">==</span> <span class="st">"Lake Panasoffkee 7"</span> <span class="sc">|</span> station_name <span class="sc">==</span> <span class="st">"Lake Panasoffkee 4"</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(filt3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -867,7 +867,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   category &lt;chr&gt;</code></pre>
 </div>
 </div>
-<p>Since the water quality data are collected on specific dates, we can also use <code>mutate</code> to convert the date column to different formats. The <code>lubridate</code> package allows us to easily extract different time components. First, we want to make sure the timestamp column is ain the correct format.</p>
+<p>Since the water quality data are collected on specific dates, we can also use <code>mutate</code> to convert the date column to different formats. The <code>lubridate</code> package allows us to easily extract different time components. First, we want to make sure the timestamp column is in the correct format.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check the class</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wqdat<span class="sc">$</span>timestamp)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -880,24 +880,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] "UTC"</code></pre>
 </div>
 </div>
-<p>We’ll need to convert the time zone from UTC to Eastern Time (<code>readxl::read_csv()</code> assumed UTC). We’ll use <code>mutate</code> and <code>lubridate::with_tz()</code> to convert the timestamp column to Eastern Time. Note that the time zone is specified as “Etc/GMT+5”, which is Eastern Time without daylight savings.</p>
+<p>We’ll need to convert the time zone from UTC to Eastern Time since <code>readr::read_csv()</code> assumed UTC. We’ll use <code>mutate</code> and <code>lubridate::force_tz()</code> to convert the timestamp column to Eastern Time. This function is distinct from <code>lubridate::with_tz()</code> which will actually change the hour value, i.e., 5pm UTC would be changed to 12pm Eastern Time. In this example, we want to keep the hour value the same because <code>readr::read_csv()</code> assumed the timestamp was in UTC, but it was actually collected in Eastern Time. The <code>force_tz()</code> function will keep the hour value the same, but change the time zone attribute to Eastern Time. We can verify the actual hour values are in Eastern Time by looking at a histogram of the hours.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load lubridate</span></span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to Eastern Time</span></span>
-<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> <span class="fu">mutate</span>(wqdat, <span class="at">timestamp =</span> <span class="fu">with_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">"Etc/GMT+5"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">hour</span>(wqdat<span class="sc">$</span>timestamp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="data_wrangling_1_files/figure-html/unnamed-chunk-10-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="data_wrangling_1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Below, we change the time zone attribute with <code>force_tz</code>. Note that the <code>tzone</code> argument is specified as <code>"Etc/GMT+5"</code>, which is Eastern Time without daylight savings.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load lubridate</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to Eastern Time</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>wqdat <span class="ot">&lt;-</span> <span class="fu">mutate</span>(wqdat, <span class="at">timestamp =</span> <span class="fu">force_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">"Etc/GMT+5"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can create extra columns for different time components. This might be useful if we want to know what time of day most parameters are collected or if results vary seasonally (e.g., by month).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create new columns for year, month, day, and hour</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>wqdat_dates <span class="ot">&lt;-</span> <span class="fu">mutate</span>(wqdat, </span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">year</span>(timestamp),</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">month =</span> <span class="fu">month</span>(timestamp),</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">day =</span> <span class="fu">day</span>(timestamp),</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">hour =</span> <span class="fu">hour</span>(timestamp)</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wqdat_dates)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create new columns for year, month, day, and hour</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>wqdat_dates <span class="ot">&lt;-</span> <span class="fu">mutate</span>(wqdat, </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="fu">year</span>(timestamp),</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">month =</span> <span class="fu">month</span>(timestamp),</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">day =</span> <span class="fu">day</span>(timestamp),</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">hour =</span> <span class="fu">hour</span>(timestamp)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wqdat_dates)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 11
   station_no station_name       parametertype_shortname parametertype_name
@@ -921,14 +932,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p>Select the <code>timestamp</code>, <code>station_name</code>, <code>parametertype_name</code>, and <code>value</code> columns. Assign this dataset to a new object in your workspace.</p></li>
 <li><p>Using the new object, filter to get all rows where Station is equal to <code>'Lake Panasoffkee 8'</code> and parameter is equal to <code>Temperature, Water</code> (hint, filter by the <code>station_name</code> column and <code>parametertype_name</code>, don’t forget to use <code>==</code>).</p></li>
-<li><p>Convert the <code>timestamp</code> column to the correct time zone (hing, use <code>mutate</code> with <code>with_tz</code> for timezone <code>"Etc/GMT+5"</code>).</p></li>
+<li><p>Convert the <code>timestamp</code> column to the correct time zone (hint, use <code>mutate</code> with <code>force_tz</code> for timezone <code>"Etc/GMT+5"</code>).</p></li>
 </ol>
 <div class="cell">
 <details class="code-fold">
 <summary>Click to show/hide solution</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">select</span>(wqdat, timestamp, station_name, parametertype_name, value)</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(ex1, station_name <span class="sc">==</span> <span class="st">"Lake Panasoffkee 8"</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">parametertype_name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Temperature, Water"</span>)</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ex1, <span class="at">timestamp =</span> <span class="fu">force_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">"Etc/GMT+5"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">select</span>(wqdat, timestamp, station_name, parametertype_name, value)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">filter</span>(ex1, station_name <span class="sc">==</span> <span class="st">"Lake Panasoffkee 8"</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">parametertype_name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Temperature, Water"</span>)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>ex1 <span class="ot">&lt;-</span> <span class="fu">mutate</span>(ex1, <span class="at">timestamp =</span> <span class="fu">force_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">"Etc/GMT+5"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>
@@ -936,28 +947,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="2.7" class="anchored" data-anchor-id="piping"><span class="header-section-number">2.7</span> Piping</h2>
 <p>A complete data wrangling exercise will always include multiple steps to go from the raw data to the output you need. Here’s a terrible wrangling example using functions from base R:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>cropdat <span class="ot">&lt;-</span> rawdat[<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>]</span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>savecols <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cropdat<span class="sc">$</span>Party, cropdat<span class="sc">$</span><span class="st">`</span><span class="at">Last Inventory Year (2015)</span><span class="st">`</span>)</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(savecols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Party'</span>,<span class="st">'2015'</span>)</span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>savecols<span class="sc">$</span>rank2015 <span class="ot">&lt;-</span> <span class="fu">rank</span>(<span class="sc">-</span>savecols<span class="sc">$</span><span class="st">`</span><span class="at">2015</span><span class="st">`</span>)</span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>top10df <span class="ot">&lt;-</span> savecols[savecols<span class="sc">$</span>rank2015 <span class="sc">&lt;=</span> <span class="dv">10</span>,]</span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>basedat <span class="ot">&lt;-</span> cropdat[cropdat<span class="sc">$</span>Party <span class="sc">%in%</span> top10df<span class="sc">$</span>Party,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>cropdat <span class="ot">&lt;-</span> rawdat[<span class="dv">1</span><span class="sc">:</span><span class="dv">28</span>]</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>savecols <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(cropdat<span class="sc">$</span>Party, cropdat<span class="sc">$</span><span class="st">`</span><span class="at">Last Inventory Year (2015)</span><span class="st">`</span>)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(savecols) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Party'</span>,<span class="st">'2015'</span>)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>savecols<span class="sc">$</span>rank2015 <span class="ot">&lt;-</span> <span class="fu">rank</span>(<span class="sc">-</span>savecols<span class="sc">$</span><span class="st">`</span><span class="at">2015</span><span class="st">`</span>)</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>top10df <span class="ot">&lt;-</span> savecols[savecols<span class="sc">$</span>rank2015 <span class="sc">&lt;=</span> <span class="dv">10</span>,]</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>basedat <span class="ot">&lt;-</span> cropdat[cropdat<span class="sc">$</span>Party <span class="sc">%in%</span> top10df<span class="sc">$</span>Party,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Technically, if this works it’s not “wrong”, but there are a couple of issues that can cause problems. First, the flow of functions to manipulate the data is not obvious and this makes your code very hard to read. Second, lots of unnecessary intermediates have been created in your workspace. Anything that adds clutter should be avoided because R is fundamentally based on object assignments. The less you assign to variables in your environment the easier it will be to navigate complex scripts.</p>
 <p>The good news is that you now know how to use the dplyr functions to wrangle data. The function names in dplyr were chosen specifically to be descriptive. This will make your code much more readable than if you were using base R counterparts. However, I haven’t told you how to easily link the functions. Fortunately, there’s an easy fix to this problem.</p>
 <p>Recent versions of R provide a very useful method called <em>piping</em> that will make wrangling a whole lot easier. The idea is simple: a pipe (<code>|&gt;</code>) is used to chain functions together. The output from one function becomes the input to the next function in the pipe. This avoids the need to create intermediate objects and creates a logical progression of steps that demystify the wrangling process.</p>
 <p>Consider the simple example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># not using pipes, select a column, filter rows</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>bad_ex <span class="ot">&lt;-</span> <span class="fu">select</span>(wqdat, station_name, value)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>bad_ex2 <span class="ot">&lt;-</span> <span class="fu">filter</span>(bad_ex, value <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># not using pipes, select a column, filter rows</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>bad_ex <span class="ot">&lt;-</span> <span class="fu">select</span>(wqdat, station_name, value)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>bad_ex2 <span class="ot">&lt;-</span> <span class="fu">filter</span>(bad_ex, value <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>With pipes, it looks like this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with pipes, select a column, filter rows</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>good_ex <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(station_name, value) <span class="sc">|&gt;</span></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># with pipes, select a column, filter rows</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>good_ex <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(station_name, value) <span class="sc">|&gt;</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(value <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we’ve created only one new object in our environment and we can clearly see that we select, then filter. The only real coding differences are the use of a pipe operator and now the select and filter functions only include the relevant information. You do not need to explicitly specify the data inputs in each function if you’re using piping. The pipe will always use the input that comes from above.</p>
 <p>A couple comments about piping:</p>
@@ -974,16 +985,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ol type="1">
 <li><p>From wqdat, select the <code>timestamp</code>, <code>station_name</code>, <code>parametertype_name</code>, and <code>value</code> columns</p></li>
 <li><p>Filter by <code>station_name</code> to get only station <code>"Lake Panasoffkee 8"</code> and <code>parametertype_name</code> to get only <code>"Temperature, Water"</code></p></li>
-<li><p>Correct the timezone for <code>timestamp</code> to <code>"Etc/GMT+5"</code> using <code>mutate</code> and <code>with_tz</code>.</p></li>
+<li><p>Correct the timezone for <code>timestamp</code> to <code>"Etc/GMT+5"</code> using <code>mutate</code> and <code>force_tz</code>.</p></li>
 </ol>
 <div class="cell">
 <details class="code-fold">
 <summary>Click to show/hide solution</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>ex2 <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(timestamp, station_name, parametertype_name, value) <span class="sc">|&gt;</span> </span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(station_name <span class="sc">==</span> <span class="st">"Lake Panasoffkee 8"</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">parametertype_name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Temperature, Water"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp =</span> <span class="fu">force_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">"Etc/GMT+5"</span>))</span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ex2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>ex2 <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(timestamp, station_name, parametertype_name, value) <span class="sc">|&gt;</span> </span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(station_name <span class="sc">==</span> <span class="st">"Lake Panasoffkee 8"</span> <span class="sc">&amp;</span> <span class="st">`</span><span class="at">parametertype_name</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Temperature, Water"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">timestamp =</span> <span class="fu">force_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">"Etc/GMT+5"</span>))</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ex2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section>

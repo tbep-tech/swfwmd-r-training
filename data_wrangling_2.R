@@ -58,15 +58,15 @@ pivot_wider(table2, names_from = 'type', values_from = 'count')
 dim(wqdat)
 str(wqdat)
 
-# convert dat to long format
-longdat <- wqdat |>
+# convert dat to wide format
+widedat <- wqdat |>
   select(-unit_symbol, -parametertype_shortname) |>
   mutate(timestamp = as.Date(timestamp)) |> 
   pivot_wider(names_from = parametertype_name, values_from = value, values_fn = mean)
 
 # check dimensions, structure
-dim(longdat)
-str(longdat)
+dim(widedat)
+str(widedat)
 
 by_sta <- summarize(wqdat, mean_val = mean(value, na.rm = T), .by = c(station_name, parametertype_name))
 by_sta

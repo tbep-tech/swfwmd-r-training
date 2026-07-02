@@ -62,7 +62,7 @@ head(filt1)
 filt2 <- filter(wqdat, parametertype_name == 'Temperature, Water' & value > 25 & value < 30)
 head(filt2)
 
-# get rows for Lake Pansoffkee 7 or Lake Panasoffkee 4
+# get rows for Lake Panasoffkee 7 or Lake Panasoffkee 4
 filt3 <- filter(wqdat, station_name == "Lake Panasoffkee 7" | station_name == "Lake Panasoffkee 4")
 head(filt3)
 
@@ -88,11 +88,13 @@ class(wqdat$timestamp)
 # check the timezone
 attr(wqdat$timestamp, "tzone")
 
+hist(hour(wqdat$timestamp))
+
 # load lubridate
 library(lubridate)
 
 # convert to Eastern Time
-wqdat <- mutate(wqdat, timestamp = with_tz(timestamp, tzone = "Etc/GMT+5"))
+wqdat <- mutate(wqdat, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
 
 # create new columns for year, month, day, and hour
 wqdat_dates <- mutate(wqdat, 
