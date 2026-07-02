@@ -47,7 +47,7 @@ ggplot(toplo, aes(x = date, y = value, fill = station_name)) +
 ggplot(toplo, aes(x = date, y = value, fill = station_name)) + 
   geom_col(position = position_dodge(), color = 'grey') + 
   scale_fill_brewer(palette = 'Greens', direction = -1) + 
-  theme_bw(base_size = 18) + 
+  theme_bw() + 
   theme(
     axis.text.x = element_text(angle = 45, hjust = 1), 
     legend.position = 'bottom', 
