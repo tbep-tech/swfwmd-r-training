@@ -46,9 +46,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-e1dc7c06b84616ffc65b98f43969cebb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
-<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -257,7 +254,11 @@ figcaption {
 }
 </style>
 </div>
-<p><a href="figs/swfwmd_logo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="figs/swfwmd_logo.png" class="img-fluid"></a></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.swfwmd.state.fl.us/" target="_blank"><img src="figs/swfwmd_logo.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="250"></a></p>
+</figure>
+</div>
 <section id="about-this-training" class="level1 unnumbered">
 <h1 class="unnumbered">About this Training</h1>
 <p>This training is designed for SWFWMD staff who already have some experience working in R and want to become more effective using it for real analysis tasks. Attendees are expected to be comfortable running code in RStudio, but may want more confidence writing their own scripts for data wrangling, adapting scripts from colleagues, troubleshooting errors, and building reproducible workflows.</p>
@@ -343,7 +344,7 @@ figcaption {
 <section id="source-content" class="level2">
 <h2 class="anchored" data-anchor-id="source-content">Source content</h2>
 <p>All source materials for this website can be accessed at <a href="https://github.com/tbep-tech/swfwmd-r-training" target="_blank">https://github.com/tbep-tech/swfwmd-r-training</a></p>
-<p><a href="https://github.com/tbep-tech/swfwmd-r-training/actions"><img src="https://github.com/tbep-tech/swfwmd-r-training/workflows/build/badge.svg" class="img-fluid" alt="build"></a> This site is built automatically with GitHub Actions. Last site build 2026-07-06 00:24:09.810489.</p>
+<p><a href="https://github.com/tbep-tech/swfwmd-r-training/actions"><img src="https://github.com/tbep-tech/swfwmd-r-training/workflows/build/badge.svg" class="img-fluid" alt="build"></a> This site is built automatically with GitHub Actions. Last site build 2026-07-06 00:33:28.796198.</p>
 <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png"></a>&nbsp;&nbsp;This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
 
 
@@ -825,38 +826,6 @@ figcaption {
 </div>
   </div>
 </footer>
-<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
-(function() {
-  let previousOnload = window.onload;
-  window.onload = () => {
-    if (previousOnload) {
-      previousOnload();
-    }
-    lightboxQuarto.on('slide_before_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      const href = trigger.getAttribute('href');
-      if (href !== null) {
-        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
-        if (imgEl !== null) {
-          const srcAttr = imgEl.getAttribute("src");
-          if (srcAttr && srcAttr.startsWith("data:")) {
-            slideConfig.href = srcAttr;
-          }
-        }
-      } 
-    });
-  
-    lightboxQuarto.on('slide_after_load', (data) => {
-      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(slideNode);
-      }
-    });
-  
-  };
-  
-})();
-          </script>
 
 
 
