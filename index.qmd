@@ -12,6 +12,8 @@ figcaption {
 }
 ```
 
+![](figs/swfwmd_logo.png)
+
 # About this Training {.unnumbered}
 
 This training is designed for SWFWMD staff who already have some experience working in R and want to become more effective using it for real analysis tasks. Attendees are expected to be comfortable running code in RStudio, but may want more confidence writing their own scripts for data wrangling, adapting scripts from colleagues, troubleshooting errors, and building reproducible workflows.
