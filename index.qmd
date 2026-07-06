@@ -12,7 +12,7 @@ figcaption {
 }
 ```
 
-![](figs/swfwmd_logo.png)
+[![](figs/swfwmd_logo.png){width=250px fig-align="center"}](https://www.swfwmd.state.fl.us/){target="_blank"}
 
 # About this Training {.unnumbered}
 
