@@ -364,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="scripting" class="level3" data-number="1.4.4">
 <h3 data-number="1.4.4" class="anchored" data-anchor-id="scripting"><span class="header-section-number">1.4.4</span> Scripting</h3>
-<p>In most cases, you should write code in scripts and send it to the console as needed. A saved script is easier to share, troubleshoot, review, and reuse than code typed interactively into the console and lost when the session closes.</p>
+<p>In most cases, you should write code in scripts and send it to the console as needed. A saved script within a project is your cookbook of instructions to reuse and is not lost when the session closes.</p>
 <p>Open a new script from the File menu:</p>
 <p><a href="figs/R_overview/rstudio_script.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figs/R_overview/rstudio_script.jpg" class="img-fluid"></a></p>
 <p>After you write code in your script, use the <code>Run</code> button or <code>ctrl+enter</code> (<code>cmd+enter</code> on a Mac) to send lines to the console.</p>
@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="modular-projects" class="level3" data-number="1.4.5">
 <h3 data-number="1.4.5" class="anchored" data-anchor-id="modular-projects"><span class="header-section-number">1.4.5</span> Modular projects</h3>
 <p>An RStudio project is simply a folder on your computer. All of your data, scripts, and outputs can live in that folder. You can create subfolders for different parts of your analysis. For example, you might have a <code>data</code> folder for raw data, an <code>R</code> folder for your R scripts, and a <code>figs</code> folder for figures you create. As noted above, all file paths should be relative to the project root, so you can move the entire project folder to a different location or share it with someone else without breaking your code.</p>
-<p>An RStudio project also contains a file with the extension <code>.Rproj</code>. This file contains information about the project and is used by RStudio to open the project. You can share this file with others, but you should not edit it directly. Instead, use the RStudio interface to manage your project.</p>
+<p>An RStudio project also contains a file with the extension <code>.Rproj</code>. This file contains information about the project and is used by RStudio to open the project. You should not edit it directly. Instead, use the RStudio interface to manage your project.</p>
 <p>Rather than sharing a script with someone else, you can share the entire project folder. This way, they can open the project in RStudio and have access to all of the data, scripts, and outputs. This is especially useful for collaborative work.</p>
 </section>
 </section>
@@ -385,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Create a new project (File menu, New project, New directory, New project, Directory Name…). Name it <code>swfwmd_r_training</code>.</p></li>
 <li><p>Inside the project, create folders named <code>data</code>, <code>R</code>, and <code>figs</code>.</p></li>
 <li><p>Create a new script in the Source pane and save it as <code>R/workshop.R</code>.</p></li>
-<li><p>Add a short header comment to the file that explains what the script is for.</p></li>
+<li><p>Add a short header comment (with <code>#</code> preceding the text) to the file that explains what the script is for.</p></li>
 <li><p>Download the training zip file <a href="data/data.zip">here</a>, extract it, and copy the provided data into your project <code>data</code> folder.</p></li>
 </ol>
 </section>
@@ -397,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>build a request URL carefully,</li>
 <li>import the result into R,</li>
 <li>inspect the structure immediately,</li>
-<li>and save or reuse the result in later steps of the workflow.</li>
+<li>and save the result to reuse in later steps of the workflow.</li>
 </ul>
 <p>For this workshop, we’ll be working with three different types of data, all of which are obtained from the SWFWMD data portal.</p>
 <ul>
@@ -406,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Station water levels</li>
 </ul>
 <p>These can be obtained by using a constructed web address (URL) with the information you like.</p>
-<p>An example URL pattern for requesting station metadata looks like this. The API has a URL generator <a href="https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681">here</a> that can create these requests. The URL below retrieves station metadata for all active stations in Lake Panasoffkee. The request is broken into parts to make it easier to read.</p>
+<p>An example URL pattern for requesting station metadata looks like this. The API has a URL generator <a href="https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681" target="_blank">here</a> that can create these requests. The URL below retrieves station metadata for all active stations in Lake Panasoffkee. The request is broken into parts to make it easier to read.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>metaurl <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"https://edp.swfwmd.state.fl.us/KiWIS/KiWIS?"</span>,</span>
@@ -431,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1]  8 73</code></pre>
 </div>
 </div>
-<p>Our request returned information for 8 active stations (as rows) in Lake Panasoffkee. There’s also a bunch of columns (73 to be exact) that we probably don’t need, but we’ll deal with those later. For now, we’ll use the station numbers (<code>station_no</code>) to retrieve water quality data and lake levels using another request.</p>
+<p>Our request returned information for 8 active stations (as rows) in Lake Panasoffkee. There’s also a bunch of columns (73 to be exact) that we probably don’t need, but we’ll deal with those later. For now, we’ll use the station numbers (<code>station_no</code>) from the metadata to retrieve water quality data and lake levels using another request.</p>
 <p>The URL request for water quality looks like this. We’ve constructed it to retrieve the active stations in Lake Panasoffkee.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the stations</span></span>
@@ -484,7 +484,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>[1] 1035944   23156   23142</code></pre>
 </div>
 </div>
-<p>The last data request we’ll make is for <em>water level</em> data. These differ from the <em>water quality</em> data because they’re “continuous” in time, i.e., time series data, as opposed to “discrete” water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved. The requests also use a <code>ts_path</code>: <code>something/station number/something else/some more stuff</code>. I don’t know what this… I hope you do.</p>
+<p>The last data request we’ll make is for water level data. These differ from the water quality data because they’re “continuous” in time, i.e., time series data, as opposed to “discrete” water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved. The requests also use a <code>ts_path</code>: <code>something/station number/something else/some more stuff</code>. I don’t know what this… I hope you do.</p>
 <p>This requests data for station 1035944.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>wlurl1 <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
@@ -504,14 +504,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>wldat1 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl1)</span>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 456   2</code></pre>
+<pre><code>[1] 462   2</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         X.station_no                   X1035944
 1       #station_name Lake Panasoffkee at CR 455
 2      #ts_unitsymbol                         ft
-3               #rows                        452
+3               #rows                        458
 4          #Timestamp                      Value
 5 2025-04-11 00:00:00                      38.94
 6 2025-04-12 00:00:00                      38.95</code></pre>
@@ -536,14 +536,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>wldat2 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(wlurl2)</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 7523    2</code></pre>
+<pre><code>[1] 7529    2</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wldat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         X.station_no                  X23142
 1       #station_name Pana Vista Outlet River
 2      #ts_unitsymbol                      ft
-3               #rows                    7519
+3               #rows                    7525
 4          #Timestamp                   Value
 5 2005-12-05 00:00:00                   39.16
 6 2005-12-06 00:00:00                   39.17</code></pre>
@@ -560,7 +560,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Sometimes you will need to make the request again if it fails on the first try. The request can be fickle based on your web connection and the server load.</li>
 <li>I noticed that the above request for the metadata returned 73 columns, but I only requested five fields. This is clearly not working correctly.</li>
-<li>APIs often change over time, so you may need to consult the online documentation for the correct format if something is not working as expected.</li>
+<li>APIs often change over time, so you may need to consult the online documentation for the correct format of the request (e.g.,URL) if something is not working as expected.</li>
 <li>Most APIs also have limits on the amount of data you can retrieve per request. You will need to make requests iteratively within a loop to get all the data you need, but that is beyond the scope of this workshop.</li>
 </ul>
 </section>
@@ -569,17 +569,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Use the project you created in Exercise 1 and inspect the example data.</p>
 <ol type="1">
 <li><p>Load the <code>here</code> and <code>tidyverse</code> packages.</p></li>
-<li><p>Import <code>metadat.csv</code> and <code>wqdat.csv</code> with <code>read.csv()</code>using relative file paths constructed with the <code>here()</code> function.</p></li>
+<li><p>Import <code>metadat.csv</code> and <code>wqdat.csv</code> from the data folder with <code>read_csv()</code>using relative file paths constructed with the <code>here()</code> function.</p></li>
 <li><p>Use <code>names()</code>, <code>dim()</code>, <code>head()</code>, or <code>glimpse()</code> to inspect each dataset.</p></li>
-<li><p>Write two or three short notes in your script about what each file appears to contain and how it might be used later in the workflow.</p></li>
+<li><p>Write two or three short notes in your script about what each file appears to contain and what needs to be done to make it ready for analysis.</p></li>
 </ol>
 </section>
 <section id="troubleshooting-and-getting-help" class="level2" data-number="1.8">
 <h2 data-number="1.8" class="anchored" data-anchor-id="troubleshooting-and-getting-help"><span class="header-section-number">1.8</span> Troubleshooting and getting help</h2>
 <p>Troubleshooting is a core skill for this workshop. Before changing code, make the problem smaller and more specific. Useful first checks include:</p>
 <ul>
+<li>Do the packages I need load correctly?</li>
 <li>Does the file path exist?</li>
-<li>Did the package load successfully?</li>
 <li>What is the class or structure of the object?</li>
 <li>Which line produced the error?</li>
 <li>Is the code failing because the input data are different than expected?</li>
@@ -626,7 +626,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="next-time" class="level2" data-number="1.11">
 <h2 data-number="1.11" class="anchored" data-anchor-id="next-time"><span class="header-section-number">1.11</span> Next time</h2>
-<p>In this lesson we framed the workshop around a reproducible workflow and imported data we’ll use later. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.</p>
+<p>In this lesson we framed the workshop around a reproducible workflow and imported data we’ll use later. The most important themes were to use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.</p>
 
 
 </section>
