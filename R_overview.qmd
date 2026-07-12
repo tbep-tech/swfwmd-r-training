@@ -97,7 +97,7 @@ This is preferable to absolute paths such as `C:/Users/name/Desktop/...`, which 
 
 ### Scripting
 
-In most cases, you should write code in scripts and send it to the console as needed. A saved script is easier to share, troubleshoot, review, and reuse than code typed interactively into the console and lost when the session closes.
+In most cases, you should write code in scripts and send it to the console as needed. A saved script within a project is your cookbook of instructions to reuse and is not lost when the session closes.
 
 Open a new script from the File menu:
 
@@ -111,7 +111,7 @@ After you write code in your script, use the `Run` button or `ctrl+enter` (`cmd+
 
 An RStudio project is simply a folder on your computer.  All of your data, scripts, and outputs can live in that folder.  You can create subfolders for different parts of your analysis.  For example, you might have a `data` folder for raw data, an `R` folder for your R scripts, and a `figs` folder for figures you create. As noted above, all file paths should be relative to the project root, so you can move the entire project folder to a different location or share it with someone else without breaking your code.
 
-An RStudio project also contains a file with the extension `.Rproj`.  This file contains information about the project and is used by RStudio to open the project.  You can share this file with others, but you should not edit it directly.  Instead, use the RStudio interface to manage your project.
+An RStudio project also contains a file with the extension `.Rproj`.  This file contains information about the project and is used by RStudio to open the project.  You should not edit it directly.  Instead, use the RStudio interface to manage your project.
 
 Rather than sharing a script with someone else, you can share the entire project folder.  This way, they can open the project in RStudio and have access to all of the data, scripts, and outputs.  This is especially useful for collaborative work.
 
@@ -127,7 +127,7 @@ This exercise sets up the project structure for the rest of the workshop.
 
 1. Create a new script in the Source pane and save it as `R/workshop.R`.
 
-1. Add a short header comment to the file that explains what the script is for.
+1. Add a short header comment (with `#` preceding the text) to the file that explains what the script is for.
 
 1. Download the training zip file [here](data/data.zip), extract it, and copy the provided data into your project `data` folder.
 
@@ -140,7 +140,7 @@ For now, think of portal access as another data import step. The main ideas are:
 * build a request URL carefully,
 * import the result into R,
 * inspect the structure immediately,
-* and save or reuse the result in later steps of the workflow.
+* and save the result to reuse in later steps of the workflow.
 
 For this workshop, we'll be working with three different types of data, all of which are obtained from the SWFWMD data portal.
 
@@ -150,7 +150,7 @@ For this workshop, we'll be working with three different types of data, all of w
 
 These can be obtained by using a constructed web address (URL) with the information you like.  
 
-An example URL pattern for requesting station metadata looks like this.  The API has a URL generator [here](https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681) that can create these requests.  The URL below retrieves station metadata for all active stations in Lake Panasoffkee.  The request is broken into parts to make it easier to read.
+An example URL pattern for requesting station metadata looks like this.  The API has a URL generator [here](https://www33.swfwmd.state.fl.us/URLBuilder_External/?_ga=2.250015622.1486516868.1782417832-1354077163.1767879681){target="_blank"} that can create these requests.  The URL below retrieves station metadata for all active stations in Lake Panasoffkee.  The request is broken into parts to make it easier to read.
 
 ```{r}
 metaurl <- paste0(
@@ -173,7 +173,7 @@ metadat <- read.csv(metaurl)
 dim(metadat)
 ```
 
-Our request returned information for `r nrow(metadat)` active stations (as rows) in Lake Panasoffkee.  There's also a bunch of columns (`r ncol(metadat)` to be exact) that we probably don't need, but we'll deal with those later.  For now, we'll use the station numbers (`station_no`) to retrieve water quality data and lake levels using another request.
+Our request returned information for `r nrow(metadat)` active stations (as rows) in Lake Panasoffkee.  There's also a bunch of columns (`r ncol(metadat)` to be exact) that we probably don't need, but we'll deal with those later.  For now, we'll use the station numbers (`station_no`) from the metadata to retrieve water quality data and lake levels using another request.
 
 The URL request for water quality looks like this.  We've constructed it to retrieve the active stations in Lake Panasoffkee. 
 
@@ -206,7 +206,7 @@ unique(wqdat$station_no)
 setdiff(stations, unique(wqdat$station_no))
 ```
 
-The last data request we'll make is for *water level* data.  These differ from the *water quality* data because they're "continuous" in time, i.e., time series data, as opposed to "discrete" water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved.  The requests also use a `ts_path`: `something/station number/something else/some more stuff`.  I don't know what this... I hope you do.
+The last data request we'll make is for water level data.  These differ from the water quality data because they're "continuous" in time, i.e., time series data, as opposed to "discrete" water quality samples taken at one point in time. We have to request the water level data one station at a time given the amount of data that are retrieved.  The requests also use a `ts_path`: `something/station number/something else/some more stuff`.  I don't know what this... I hope you do.
 
 This requests data for station 1035944. 
 
@@ -265,7 +265,7 @@ A final note about APIs:
 
 * Sometimes you will need to make the request again if it fails on the first try.  The request can be fickle based on your web connection and the server load.
 * I noticed that the above request for the metadata returned `r ncol(metadat)` columns, but I only requested five fields. This is clearly not working correctly. 
-* APIs often change over time, so you may need to consult the online documentation for the correct format if something is not working as expected.
+* APIs often change over time, so you may need to consult the online documentation for the correct format of the request (e.g.,URL) if something is not working as expected.
 * Most APIs also have limits on the amount of data you can retrieve per request.  You will need to make requests iteratively within a loop to get all the data you need, but that is beyond the scope of this workshop.
 
 ## Exercise 2
@@ -274,18 +274,18 @@ Use the project you created in Exercise 1 and inspect the example data.
 
 1. Load the `here` and `tidyverse` packages.
 
-1. Import `metadat.csv` and `wqdat.csv` with `read.csv()`using relative file paths constructed with the `here()` function.
+1. Import `metadat.csv` and `wqdat.csv` from the data folder with `read_csv()`using relative file paths constructed with the `here()` function.
 
 1. Use `names()`, `dim()`, `head()`, or `glimpse()` to inspect each dataset.
 
-1. Write two or three short notes in your script about what each file appears to contain and how it might be used later in the workflow.
+1. Write two or three short notes in your script about what each file appears to contain and what needs to be done to make it ready for analysis.
 
 ## Troubleshooting and getting help
 
 Troubleshooting is a core skill for this workshop. Before changing code, make the problem smaller and more specific. Useful first checks include:
 
+* Do the packages I need load correctly?
 * Does the file path exist?
-* Did the package load successfully?
 * What is the class or structure of the object?
 * Which line produced the error?
 * Is the code failing because the input data are different than expected?
@@ -337,4 +337,4 @@ Use a short script from this lesson or one of your own and practice a structured
 
 ## Next time
 
-In this lesson we framed the workshop around a reproducible workflow and imported data we'll use later. The most important themes were: use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.
+In this lesson we framed the workshop around a reproducible workflow and imported data we'll use later. The most important themes were to use projects, keep paths relative, inspect data early, read scripts in stages, and troubleshoot carefully. Next, we can build on that foundation with data wrangling tasks that move from clear examples into SWFWMD-style workflows.
