@@ -329,16 +329,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">timestamp =</span> lubridate<span class="sc">::</span><span class="fu">force_tz</span>(timestamp, <span class="at">tzone =</span> <span class="st">'Etc/GMT+5'</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>With ggplot2, you begin a plot with the function <code>ggplot()</code>. <code>ggplot()</code> creates a coordinate system for adding “geometries” (aka <code>geoms</code>). The first argument of <code>ggplot()</code> is the dataset to use in the graph. So, <code>ggplot(data = toplo)</code> creates an empty base graph.</p>
+<p>With ggplot2, you begin a plot with the function <code>ggplot()</code> that creates a coordinate system for adding “geometries” (aka <code>geoms</code>). The first argument of <code>ggplot()</code> is the dataset to use in the graph. So, <code>ggplot(data = toplo)</code> creates an empty base graph.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> toplo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The next step is to add one or more <code>geoms</code> to <code>ggplot()</code>. The function <code>geom_point()</code> adds a layer of points to your plot, which creates a scatterplot. There are many geom functions that each add a different type of layer to a plot.</p>
+<p>The next step is to add one or more <code>geoms</code> to <code>ggplot()</code>. The function <code>geom_point()</code> adds a layer of points to your plot, such as a scatterplot. There are many geom functions that each add a different type of layer to a plot.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> toplo) <span class="sc">+</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Each geom function in ggplot2 takes a <code>mapping</code> argument. This defines how variables in your dataset are mapped to visual properties. The <code>mapping</code> argument is defined with <code>aes()</code> for aesthetics, and the <code>x</code> and <code>y</code> arguments of <code>aes()</code> specify which variables to map to the x and y axes. The geom functions look for the mapped variable in the <code>data</code> argument, in this case, <code>toplo</code>.</p>
+<p>Each geom function in ggplot2 takes a <code>mapping</code> argument. This defines how variables in your dataset are mapped to visual properties called aesthetics. The <code>mapping</code> argument is defined with <code>aes()</code> for aesthetics, and the <code>x</code> and <code>y</code> arguments of <code>aes()</code> specify which variables to map to the x and y axes. The geom functions look for the mapped variable in the <code>data</code> argument, in this case, <code>toplo</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> toplo) <span class="sc">+</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> timestamp, <span class="at">y =</span> value))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -346,7 +346,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Just remember these requirements:</p>
 <ul>
 <li>All plots start with the <code>ggplot</code> function</li>
-<li>It will need three pieces of information: the <strong>data</strong>, how the data are <strong>mapped</strong> to the plot <strong>aesthetics</strong>, and a <strong>geom</strong> layer</li>
+<li>Plots require data</li>
+<li>The data are <strong>mapped</strong> to the plot <strong>aesthetics</strong> defined by a <strong>geom</strong> layer</li>
 </ul>
 <p>The core unit of every ggplot looks like this:</p>
 <div class="cell">
@@ -365,7 +366,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>More commonly, the <code>aes</code> function that defines the mapping is included in the initial call to <code>ggplot</code>. This will globally define the mapping to all geoms in a plot, instead of for only one geom. There may be different reasons to globally apply the aesthetics or separately for each geom depending on the data.</p>
+<p>More commonly, the <code>aes</code> function that defines the mapping is included in the initial call to <code>ggplot</code>. This will globally define the mapping to all geoms in a plot, instead of for only one geom. That is, multiple geoms can be included in a single ggplot, all of which require aeshetics mapping. There may be different reasons to globally apply the aesthetics or separately for each geom depending on the data, which we’ll explain below.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> toplo, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> timestamp, <span class="at">y =</span> value)) <span class="sc">+</span> </span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -431,7 +432,7 @@ Caused by error in `compute_geom_1()`:
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>?geom_linerange</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><a href="figs/data_viz/aesreq.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="figs/data_viz/aesreq.png" class="img-fluid"></a></p>
-<p>Looks like we don’t have the required aeshetics, nor does it make sense to use this geom because it’s not appropriate for the data. What about the requirements for <code>geom_point</code>?</p>
+<p>Looks like we don’t have the required aesthetics, nor does it make sense to use this geom because it’s not appropriate for the data. What about the requirements for <code>geom_point</code>?</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>?geom_point</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -461,7 +462,7 @@ Caused by error in `compute_geom_1()`:
 </div>
 </div>
 </div>
-<p>Changing the shapes:</p>
+<p>Changing the shapes (e.g., collected during AM or PM times):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(toplo, <span class="fu">aes</span>(<span class="at">x =</span> timestamp, <span class="at">y =</span> value, <span class="at">shape =</span> <span class="fu">am</span>(timestamp))) <span class="sc">+</span> </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -514,9 +515,9 @@ Caused by error in `compute_geom_1()`:
 </section>
 <section id="modifying-plot-components" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="modifying-plot-components"><span class="header-section-number">4.6</span> Modifying plot components</h2>
-<p>There are countless ways we can modify a ggplot, either by manipulating the appearance or adding information that improves our understanding of what we see. In the previous exercise, we used a scale to transform an axis. In this next section we’ll cover three additional ways to modify a plot:</p>
+<p>There are countless ways we can modify a ggplot, either by manipulating the appearance or adding information that improves our understanding of what we see. In this next section we’ll cover three additional ways to modify a plot:</p>
 <ul>
-<li>Modifying the appearance of the plot as a whole can be done using the <code>theme()</code> function for individual parts or by using a pre-packaged theme that modifies many parts at once.</li>
+<li>Modifying the appearance of plot attributes can be done using the <code>theme()</code> function for individual parts or by using a pre-packaged theme that modifies many parts at once.</li>
 <li>Adding statistical summaries with <code>stat_smooth()</code></li>
 <li>Making multi-panel plots with <code>facet_wrap()</code> or <code>facet_grid()</code>.</li>
 </ul>
@@ -546,7 +547,7 @@ Caused by error in `compute_geom_1()`:
 </div>
 </div>
 </div>
-<p>Changing plot elements with theme can take some practice because there’s lots to modify. In some respects, this is how ggplot2 is similar to base R. With flexibility comes tedium. Fortunately, there are several pre-packaged themes that modify several components at once. See <a href="http://ggplot2.tidyverse.org/reference/ggtheme.html" target="_blank">here</a> for the full documentation. There are also additional packages available that supplement the existing themes in ggplot2 (see <a href="https://github.com/jrnold/ggthemes" target="_blank">here</a>).</p>
+<p>Changing plot elements with theme can take some practice because there’s lots to modify. In some respects, this is how ggplot2 is similar to base R. With flexibility comes tedium. Fortunately, there are several pre-packaged themes that modify several components at once. See <a href="http://ggplot2.tidyverse.org/reference/ggtheme.html" target="_blank">here</a> for the full documentation. There are also additional packages available that supplement the existing themes in ggplot2 (see <a href="https://jrnold.github.io/ggthemes/" target="_blank">here</a>).</p>
 <p>Black and white:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(toplo, <span class="fu">aes</span>(<span class="at">x =</span> timestamp, <span class="at">y =</span> value, <span class="at">colour =</span> sample_time)) <span class="sc">+</span> </span>
@@ -699,15 +700,15 @@ Caused by error in `compute_geom_1()`:
 <h2 data-number="4.8" class="anchored" data-anchor-id="saving-your-plots"><span class="header-section-number">4.8</span> Saving your plots</h2>
 <p>A quality plot deserves to be saved and shared. As you can imagine, there are several ways to save a plot in RStudio. The easiest way (which I don’t recommend) is to use the export feature from the plot viewing pane.</p>
 <p><a href="figs/data_viz/saveplot.JPG" class="lightbox" data-gallery="quarto-lightbox-gallery-23"><img src="figs/data_viz/saveplot.JPG" class="img-fluid"></a></p>
-<p>Although this is convenient, you don’t have fine control over many options that can really make your graphic pop. I recommend using either the <code>ggsave</code> function for ggplot2 graphics, or preferably, one of the available graphics devices from base R (<code>bmp</code>, <code>jpeg</code>, <code>png</code>, <code>tiff</code>, <code>eps</code>, <code>ps</code>, <code>tex</code>, <code>svg</code>, <code>wmf</code>, and my favorite, <code>pdf</code>).</p>
+<p>Although this is convenient, you don’t have fine control over many options that can really make your graphic pop. I recommend using either the <code>ggsave</code> function for ggplot2 graphics, or preferably, one of the available graphics devices from base R (<code>bmp</code>, <code>jpeg</code>, <code>png</code>, <code>tiff</code>, <code>eps</code>, <code>ps</code>, <code>tex</code>, <code>svg</code>, <code>wmf</code>, <code>pdf</code>).</p>
 <p>The <code>ggsave</code> function works only with ggplot objects. You can control where the plot is saved, the file type, plotting dimensions, resolution, and a few other minor options. By default, it will save the last ggplot that you made.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">'figure/myfig.jpg'</span>, <span class="at">device =</span> <span class="st">'jpeg'</span>, <span class="at">width =</span> <span class="dv">5</span>, <span class="at">height =</span> <span class="dv">4</span>, <span class="at">units =</span> <span class="st">'in'</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">'figs/myfig.jpg'</span>, <span class="at">device =</span> <span class="st">'jpeg'</span>, <span class="at">width =</span> <span class="dv">5</span>, <span class="at">height =</span> <span class="dv">4</span>, <span class="at">units =</span> <span class="st">'in'</span>, <span class="at">dpi =</span> <span class="dv">300</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>ggsave</code> function uses the graphics devices from base R behind the scenes. You can always use these directly to save any type of plot (ggplot2, base, etc.). These work a bit differently from regular functions. First, you “open” a graphics device by executing the function (e.g., <code>png()</code>, <code>jpeg()</code>, etc.) at the command line. Then you execute your plot command and finish by “closing” the device with <code>dev.off()</code>. In a script, it will look something like this.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save a plot as png file</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">'figure/myfig.png'</span>, <span class="at">width =</span> <span class="dv">5</span>, <span class="at">height =</span> <span class="dv">4</span>, <span class="at">units =</span> <span class="st">'in'</span>, <span class="at">res =</span> <span class="dv">300</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">png</span>(<span class="st">'figs/myfig.png'</span>, <span class="at">width =</span> <span class="dv">5</span>, <span class="at">height =</span> <span class="dv">4</span>, <span class="at">units =</span> <span class="st">'in'</span>, <span class="at">res =</span> <span class="dv">300</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plot</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -727,7 +728,7 @@ Caused by error in `compute_geom_1()`:
 </section>
 <section id="attribution" class="level2" data-number="4.10">
 <h2 data-number="4.10" class="anchored" data-anchor-id="attribution"><span class="header-section-number">4.10</span> Attribution</h2>
-<p>Content in this lesson was pillaged extensively from the USGS-R training curriculum <a href="https://github.com/USGS-R/training-curriculum" target="_blank">here</a> and <a href="https://github.com/hadley/r4ds" target="_blank">R for data Science</a>.</p>
+<p>Content in this lesson was pillaged extensively from the USGS-R training curriculum <a href="https://github.com/USGS-R/training-curriculum" target="_blank">here</a> and <a href="https://github.com/hadley/r4ds" target="_blank">R for Data Science</a>.</p>
 
 
 </section>

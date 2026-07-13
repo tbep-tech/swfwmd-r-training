@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Adding or modifying existing variables with <code>mutate</code></li>
 <li>Working with the <a href="http://lubridate.tidyverse.org" target="_blank">lubridate</a> package</li>
 </ul>
-<p>As before, we only have one hour to cover the basics of data wrangling. It’s an unrealistic expectation that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what’s possible. I also want to provide resources that you can use for follow-up learning on your own.</p>
+<p>As before, we have a limited amount of time to cover the basics of data wrangling. It’s an unrealistic expectation that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what’s possible. We also provide resources that you can use for follow-up learning on your own.</p>
 <p>After this lesson you should be able to answer (or be able to find answers to) the following:</p>
 <ul>
 <li>How are data joined?</li>
@@ -345,7 +345,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="combining-data" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="combining-data"><span class="header-section-number">3.4</span> Combining data</h2>
-<p>Combining data is a common task of data wrangling. Perhaps we want to combine information between two datasets that share a common identifier. As a real world example, our training data contain measurements from various stations, but we also want to include spatial information about those stations (i.e., lat, lon). We would need to combine data if this information is in two different places. Combining data with dplyr is called joining.</p>
+<p>Combining data is a common task of data wrangling. Perhaps we want to combine information between two datasets that share a common identifier. As a real world example, our training data contain measurements from various stations, but we also want to include spatial information about those stations (i.e., latitude, longitude). We would need to combine data if this information is in two different places. Combining data with dplyr is called joining.</p>
 <p>All joins require that each of the tables can be linked by shared identifiers. These are called ‘keys’ and are usually represented as a separate column that acts as a unique variable for the observations. The <code>station_name</code> is our common key, but remember that a key might need to be unique for each row. It doesn’t make sense to join two tables by station if multiple site visits were made. In that case, your keys should include some information about the site visit <strong>and</strong> station. In other words, you would need to join with two variables.</p>
 <section id="types-of-joins" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="types-of-joins"><span class="header-section-number">3.4.1</span> Types of joins</h3>
@@ -354,7 +354,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="figs/data_wrangling_2/join-inner.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="figs/data_wrangling_2/join-inner.png" class="img-fluid"></a></p>
 <p>The second is an <strong>outer-join</strong>, and comes in three flavors: left, right, and full.</p>
 <p><a href="figs/data_wrangling_2/join-outer.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="figs/data_wrangling_2/join-outer.png" class="img-fluid"></a></p>
-<p>If all keys are shared between two data objects, then left, right, and full joins will give you the same result. I typically only use left_join just because it’s intuitive to me. This assumes that there is never any more information in the second table - it has the same or less keys as the original table.</p>
+<p>If all keys are shared between two data objects, then inner, left, right, and full joins will give you the same result.</p>
 <p>The data we downloaded for this training included station metadata and water quality measurements at the stations. If we want to plot any of the data by location, we need to join the two datasets.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
@@ -574,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>To tidy this up, we first analyse the representation in a similar way as before. This time, however, we only need to identify two things:</p>
 <ul>
-<li><p>The column that contains variable names. Here, it’s <code>type</code>.</p></li>
+<li><p>The column that contains variable names. Here it’s <code>type</code>.</p></li>
 <li><p>The column that contains values from multiple variables. Here it’s <code>count</code>.</p></li>
 </ul>
 <p>Once we’ve figured that out, we can use <code>pivot_wider()</code>.</p>
@@ -648,7 +648,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 231 more rows</code></pre>
 </div>
 </div>
-<p>The below example is the same as the previous, except we’re also grouping by year, first by creating the <code>Year</code> variable using <code>mutate()</code> and the <code>lubridate::year()</code> function. The result is a summary of the average value by station, parameter, and year.</p>
+<p>The below example is the same as the previous, except we’re also grouping by year, first by creating the <code>Year</code> variable using <code>mutate()</code> and the <code>lubridate::year()</code> function (note: <code>::</code> lets you use a function without loading the entire package). The result is a summary of the average value by station, parameter, and year.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>by_sta_yr <span class="ot">&lt;-</span> wqdat <span class="sc">|&gt;</span> </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(timestamp)) <span class="sc">|&gt;</span> </span>
@@ -671,7 +671,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 # ℹ 4,329 more rows</code></pre>
 </div>
 </div>
-<p>We can also get more than one summary at a time. The summary function can use any function that operates on a vector. Some common examples include <code>min()</code>, <code>max()</code>, <code>sd()</code>, <code>var()</code>, <code>median()</code>, <code>mean()</code>, and <code>n()</code>. It’s usually good practice to include a summary of how many observations were in each group, so get used to including the <code>n()</code> function.</p>
+<p>We can also get more than one summary at a time. The summary function can use any function that operates on a vector. Some common examples include <code>min()</code>, <code>max()</code>, <code>sd()</code>, <code>var()</code>, <code>median()</code>, <code>mean()</code>, and <code>n()</code>. It’s usually good practice to include a summary of how many observations were in each group using <code>n()</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>more_sums <span class="ot">&lt;-</span> <span class="fu">summarize</span>(wqdat, </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
@@ -734,7 +734,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="attribution" class="level2" data-number="3.11">
 <h2 data-number="3.11" class="anchored" data-anchor-id="attribution"><span class="header-section-number">3.11</span> Attribution</h2>
-<p>Content in this lesson was pillaged extensively from the USGS-R training curriculum <a href="https://github.com/USGS-R/training-curriculum" target="_blank">here</a> and <a href="https://github.com/hadley/r4ds" target="_blank">R for data Science</a>.</p>
+<p>Content in this lesson was pillaged extensively from the USGS-R training curriculum <a href="https://github.com/USGS-R/training-curriculum" target="_blank">here</a> and <a href="https://github.com/hadley/r4ds" target="_blank">R for Data Science</a>.</p>
 
 
 </section>

@@ -134,9 +134,9 @@ ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) +
 #     caption = "Source: SWFWMD Environmental Data Portal"
 #   )
 
-# ggsave('figure/myfig.jpg', device = 'jpeg', width = 5, height = 4, units = 'in', dpi = 300)
+# ggsave('figs/myfig.jpg', device = 'jpeg', width = 5, height = 4, units = 'in', dpi = 300)
 
 # # save a plot as png file
-# png('figure/myfig.png', width = 5, height = 4, units = 'in', res = 300)
+# png('figs/myfig.png', width = 5, height = 4, units = 'in', res = 300)
 # plot
 # dev.off()

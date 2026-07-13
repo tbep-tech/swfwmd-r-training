@@ -29,6 +29,10 @@ head(dplyr_sel1)
 dplyr_sel2 <- select(metadat, -c(Waterbody_Name:region_district))
 head(dplyr_sel2)
 
+# select and rename
+dplyr_sel3 <- select(metadat, number = station_no, name = station_name, station_latitude, station_longitude)
+head(dplyr_sel3)
+
 # import water quality data
 wqdat <- read_csv(here('data', 'wqdat.csv'))
 
@@ -44,13 +48,13 @@ names(wqdat)
 # structure
 str(wqdat)
 
-# filter observations with high values
+# filter data for one parameter
 wqdat_temp <- filter(wqdat, parametertype_name == "Temperature, Water")
 head(wqdat_temp)
 dim(wqdat_temp)
 
-# filter data for one station
-wqdat_sta <- filter(wqdat, station_name == "Lake Panasoffkee 7")
+# filter data to remove one station
+wqdat_sta <- filter(wqdat, station_name != "Lake Panasoffkee 7")
 head(wqdat_sta)
 dim(wqdat_sta)
 
@@ -88,13 +92,17 @@ class(wqdat$timestamp)
 # check the timezone
 attr(wqdat$timestamp, "tzone")
 
-hist(hour(wqdat$timestamp))
-
-# load lubridate
+# load the package
 library(lubridate)
+
+# look at the distribution of hours
+hist(hour(wqdat$timestamp))
 
 # convert to Eastern Time
 wqdat <- mutate(wqdat, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
+
+# verify new time zone
+attr(wqdat$timestamp, "tzone")
 
 # create new columns for year, month, day, and hour
 wqdat_dates <- mutate(wqdat, 
@@ -105,6 +113,9 @@ wqdat_dates <- mutate(wqdat,
 )
 head(wqdat_dates)
 
+# library(tidyverse)
+# library(here)
+# wqdat <- read_csv(here('data', 'wqdat.csv'))
 # ex1 <- select(wqdat, timestamp, station_name, parametertype_name, value)
 # ex1 <- filter(ex1, station_name == "Lake Panasoffkee 8" & `parametertype_name` == "Temperature, Water")
 # ex1 <- mutate(ex1, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
