@@ -61,15 +61,15 @@ library(tidyverse)
 
 Notice that the messages you get after loading are a bit different from other packages.  That's because tidyverse is a package that manages other packages (this is the only package I know of that serves this function).  Loading tidyverse will load all of the core packages:
 
--   [ggplot2](http://ggplot2.tidyverse.org){target="_blank"}, for data visualisation.
--   [dplyr](http://dplyr.tidyverse.org){target="_blank"}, for data manipulation.
--   [tidyr](http://tidyr.tidyverse.org){target="_blank"}, for data tidying.
--   [readr](http://readr.tidyverse.org){target="_blank"}, for data import.
--   [purrr](http://purrr.tidyverse.org){target="_blank"}, for functional programming.
--   [tibble](http://tibble.tidyverse.org){target="_blank"}, for tibbles, a modern re-imagining of data frames.
--   [stringr](http://stringr.tidyverse.org){target="_blank"}, for working with text strings.
--   [forcats](http://forcats.tidyverse.org){target="_blank"}, for working with factors.
--   [lubridate](http://lubridate.tidyverse.org){target="_blank"}, for working with dates and times.
+-   [ggplot2](http://ggplot2.tidyverse.org){target="_blank"} for data visualisation
+-   [dplyr](http://dplyr.tidyverse.org){target="_blank"} for data manipulation
+-   [tidyr](http://tidyr.tidyverse.org){target="_blank"} for data tidying
+-   [readr](http://readr.tidyverse.org){target="_blank"} for data import
+-   [purrr](http://purrr.tidyverse.org){target="_blank"} for functional programming
+-   [tibble](http://tibble.tidyverse.org){target="_blank"} for tibbles, a modern re-imagining of data frames
+-   [stringr](http://stringr.tidyverse.org){target="_blank"} for working with text strings
+-   [forcats](http://forcats.tidyverse.org){target="_blank"} for working with factors
+-   [lubridate](http://lubridate.tidyverse.org){target="_blank"} for working with dates and times
 
 Other packages (e.g., `readxl`) are also included but you will probably not use these as frequently.
 
@@ -96,7 +96,7 @@ As you'll soon learn using R, there are often several ways to achieve the same g
 
 The data wrangling process includes data import, tidying, and transformation.  The process directly feeds into, and is not mutually exclusive with, the *understanding* or modelling side of data exploration.  More generally, I consider data wrangling as the manipulation or combination of datasets for the purpose of analysis.
 
-Wrangling begins with import and ends with an output of some kind, such as a plot or a model, but is more often a dataset that has been altered from a raw dataset to suit the needs of an analysis.  In a perfect world, the wrangling process is linear with no need for back-tracking.  In reality, we often uncover more information about a dataset, either through wrangling or modeling, that warrants re-evaluation or even gathering more data.  Data also come in many forms and the form you need for analysis is rarely the required form of the input data.  For these reasons, data wrangling will consume most of your time in data exploration.
+Wrangling begins with import and ends with an output of some kind that is ready for analysis, such as a plot or a model. In a perfect world, the wrangling process is linear with no need for back-tracking.  In reality, we often uncover more information about a dataset, either through wrangling or modeling, that warrants re-evaluation or even gathering more data.  Data also come in many forms and the form you need for analysis is rarely the required form of the input data.  For these reasons, data wrangling will consume most of your time in data exploration.
 
 **All wrangling is based on a purpose.**  No one wrangles for the sake of wrangling (usually), so the process always begins by answering the following two questions:
 
@@ -105,8 +105,8 @@ Wrangling begins with import and ends with an output of some kind, such as a plo
 
 At the most basic level, going from what your input data looks like to what it needs to look like will require a few key operations.  Some common examples:
 
-* Selecting specific variables
-* Filtering observations by some criteria
+* Selecting specific variables (columns)
+* Filtering observations (rows) by some criteria
 * Adding or modifying existing variables
 * Renaming variables
 * Arranging rows by a variable
@@ -114,8 +114,7 @@ At the most basic level, going from what your input data looks like to what it n
 
 The `dplyr` package provides easy tools for these common data manipulation tasks. It is built to work directly with data frames and is one of the most heavily used packages in the tidyverse. The philosophy of dplyr is that one function does one thing and the name of the function says what it does. This is where the tidyverse generally departs from other packages and even base R.  It is meant to be easy, logical, and intuitive.  There is a lot of great info on dplyr. If you have an interest, I'd encourage you to look more. The vignettes are particularly good.
 
-* [`dplyr` GitHub repo](https://github.com/hadley/dplyr){target="_blank"}
-* [CRAN page: vignettes here](http://cran.rstudio.com/web/packages/dplyr/){target="_blank"}
+* [`dplyr` website](https://dplyr.tidyverse.org/){target="_blank"}
 * [Cheatsheet](https://rstudio.github.io/cheatsheets/data-transformation.pdf){target="_blank"}
 
 I'll demonstrate the examples with the training dataset from the last lesson.
@@ -151,11 +150,15 @@ head(dplyr_sel1)
 # select everything but some columns
 dplyr_sel2 <- select(metadat, -c(Waterbody_Name:region_district))
 head(dplyr_sel2)
+
+# select and rename
+dplyr_sel3 <- select(metadat, number = station_no, name = station_name, station_latitude, station_longitude)
+head(dplyr_sel3)
 ```
 
 ### Filtering
 
-After selecting columns, you'll probably want to remove observations that don't fit some criteria.  We'll use the water quality data for this example. 
+After selecting columns, you'll probably want to remove or retain observations (rows) that fit some criteria.  We'll use the water quality data for this example. 
 
 ```{r}
 # import water quality data
@@ -174,16 +177,20 @@ names(wqdat)
 str(wqdat)
 ```
 
-Maybe you want to look at only one parameter or one station.
+Maybe you want to look at only one parameter.
 
 ```{r}
-# filter observations with high values
+# filter data for one parameter
 wqdat_temp <- filter(wqdat, parametertype_name == "Temperature, Water")
 head(wqdat_temp)
 dim(wqdat_temp)
+```
 
-# filter data for one station
-wqdat_sta <- filter(wqdat, station_name == "Lake Panasoffkee 7")
+Or maybe you want to exclude data from one station.
+
+```{r}
+# filter data to remove one station
+wqdat_sta <- filter(wqdat, station_name != "Lake Panasoffkee 7")
 head(wqdat_sta)
 dim(wqdat_sta)
 ```
@@ -234,7 +241,9 @@ dplyr_mut3 <- mutate(wqdat, category = ifelse(value < 10, 'low', 'high'))
 head(dplyr_mut3)
 ```
 
-Since the water quality data are collected on specific dates, we can also use `mutate` to convert the date column to different formats. The `lubridate` package allows us to easily extract different time components.  First, we want to make sure the timestamp column is in the correct format.
+### Dates and times
+
+Since the water quality data are collected on specific dates and times, we can also use `mutate` to convert the `timestamp` column to different formats. The `lubridate` package allows us to easily extract different time components.  First, we want to make sure the `timestamp` column is in the correct format.
 
 ```{r}
 # check the class
@@ -244,20 +253,24 @@ class(wqdat$timestamp)
 attr(wqdat$timestamp, "tzone")
 ```
 
-We'll need to convert the time zone from UTC to Eastern Time since `readr::read_csv()` assumed UTC.  We'll use `mutate` and `lubridate::force_tz()` to convert the timestamp column to Eastern Time.  This function is distinct from `lubridate::with_tz()` which will actually change the hour value, i.e., 5pm UTC would be changed to 12pm Eastern Time.  In this example, we want to keep the hour value the same because `readr::read_csv()` assumed the timestamp was in UTC, but it was actually collected in Eastern Time.  The `force_tz()` function will keep the hour value the same, but change the time zone attribute to Eastern Time.  We can verify the actual hour values are in Eastern Time by looking at a histogram of the hours.
+We'll need to convert the time zone from UTC to Eastern Time since `read_csv()` assumed UTC.  We'll use `mutate` and `force_tz()` from lubridate to convert the timestamp column to Eastern Time.  This function is distinct from `with_tz()` which will actually change the hour value, i.e., 5pm UTC would be changed to 12pm Eastern Time.  In this example, we want to keep the hour value the same because `read_csv()` assumed the timestamp was in UTC, but it was actually collected in Eastern Time.  The `force_tz()` function will keep the hour value the same, but change the time zone attribute to Eastern Time.  We can verify the actual hour values are in Eastern Time by looking at a histogram of the hours.
 
 ```{r}
+# load the package
+library(lubridate)
+
+# look at the distribution of hours
 hist(hour(wqdat$timestamp))
 ```
 
-Below, we change the time zone attribute with `force_tz`.  Note that the `tzone` argument is specified as `"Etc/GMT+5"`, which is Eastern Time without daylight savings.
+Below, we change the time zone attribute with `force_tz`.  Note that the `tzone` argument is specified as `"Etc/GMT+5"`, which is Eastern Time without daylight savings (see `OlsonNames()` for a list of acceptable time zones in R).
 
 ```{r}
-# load lubridate
-library(lubridate)
-
 # convert to Eastern Time
 wqdat <- mutate(wqdat, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
+
+# verify new time zone
+attr(wqdat$timestamp, "tzone")
 ```
 
 Now we can create extra columns for different time components.  This might be useful if we want to know what time of day most parameters are collected or if results vary seasonally (e.g., by month).
@@ -279,6 +292,8 @@ There are many more functions in `dplyr`, but you'll use the ones above the most
 
 Now that you know the basic functions in `dplyr` and how to use them, let's put them to use.  Using `wqdat`, let's select some columns of interest, filter by station, and rename one of the columns.
 
+1. Import the water quality data file from your `data` folder using `read_csv()` (load the tidyverse and here packages first if needed). 
+
 1.  Select the `timestamp`, `station_name`, `parametertype_name`, and `value` columns.  Assign this dataset to a new object in your workspace.
 
 1. Using the new object, filter to get all rows where Station is equal to `'Lake Panasoffkee 8'` and parameter is equal to `Temperature, Water` (hint, filter by the `station_name` column and `parametertype_name`, don't forget to use `==`). 
@@ -290,6 +305,9 @@ Now that you know the basic functions in `dplyr` and how to use them, let's put 
 #| echo: true
 #| code-fold: true
 #| code-summary: "Click to show/hide solution"
+library(tidyverse)
+library(here)
+wqdat <- read_csv(here('data', 'wqdat.csv'))
 ex1 <- select(wqdat, timestamp, station_name, parametertype_name, value)
 ex1 <- filter(ex1, station_name == "Lake Panasoffkee 8" & `parametertype_name` == "Temperature, Water")
 ex1 <- mutate(ex1, timestamp = force_tz(timestamp, tzone = "Etc/GMT+5"))
@@ -377,4 +395,4 @@ Next we'll continue with data wrangling.
 
 ## Attribution
 
-Content in this lesson was pillaged extensively from the USGS-R training curriculum [here](https://github.com/USGS-R/training-curriculum){target="_blank"} and [R for data Science](https://github.com/hadley/r4ds){target="_blank"}.
+Content in this lesson was pillaged extensively from the USGS-R training curriculum [here](https://github.com/USGS-R/training-curriculum){target="_blank"} and [R for Data Science](https://github.com/hadley/r4ds){target="_blank"}.

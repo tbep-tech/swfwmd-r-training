@@ -43,7 +43,7 @@ Last lesson we learned the following functions from the `dplyr` package (cheatsh
 * Adding or modifying existing variables with `mutate`
 * Working with the [lubridate](http://lubridate.tidyverse.org){target="_blank"} package 
 
-As before, we only have one hour to cover the basics of data wrangling. It's an unrealistic expectation that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what's possible. I also want to provide resources that you can use for follow-up learning on your own.
+As before, we have a limited amount of time to cover the basics of data wrangling. It's an unrealistic expectation that you will be a ninja wrangler after this training. As such, the goals are to expose you to fundamentals and to develop an appreciation of what's possible. We also provide resources that you can use for follow-up learning on your own.
 
 After this lesson you should be able to answer (or be able to find answers to) the following:
 
@@ -67,7 +67,7 @@ library(tidyverse)
 
 ## Combining data
 
-Combining data is a common task of data wrangling.  Perhaps we want to combine information between two datasets that share a common identifier.  As a real world example, our training data contain measurements from various stations, but we also want to include spatial information about those stations (i.e., lat, lon).  We would need to combine data if this information is in two different places.  Combining data with dplyr is called joining.
+Combining data is a common task of data wrangling.  Perhaps we want to combine information between two datasets that share a common identifier.  As a real world example, our training data contain measurements from various stations, but we also want to include spatial information about those stations (i.e., latitude, longitude).  We would need to combine data if this information is in two different places.  Combining data with dplyr is called joining.
 
 All joins require that each of the tables can be linked by shared identifiers.  These are called 'keys' and are usually represented as a separate column that acts as a unique variable for the observations.  The `station_name` is our common key, but remember that a key might need to be unique for each row.  It doesn't make sense to join two tables by station if multiple site visits were made. In that case, your keys should include some information about the site visit **and** station. In other words, you would need to join with two variables.
 
@@ -83,7 +83,7 @@ The second is an **outer-join**, and comes in three flavors: left, right, and fu
 
 ![](figs/data_wrangling_2/join-outer.png)
 
-If all keys are shared between two data objects, then left, right, and full joins will give you the same result.  I typically only use left_join just because it's intuitive to me.  This assumes that there is never any more information in the second table - it has the same or less keys as the original table.
+If all keys are shared between two data objects, then inner, left, right, and full joins will give you the same result.
 
 The data we downloaded for this training included station metadata and water quality measurements at the stations. If we want to plot any of the data by location, we need to join the two datasets. 
 
@@ -228,7 +228,7 @@ table2
 
 To tidy this up, we first analyse the representation in a similar way as before. This time, however, we only need to identify two things:
 
-* The column that contains variable names. Here, it's
+* The column that contains variable names. Here it's
   `type`.
 
 * The column that contains values from multiple variables. Here it's `count`.
@@ -286,7 +286,7 @@ by_sta <- summarize(wqdat, mean_val = mean(value, na.rm = T), .by = c(station_na
 by_sta
 ```
 
-The below example is the same as the previous, except we're also grouping by year, first by creating the `Year` variable using `mutate()` and the `lubridate::year()` function.  The result is a summary of the average value by station, parameter, and year.
+The below example is the same as the previous, except we're also grouping by year, first by creating the `Year` variable using `mutate()` and the `lubridate::year()` function (note: `::` lets you use a function without loading the entire package).  The result is a summary of the average value by station, parameter, and year.
 
 ```{r}
 by_sta_yr <- wqdat |> 
@@ -295,7 +295,7 @@ by_sta_yr <- wqdat |>
 by_sta_yr
 ```
 
-We can also get more than one summary at a time.  The summary function can use any function that operates on a vector.  Some common examples include `min()`, `max()`, `sd()`, `var()`, `median()`, `mean()`, and `n()`.  It's usually good practice to include a summary of how many observations were in each group, so get used to including the `n()` function.
+We can also get more than one summary at a time.  The summary function can use any function that operates on a vector.  Some common examples include `min()`, `max()`, `sd()`, `var()`, `median()`, `mean()`, and `n()`.  It's usually good practice to include a summary of how many observations were in each group using `n()`.
 
 ```{r}
 more_sums <- summarize(wqdat, 
@@ -346,4 +346,4 @@ In the next lesson we'll learn about data visualization and graphics.
 
 ## Attribution
 
-Content in this lesson was pillaged extensively from the USGS-R training curriculum [here](https://github.com/USGS-R/training-curriculum){target="_blank"} and [R for data Science](https://github.com/hadley/r4ds){target="_blank"}.
+Content in this lesson was pillaged extensively from the USGS-R training curriculum [here](https://github.com/USGS-R/training-curriculum){target="_blank"} and [R for Data Science](https://github.com/hadley/r4ds){target="_blank"}.
