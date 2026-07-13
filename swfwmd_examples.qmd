@@ -18,9 +18,9 @@ Get the lesson data: [download zip](data/data.zip)
 * [Time series plots]
 * [Maps]
 
-Now we should be at a point where we can run through a complete analysis workflow, from data import all the way to data product.  In this lesson, we'll recreate some of the plots provided in this [SWFWMD report](Lake-Pan-Report-%2020251222.pdf) for Lake Panasoffkee. 
+Now we should be at a point where we can run through a complete analysis workflow, from data import all the way to data product.  In this lesson, we'll recreate some of the plots provided in this [SWFWMD report](Lake-Pan-Report-%2020251222.pdf) for Lake Panasoffkee. There are no exercises in this lesson, so just follow along with the examples as they're covered.
 
-The goal for this lesson is to learn how to conceptualize and execute a complete data analysis workflow.  To do this, you will need to know where you're starting and where you need to go and what pieces are needed in between.  The examples provided will demonstrate how to do this and will use methods from the prior lessons to develop the workflows.
+The goal for this lesson is to learn how to conceptualize and execute a complete data analysis workflow.  To do this, you will need to know where you're starting and where you need to go, and what pieces are needed in between.  The examples provided will demonstrate how to do this and will use methods from the prior lessons to develop the workflows.
 
 First, let's load the packages we'll be using. 
 
@@ -40,7 +40,7 @@ We'll reproduce this figure using our water quality data.
 
 Take a moment to evaluate the figure. What does it show you?  Do we have the right data to recreate it?  What do we need to do to our data to plot it?
 
-Let's look at our water quality data.  We'll load it from the `wqdat.csv`, but you could also just retrieve it again using the URL from the first lesson.
+Let's look at our water quality data.  We'll load it from the `wqdat.csv` file in our `data` folder, but you could also just retrieve it again using the URL from the first lesson.
 
 ```{r}
 wqdat <- read_csv(here('data', 'wqdat.csv'))
@@ -56,7 +56,7 @@ There are a number of things we need to do to prepare this for plotting.
 1. Convert stations to factor levels for plot order
 1. Summarize the parameter by station and date
 
-Also take note of the use of `dplyr::filter()`, which means use `filter()` from the dplyr package.  There's a "namespace" conflict with the `filter()` function from the stats package automatically loaded in R, so we need to be explicit here.
+Also take note of the use of `dplyr::filter()`, which means use `filter()` from the dplyr package.  There's a "namespace" conflict with a function of the same name from another loaded package, so we need to be explicit here.
 
 ```{r}
 # a station vector so we don't have to type out all the names
@@ -189,7 +189,7 @@ dev.off()
 
 ## Time series plots
 
-Next, we'll create a plot similar to this one using our water level data from the first lesson.
+Next, we'll create a plot similar to this one using our water level data from the first lesson.  The stations are different in our data, but the principles are the same.
 
 ![](figs/swfwmd_examples/tsfig.png)
 
@@ -277,7 +277,7 @@ Now we're ready to plot. As before, the final plot requires several styling addi
 1. Setup the aesthetics and plot the lines
 1. Add labels showing the most recent value for each station
 1. Change the overall theme
-1. Move the legend to the bottom and arrange it over two rows
+1. Move the legend to the bottom and arrange it as two rows
 1. Angle the x-axis text
 1. Modify the plot grid lines
 1. Make nice labels
@@ -289,7 +289,7 @@ ggplot(toplo, aes(x = date, y = value, color = station)) +
   geom_line()
 ```
 
-Next, we can add labels showing the most recent water level for each station, using the `toplopts` data we created above.  We'll have to get fancy with some of the arguments so that we can see the actual labels (there are much better ways of doing this using the [ggrepel](https://cran.r-project.org/web/packages/ggrepel/index.html){target="_blank"} package, but we'll keep it simple for now).
+Next, we can add labels showing the most recent water level for each station, using the `toplopts` data we created above.  We'll have to get fancy with some of the arguments so that we can see the actual labels (there are much better ways of doing this using the [ggrepel](https://ggrepel.slowkow.com/){target="_blank"} package, but we'll keep it simple for now).
 
 ```{r}
 ggplot(toplo, aes(x = date, y = value, color = station)) +
@@ -375,9 +375,9 @@ dev.off()
 
 ## Maps 
 
-Cartography or map-making is also very doable in R.  Like most applications, it takes very little time to create something simple, but much more time to create a finished product.  We'll focus on the simple process using [ggplot2](https://ggplot2.tidyverse.org/reference/ggsf.html){target="_blank"} and the [mapview](https://r-spatial.github.io/mapview/){target="_blank"} package just to get you started.  Both packages work "out-of-the-box" with `sf` data objects. 
+Cartography or map-making is also very doable in R.  Like most applications, it takes very little time to create something simple, but much more time to create a finished product.  We'll be using the [ggplot2](https://ggplot2.tidyverse.org/reference/ggsf.html){target="_blank"} and the [mapview](https://r-spatial.github.io/mapview/){target="_blank"} packages to get you started.  Both packages work "out-of-the-box" with `sf` data objects, described below. 
 
-Most of us are probably familiar with the basic types of spatial data and their components.  We're going to focus on vector data for this example because these data are easily conceptualized as __features__ or discrete objects with spatial information. Raster data, by contrast, are stored in a grid with cells associated with values.  Raster data are more common for data with continuous coverage, such as climate or weather layers.  
+Most of us are probably familiar with the basic types of spatial data and their components.  We're going to focus on vector data for this example because these data are easily conceptualized as __features__ or discrete objects with spatial information. Raster data, by contrast, are stored in a grid with cells having assigned values.  Raster data are more common for data with continuous coverage, such as climate or weather layers.  
 
 Vector data come in three flavors.  The simplest is a __point__, which is a 0-dimensional feature that can be used to represent a specific location on the earth, such as a single monitoring station or an entire city. Linear, 1-dimensional features can be represented with points (or vertices) that are connected by a path to form a __line__ and when many points are connected these form a __polyline__. Finally, when a polyline's path returns to its origin to represent an enclosed 2-dimensional space, such as a watershed boundary, lake, or management area, this forms a __polygon__.
 
@@ -387,7 +387,7 @@ Vector data come in three flavors.  The simplest is a __point__, which is a 0-di
 
 All vector data are represented similarly, whether they're points, lines, or polygons.  Points are defined by a single coordinate location, whereas a line or polygon include several points with a grouping variable that distinguishes one object from another. In all cases, the aggregate dataset is composed of one or more features of the same type (points, lines, or polygons).
 
-There are two other pieces of information that are included with vector data.  The __attributes__ that can be associated with each feature and the __coordinate reference system__ or __CRS__.  The attributes can be any supporting information about a feature, such as a text description or summary data about the features.  You can identify attributes as anything in a spatial dataset that is not explicitly used to define the location (or geometry) of the features.  
+There are two other pieces of information that are included with vector data.  The __attributes__ that can be associated with each feature and the __coordinate reference system__ or __CRS__.  The attributes can be any supporting information about a feature, such as a text description or summary data.  You can identify attributes as anything in a spatial dataset that is not explicitly used to define the location (or geometry) of the features.  
 
 The CRS is used to establish a frame of reference for the locations in your spatial data.  The chosen CRS ensures that all features are correctly referenced relative to each other, especially between different datasets.  As a simple example, imagine comparing length measurements for two objects where one was measured in centimeters and another in inches.  If you didn't know the unit of measurement, you could not compare relative lengths.  The CRS is similar in that it establishes a common frame of reference, but for spatial data.  An added complication with spatial data is that location can be represented in both 2-dimensional or 3-dimensional space. This is beyond the scope of this lesson, but for any geospatial analysis you should be sure that:
 
@@ -407,7 +407,7 @@ To summarize, vector data include the following:
 
 1. a coordinate reference system
 
-These are all the pieces of information you need to recognize in your data when working with features in R.
+These are all the pieces of information you need to work with spatial data in R.
 
 ### Simple features
 
@@ -419,11 +419,11 @@ The sf package provides a hierarchical data model that represents a wide range o
 
 ![](figs/swfwmd_examples/sf_objects.png)
 
-You'll notice that these are the same features we described above, with the addition of "multi" features and geometry collections that include more than one type of feature.
+You'll notice that these are the same features we described above, with the addition of "multi" features for collections of the same feature and geometry collections that include more than one type of feature.
 
 ### Creating spatial data with simple features
 
-Now that we're setup, let's talk about how the `sf` package can be used.  After the package is loaded, you can check out all of the methods that are available for `sf` data objects.  Many of these names will look familiar if you're familiar with geospatial analysis methods.  We'll use some of these later.
+Now that we're setup, let's talk about how the `sf` package can be used.  After the package is loaded, you can check out all of the methods that are available for `sf` data objects.  Many of these names are recognizable if you're familiar with common geospatial analysis methods.  We'll use some of these later.
 
 ```{r}
 methods(class = 'sf')
@@ -503,14 +503,14 @@ meando <- wqdat |>
 meando
 ```
 
-Now we can join the data to the sf object.  The important steps here are to use an `inner_join()` since we have less water quality stations than the total number of stations in the metadata.  Also, the metadata must be the first argument to the join function to retain the `sf` class.
+Now we can join the data to the sf object.  The important steps here are to use an `inner_join()` (or `left_join()`) since we have less water quality stations than the total number of stations in the metadata.  Also, the `sf` object (`sfmetadat`) must be the first argument to the join function to retain the `sf` class.
 
 ```{r}
 tomap <- inner_join(sfmetadat, meando, by = 'station_name')
 tomap
 ```
 
-Let's recreate our map but this time we'll use the `value` column to color and increase the size of the points.  
+Let's recreate our map but this time we'll map the `value` column to color and increase the size of the points.  
 
 ```{r}
 ggplot() +
@@ -554,7 +554,7 @@ ggplot() +
   )
 ```
 
-Static maps are all well and good, but sometimes we want to be able to interact with our data.  The `mapview` package makes this easy.  All we need to do is pass our `sf` object to the `mapview()` function and it will create an interactive map in the RStudio Viewer pane.  Notice that it already includes many of the elements we had to add to the ggplot map.
+Static maps are all well and good, but sometimes we want to be able to interact with your data.  The `mapview` package makes this easy.  All we need to do is pass our `sf` object to the `mapview()` function and it will create an interactive map in the RStudio Viewer pane.  Notice that it already includes many of the elements we had to add by hand to the ggplot map.
 
 ```{r}
 mapview(tomap, zcol = 'value')
