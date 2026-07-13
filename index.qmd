@@ -31,11 +31,11 @@ knitr::kable(agenda, row.names = F, format = 'markdown')
 
 There are a few housekeeping items we need to go over before we start the training.  
 
-1. Feel free to ask questions during the training. We will also use the stickies to indicate progress on exercises (green means okay, red means I need help).
+1. Feel free to ask questions during the training. This is your time and I don't want it spent without a dialogue.
 
 1. Please use your own installation of RStudio during this training.  The setup instructions are [here](setup.html).
 
-1. We have a live coding link that we'll be using as we go through the lessons. If you get lost, you can copy/paste code from this link into RStudio. 
+1. We have a live coding link that we'll be using as we go through the lessons, accessible [here](https://tinyurl.com/swfwmd-r-training-live-coding){target="_blank"}. If you get lost, you can copy/paste code from this link into RStudio.
 
 1. All training content is on this website.  We will be covering the content directly on the website, so if you get lost you can view the agenda to see which lesson we're covering and find where we're at by scrolling through the content. 
 
