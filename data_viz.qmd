@@ -63,14 +63,14 @@ toplo <- wqdat |>
   )
 ```
 
-With ggplot2, you begin a plot with the function `ggplot()`. `ggplot()` creates a coordinate system for adding "geometries" (aka `geoms`). The first argument of `ggplot()` is the dataset to use in the graph. So, `ggplot(data = toplo)` creates an empty base graph.
+With ggplot2, you begin a plot with the function `ggplot()` that creates a coordinate system for adding "geometries" (aka `geoms`). The first argument of `ggplot()` is the dataset to use in the graph. So, `ggplot(data = toplo)` creates an empty base graph.
 
 ```{r}
 #| eval: false
 ggplot(data = toplo)
 ```
 
-The next step is to add one or more `geoms` to `ggplot()`. The function `geom_point()` adds a layer of points to your plot, which creates a scatterplot. There are many geom functions that each add a different type of layer to a plot.
+The next step is to add one or more `geoms` to `ggplot()`. The function `geom_point()` adds a layer of points to your plot, such as a scatterplot. There are many geom functions that each add a different type of layer to a plot.
 
 ```{r}
 #| eval: false
@@ -78,7 +78,7 @@ ggplot(data = toplo) +
   geom_point()
 ```
 
-Each geom function in ggplot2 takes a `mapping` argument. This defines how variables in your dataset are mapped to visual properties. The `mapping` argument is defined with `aes()` for aesthetics, and the `x` and `y` arguments of `aes()` specify which variables to map to the x and y axes. The geom functions look for the mapped variable in the `data` argument, in this case, `toplo`.
+Each geom function in ggplot2 takes a `mapping` argument. This defines how variables in your dataset are mapped to visual properties called aesthetics. The `mapping` argument is defined with `aes()` for aesthetics, and the `x` and `y` arguments of `aes()` specify which variables to map to the x and y axes. The geom functions look for the mapped variable in the `data` argument, in this case, `toplo`.
 
 ```{r}
 #| eval: false
@@ -89,7 +89,8 @@ ggplot(data = toplo) +
 Just remember these requirements:
 
 * All plots start with the `ggplot` function
-* It will need three pieces of information: the **data**, how the data are **mapped** to the plot **aesthetics**, and a **geom** layer
+* Plots require data
+* The data are **mapped** to the plot **aesthetics** defined by a **geom** layer
 
 The core unit of every ggplot looks like this:
 
@@ -106,7 +107,7 @@ ggplot(data = toplo) +
   geom_point(mapping = aes(x = timestamp, y = value))
 ```
 
-More commonly, the `aes` function that defines the mapping is included in the initial call to `ggplot`.  This will globally define the mapping to all geoms in a plot, instead of for only one geom. There may be different reasons to globally apply the aesthetics or separately for each geom depending on the data.   
+More commonly, the `aes` function that defines the mapping is included in the initial call to `ggplot`.  This will globally define the mapping to all geoms in a plot, instead of for only one geom. That is, multiple geoms can be included in a single ggplot, all of which require aeshetics mapping.  There may be different reasons to globally apply the aesthetics or separately for each geom depending on the data, which we'll explain below.   
 
 ```{r}
 ggplot(data = toplo, mapping = aes(x = timestamp, y = value)) + 
@@ -162,7 +163,7 @@ Oh snap, what happened? This error is telling us that the geom we just tried is 
 ```
 ![](figs/data_viz/aesreq.png)
 
-Looks like we don't have the required aeshetics, nor does it make sense to use this geom because it's not appropriate for the data.  What about the requirements for `geom_point`?
+Looks like we don't have the required aesthetics, nor does it make sense to use this geom because it's not appropriate for the data.  What about the requirements for `geom_point`?
 
 ```{r}
 #| eval: false
@@ -186,7 +187,7 @@ ggplot(toplo, aes(x = timestamp, y = value, size = value)) +
   geom_point()
 ```
 
-Changing the shapes:
+Changing the shapes (e.g., collected during AM or PM times):
 
 ```{r}
 ggplot(toplo, aes(x = timestamp, y = value, shape = am(timestamp))) + 
@@ -231,9 +232,9 @@ ggplot(toplo, aes(x = timestamp, y = value)) +
 
 ## Modifying plot components
 
-There are countless ways we can modify a ggplot, either by manipulating the appearance or adding information that improves our understanding of what we see.  In the previous exercise, we used a scale to transform an axis.  In this next section we'll cover three additional ways to modify a plot:
+There are countless ways we can modify a ggplot, either by manipulating the appearance or adding information that improves our understanding of what we see. In this next section we'll cover three additional ways to modify a plot:
 
-* Modifying the appearance of the plot as a whole can be done using the `theme()` function for individual parts or by using a pre-packaged theme that modifies many parts at once. 
+* Modifying the appearance of plot attributes can be done using the `theme()` function for individual parts or by using a pre-packaged theme that modifies many parts at once. 
 * Adding statistical summaries with `stat_smooth()`
 * Making multi-panel plots with `facet_wrap()` or `facet_grid()`.
 
@@ -260,7 +261,7 @@ ggplot(toplo, aes(x = timestamp, y = value, colour = sample_time)) +
   )
 ```
 
-Changing plot elements with theme can take some practice because there's lots to modify. In some respects, this is how ggplot2 is similar to base R. With flexibility comes tedium. Fortunately, there are several pre-packaged themes that modify several components at once.  See [here](http://ggplot2.tidyverse.org/reference/ggtheme.html){target="_blank"} for the full documentation.  There are also additional packages available that supplement the existing themes in ggplot2 (see [here](https://github.com/jrnold/ggthemes){target="_blank"}).
+Changing plot elements with theme can take some practice because there's lots to modify. In some respects, this is how ggplot2 is similar to base R. With flexibility comes tedium. Fortunately, there are several pre-packaged themes that modify several components at once.  See [here](http://ggplot2.tidyverse.org/reference/ggtheme.html){target="_blank"} for the full documentation.  There are also additional packages available that supplement the existing themes in ggplot2 (see [here](https://jrnold.github.io/ggthemes/){target="_blank"}).
 
 Black and white:
 
@@ -375,13 +376,13 @@ A quality plot deserves to be saved and shared.  As you can imagine, there are s
 
 ![](figs/data_viz/saveplot.JPG)
 
-Although this is convenient, you don't have fine control over many options that can really make your graphic pop.  I recommend using either the `ggsave` function for ggplot2 graphics, or preferably, one of the available graphics devices from base R (`bmp`, `jpeg`, `png`, `tiff`, `eps`, `ps`, `tex`, `svg`, `wmf`, and my favorite, `pdf`).
+Although this is convenient, you don't have fine control over many options that can really make your graphic pop.  I recommend using either the `ggsave` function for ggplot2 graphics, or preferably, one of the available graphics devices from base R (`bmp`, `jpeg`, `png`, `tiff`, `eps`, `ps`, `tex`, `svg`, `wmf`, `pdf`).
 
 The `ggsave` function works only with ggplot objects.  You can control where the plot is saved, the file type, plotting dimensions, resolution, and a few other minor options.  By default, it will save the last ggplot that you made.
 
 ```{r}
 #| eval: false
-ggsave('figure/myfig.jpg', device = 'jpeg', width = 5, height = 4, units = 'in', dpi = 300)
+ggsave('figs/myfig.jpg', device = 'jpeg', width = 5, height = 4, units = 'in', dpi = 300)
 ```
 
 The `ggsave` function uses the graphics devices from base R behind the scenes.  You can always use these directly to save any type of plot (ggplot2, base, etc.).  These work a bit differently from regular functions.  First, you "open" a graphics device by executing the function (e.g., `png()`, `jpeg()`, etc.) at the command line.  Then you execute your plot command and finish by "closing" the device with `dev.off()`.  In a script, it will look something like this.
@@ -389,7 +390,7 @@ The `ggsave` function uses the graphics devices from base R behind the scenes.  
 ```{r}
 #| eval: false
 # save a plot as png file
-png('figure/myfig.png', width = 5, height = 4, units = 'in', res = 300)
+png('figs/myfig.png', width = 5, height = 4, units = 'in', res = 300)
 plot
 dev.off()
 ```
@@ -410,4 +411,4 @@ In the next lesson we'll work through some specific SWFWMD data analysis example
 
 ## Attribution
 
-Content in this lesson was pillaged extensively from the USGS-R training curriculum [here](https://github.com/USGS-R/training-curriculum){target="_blank"} and [R for data Science](https://github.com/hadley/r4ds){target="_blank"}.
+Content in this lesson was pillaged extensively from the USGS-R training curriculum [here](https://github.com/USGS-R/training-curriculum){target="_blank"} and [R for Data Science](https://github.com/hadley/r4ds){target="_blank"}.
